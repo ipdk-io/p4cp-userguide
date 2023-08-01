@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploying P4 Programs for ES2K &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Running Infrap4d on Intel IPU E2100" href="running-infrap4d.html" />
+    <link rel="prev" title="Compiling P4 Programs for ES2K" href="compiling-p4-programs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deploying P4 Programs for ES2K</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-on-hardware-flexible-pipeline-fxp">2. Deploying on Hardware Flexible Pipeline (FXP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interrupt-default-startup-routine">2.1 Interrupt default startup routine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy-the-custom-p4-package">2.2 Copy the custom P4 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-the-imc">2.3 Start the IMC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deploying P4 Programs for ES2K</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/deploying-p4-programs.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploying-p4-programs-for-es2k">
+<h1>Deploying P4 Programs for ES2K<a class="headerlink" href="#deploying-p4-programs-for-es2k" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>1. Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>This document explains how to deploy the P4 artifacts on hardware flexible
+pipeline (FXP).</p>
+<p>Note: This document assumes that you have followed
+<a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/guides/es2k/compiling-p4-programs.md">Compiling P4 programs guide</a>
+to compile and generate artifacts required for deployment.</p>
+</section>
+<section id="deploying-on-hardware-flexible-pipeline-fxp">
+<h2>2. Deploying on Hardware Flexible Pipeline (FXP)<a class="headerlink" href="#deploying-on-hardware-flexible-pipeline-fxp" title="Permalink to this heading"></a></h2>
+<p>Data Path Control Plane (DPCP) starts with a default P4 package. To load a
+custom P4 package follow below steps:</p>
+<section id="interrupt-default-startup-routine">
+<h3>2.1 Interrupt default startup routine<a class="headerlink" href="#interrupt-default-startup-routine" title="Permalink to this heading"></a></h3>
+<p>Reboot IMC and type <code class="docutils literal notranslate"><span class="pre">N</span></code> when the following message is shown on IMC console::</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>start ipumgmtd and auxiliary script [Y/N] \
+(default start both automatically after 10 seconds)?
+</pre></div>
+</div>
+</section>
+<section id="copy-the-custom-p4-package">
+<h3>2.2 Copy the custom P4 package<a class="headerlink" href="#copy-the-custom-p4-package" title="Permalink to this heading"></a></h3>
+<p>Copy the custom P4 package (.pkg) in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/package</span></code> directory and
+overwrite the <code class="docutils literal notranslate"><span class="pre">default_pkg.pkg</span></code>.</p>
+<p>For example, replace <code class="docutils literal notranslate"><span class="pre">default_pkg.pkg</span></code> with <code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.pkg</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:/etc/dpcp/package#<span class="w"> </span>ls<span class="w"> </span>-lrt<span class="w"> </span>/etc/dpcp/package/
+total<span class="w"> </span><span class="m">2364</span>
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">963032</span><span class="w"> </span>Jan<span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">04</span>:56<span class="w"> </span>simple_l3_l4_pna.pkg
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">1450456</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>e2100-default-1.0.3.0.pkg
+drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">       </span><span class="m">0</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>runtime_files
+drwxr-xr-x<span class="w"> </span><span class="m">3</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">       </span><span class="m">0</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>ref_pkg
+lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">      </span><span class="m">25</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>default_pkg.pkg<span class="w"> </span>-&gt;<span class="w"> </span>e2100-default-1.0.3.0.pkg
+root@mev-imc:/etc/dpcp/package#<span class="w"> </span>cp<span class="w"> </span>simple_l3_l4_pna.pkg<span class="w"> </span>default_pkg.pkg
+</pre></div>
+</div>
+<p>If COMMS channel support is required, follow
+<a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/guides/es2k/enabling-comms-channel.md">Enable COMMS channel</a>
+before proceeding to next step.</p>
+</section>
+<section id="start-the-imc">
+<h3>2.3 Start the IMC<a class="headerlink" href="#start-the-imc" title="Permalink to this heading"></a></h3>
+<p>Run the IMC start-up script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:~#<span class="w"> </span>/etc/init.d/run_default_init_app
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">cpf_host</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> is set to 4 which
+enables ACC. If the start-up script is executed successfully, ACC comes up with a
+statically assigned IP address <code class="docutils literal notranslate"><span class="pre">192.168.0.2</span></code> to the eth0 network interface.
+You can access ACC from IMC over an SSH session using this IP address.</p>
+<p>To start infrap4d on ACC, follow <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/guides/es2k/running-infrap4d.md">ES2K Running Infrap4d guide</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="compiling-p4-programs.html" class="btn btn-neutral float-left" title="Compiling P4 Programs for ES2K" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running-infrap4d.html" class="btn btn-neutral float-right" title="Running Infrap4d on Intel IPU E2100" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P4 Control Plane User Guide &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DPDK Setup Guide" href="guides/setup/dpdk-setup-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">P4 Control Plane User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="p4-control-plane-user-guide">
+<h1>P4 Control Plane User Guide<a class="headerlink" href="#p4-control-plane-user-guide" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guides/setup/dpdk-setup-guide.html" class="btn btn-neutral float-right" title="DPDK Setup Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

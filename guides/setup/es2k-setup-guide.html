@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ES2K Setup Guide &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tofino Setup Guide" href="tofino-setup-guide.html" />
+    <link rel="prev" title="DPDK Setup Guide" href="dpdk-setup-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ES2K Setup Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-p4-sde">Install P4 SDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-p4-control-plane">Build P4 Control Plane</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-environment-variables">Set environment variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compile-the-recipe">Compile the recipe</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-infrap4d">Run Infrap4d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-up-the-environment-required-by-infrap4d">Set up the environment required by infrap4d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-hugepages-required-for-es2k">Set hugepages required for ES2K</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export-all-environment-variables-to-sudo-user">Export all environment variables to sudo user</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modify-the-conf-file">Modify the conf file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-the-infrap4d-daemon">Run the infrap4d daemon</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-a-sample-program">Run a sample program</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-ipdf-netdevs">Create IPDF netdevs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts">Create P4 artifacts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-forwarding-rule-to-receive-traffic">Configure forwarding rule to receive traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-traffic-from-link-partner-to-e2100">Test traffic from link partner to E2100</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ES2K Setup Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/setup/es2k-setup-guide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="es2k-setup-guide">
+<h1>ES2K Setup Guide<a class="headerlink" href="#es2k-setup-guide" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>This document explains how to install, build, and run P4 Control Plane
+for the ES2K target.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<section id="install-basic-utilities">
+<h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For<span class="w"> </span>Fedora<span class="w"> </span>distro:<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel<span class="w"> </span>openssl-devel
+For<span class="w"> </span>Ubuntu<span class="w"> </span>distro:<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libatomic1<span class="w"> </span>libnl-route-3-dev<span class="w"> </span>libssl-dev
+pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+<section id="install-p4-sde">
+<h3>Install P4 SDE<a class="headerlink" href="#install-p4-sde" title="Permalink to this heading"></a></h3>
+<p>Obtain a copy of the SDE for the Intel IPU E2100 and install it on your
+development system. A common install location is ‘/opt/p4/p4sde`.</p>
+</section>
+<section id="build-and-install-infrap4d-dependencies">
+<h3>Build and install infrap4d dependencies<a class="headerlink" href="#build-and-install-infrap4d-dependencies" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<span class="nb">cd</span><span class="w"> </span>ipdk.recipe
+<span class="nb">export</span><span class="w"> </span><span class="nv">IPDK_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>/setup
+cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;dependency<span class="w"> </span>install<span class="w"> </span>path&gt;<span class="w"> </span><span class="o">[</span>-DUSE_SUDO<span class="o">=</span>ON<span class="o">]</span>
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span><span class="o">[</span>-j&lt;njobs&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<p><em>Note</em>: If running as non-root user, provide <code class="docutils literal notranslate"><span class="pre">-DUSE_SUDO=ON</span></code> option to cmake
+config.</p>
+</section>
+<section id="build-p4-control-plane">
+<h3>Build P4 Control Plane<a class="headerlink" href="#build-p4-control-plane" title="Permalink to this heading"></a></h3>
+<section id="set-environment-variables">
+<h4>Set environment variables<a class="headerlink" href="#set-environment-variables" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>export DEPEND_INSTALL=<code class="docutils literal notranslate"><span class="pre">absolute</span> <span class="pre">path</span> <span class="pre">for</span> <span class="pre">installing</span> <span class="pre">dependencies</span></code></p></li>
+<li><p>export SDE_INSTALL=<code class="docutils literal notranslate"><span class="pre">absolute</span> <span class="pre">path</span> <span class="pre">for</span> <span class="pre">p4</span> <span class="pre">sde</span> <span class="pre">install</span> <span class="pre">built</span> <span class="pre">in</span> <span class="pre">previous</span> <span class="pre">step</span></code></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
+mkdir<span class="w"> </span>install
+<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_INSTALL</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/install
+</pre></div>
+</div>
+</section>
+<section id="compile-the-recipe">
+<h4>Compile the recipe<a class="headerlink" href="#compile-the-recipe" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
+./make-all.sh<span class="w"> </span>--target<span class="o">=</span>es2k
+</pre></div>
+</div>
+<p><em>Note</em>: By default, <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> will create an <code class="docutils literal notranslate"><span class="pre">install</span></code> directory under the
+networking recipe. User can specify a different directory using <code class="docutils literal notranslate"><span class="pre">--prefix</span></code>
+option to make-all.sh. The following examples assume default <code class="docutils literal notranslate"><span class="pre">install</span></code>
+directory for the executables. If not, user will need to specify the
+appropriate path instead of ./install.</p>
+</section>
+</section>
+<section id="run-infrap4d">
+<h3>Run Infrap4d<a class="headerlink" href="#run-infrap4d" title="Permalink to this heading"></a></h3>
+<section id="set-up-the-environment-required-by-infrap4d">
+<h4>Set up the environment required by infrap4d<a class="headerlink" href="#set-up-the-environment-required-by-infrap4d" title="Permalink to this heading"></a></h4>
+<p><em>Note</em>: <code class="docutils literal notranslate"><span class="pre">sudo</span></code> option is required when running copy_config_files.sh since
+we are creating directories and copying config file at system level.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/setup_env.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span><span class="w"> </span><span class="nv">$DEPEND_INSTALL</span>
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/copy_config_files.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>
+</pre></div>
+</div>
+</section>
+<section id="set-hugepages-required-for-es2k">
+<h4>Set hugepages required for ES2K<a class="headerlink" href="#set-hugepages-required-for-es2k" title="Permalink to this heading"></a></h4>
+<p>Run the hugepages script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/set_hugepages.sh
+</pre></div>
+</div>
+</section>
+<section id="export-all-environment-variables-to-sudo-user">
+<h4>Export all environment variables to sudo user<a class="headerlink" href="#export-all-environment-variables-to-sudo-user" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo PATH=&quot;$PATH&quot; HOME=&quot;$HOME&quot; LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH&quot; SDE_INSTALL=&quot;$SDE_INSTALL&quot;&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="modify-the-conf-file">
+<h4>Modify the conf file<a class="headerlink" href="#modify-the-conf-file" title="Permalink to this heading"></a></h4>
+<p>Update <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/es2k/es2k_skip_p4.conf</span></code> with CPF BDF as per your setup.
+User can get CPF BDF by running <code class="docutils literal notranslate"><span class="pre">lspci</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">1453</span></code>
+Note: max vport you can pass here from [0-6] “eal-args”: “–lcores=1-2 -a &lt;cpf_bdf&gt;,vport=[0-1] – -i –rxq=1 –txq=1 –hairpinq=1 –hairpin-mode=0x0”</p>
+<p>Eg. “eal-args”: “–lcores=1-2 -a 00:01.6,vport=[0-1] – -i –rxq=1 –txq=1 –hairpinq=1 –hairpin-mode=0x0”</p>
+<p>We give options to each process to request numbers of configure queues before starting the process</p>
+<p>Admin must set cfgqs-idx between 0-15. See the latest es2k_skip_p4.conf for the exact syntax.
+If you want 16 cfgqs, use “cfgqs-idx”: “0-15”. Specify the range as a string. Index numbers from 0 to 15 are supported.
+In multi process environment, user should plan and split the queues between primary and secondary processes and specify
+the range with cfgqs-idx parameter. Total number of queues split between processes should not exceed 16.</p>
+</section>
+<section id="run-the-infrap4d-daemon">
+<h4>Run the infrap4d daemon<a class="headerlink" href="#run-the-infrap4d-daemon" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/infrap4d
+</pre></div>
+</div>
+<p><em>Note</em>: By default, infrap4d runs in detached mode. If you want to run in
+attached mode, specify the –nodetach command-line option.</p>
+<ul class="simple">
+<li><p>All infrap4d logs are by default logged under <code class="docutils literal notranslate"><span class="pre">/var/log/stratum</span></code>.</p></li>
+<li><p>All P4SDE logs are logged in <code class="docutils literal notranslate"><span class="pre">p4_driver.log</span></code> under <code class="docutils literal notranslate"><span class="pre">$IPDK_RECIPE</span></code>.
+*-All OVS logs are logged under <code class="docutils literal notranslate"><span class="pre">/tmp/ovs-vswitchd.log</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="run-a-sample-program">
+<h3>Run a sample program<a class="headerlink" href="#run-a-sample-program" title="Permalink to this heading"></a></h3>
+<p>Open a new terminal to set the pipeline and try the sample P4 program.
+Set up the environment and export all environment variables to sudo user.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/setup_env.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span><span class="w"> </span><span class="nv">$DEPEND_INSTALL</span>
+<span class="nv">$P4CP_INSTALL</span>/sbin/copy_config_files.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo PATH=&quot;$PATH&quot; HOME=&quot;$HOME&quot; LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH&quot; SDE_INSTALL=&quot;$SDE_INSTALL&quot;&#39;</span>
+</pre></div>
+</div>
+<section id="create-ipdf-netdevs">
+<h4>Create IPDF netdevs<a class="headerlink" href="#create-ipdf-netdevs" title="Permalink to this heading"></a></h4>
+<p>After installing ATE Kernel on HOST machine, install the following drivers
+to bind the network devices (netdevs) to the E2100 target.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>modprobe<span class="w"> </span>auxiliary<span class="w"> </span>
+modprobe<span class="w"> </span>idpf
+</pre></div>
+</div>
+</section>
+<section id="create-p4-artifacts">
+<h4>Create P4 artifacts<a class="headerlink" href="#create-p4-artifacts" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>P4 programs are available in the P4 SDE repository.</p></li>
+<li><p>Obtain a copy of the P4 Compiler for ES2K and install it on your
+development system.</p></li>
+<li><p>Set the environment variable OUTPUT_DIR to the location where artifacts
+should be generated and where p4 files are available</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/root/p4-driver/mev_reference_p4_files/simple_l3_l4_pna
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Generate the artifacts using the p4c compiler installed in the previous step:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4c-pna-xxp<span class="w"> </span>-I/usr/lib<span class="w"> </span>-I/usr/share/p4c/p4include<span class="w"> </span>-I/usr/share/p4c/idpf-lib<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.p4<span class="w"> </span>-o<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.s<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--p4runtime-files<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.p4info.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--context<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.context.json<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--bfrt<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.bfrt.json
+</pre></div>
+</div>
+<p><em>Note</em>: The above commands will generate three files
+(<code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.p4info.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.bfrt.json</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.context.json</span></code>).</p>
+<ul class="simple">
+<li><p>Modify <code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.conf</span></code> to specify the correct paths for
+bfrt-config, context, and config.</p></li>
+<li><p>Create a dummy tofino.bin file, which is needed by tdi_pipeline_builder.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>touch<span class="w"> </span>tofino.bin
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>TDI pipeline builder combines the artifacts generated by the p4c compiler
+to generate a single bin file to be pushed from the controller.
+Generate binary executable using the TDI pipeline builder command below:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p4c_conf_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.pb.bin
+</pre></div>
+</div>
+</section>
+<section id="set-forwarding-pipeline">
+<h4>Set forwarding pipeline<a class="headerlink" href="#set-forwarding-pipeline" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.pb.bin<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.p4info.txt
+</pre></div>
+</div>
+</section>
+<section id="configure-forwarding-rule-to-receive-traffic">
+<h4>Configure forwarding rule to receive traffic<a class="headerlink" href="#configure-forwarding-rule-to-receive-traffic" title="Permalink to this heading"></a></h4>
+<p>Add a forwarding rule to receive traffic on VSI-1 (base offset 16 + VSI ID 1) <br />
+when the key matches.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w">  </span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>MainControlImpl.l3_l4_match_rx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;hdrs.ipv4[vmeta.common.depth].protocol=0x11,vmeta.common.port_id=0,istd.direction=0,</span>
+<span class="s2">    hdrs.ipv4[vmeta.common.depth].src_ip=&quot;</span><span class="m">192</span>.168.1.10<span class="s2">&quot;,hdrs.ipv4[vmeta.common.depth].dst_ip=&quot;</span><span class="m">192</span>.168.1.20<span class="s2">&quot;,</span>
+<span class="s2">    hdrs.udp[vmeta.common.depth].sport=1000,hdrs.udp[vmeta.common.depth].dport=2000,action=MainControlImpl.send(17)&quot;</span>
+</pre></div>
+</div>
+<p><em>Note</em>: See <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/clients/p4rt-ctl.rst">p4rt-ctl client guide</a> for more information
+on the <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> utility.</p>
+</section>
+<section id="test-traffic-from-link-partner-to-e2100">
+<h4>Test traffic from link partner to E2100<a class="headerlink" href="#test-traffic-from-link-partner-to-e2100" title="Permalink to this heading"></a></h4>
+<p>Send a packet from a physical port of link partner to the E2100 using any
+traffic generator application, and listen on the netdev corresponding to VSI-1
+using <code class="docutils literal notranslate"><span class="pre">tcpdump</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sendp(Ether(dst=&quot;6e:80:97:ae:1e:4e&quot;, src=&quot;00:00:00:09:03:14&quot;)/IP(src=&quot;192.168.1.10&quot;, dst=&quot;192.168.1.20&quot;)/UDP(sport=1000, dport=2000)/Raw(load=&quot;0&quot;*50), iface=&#39;ens78f0&#39;)
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dpdk-setup-guide.html" class="btn btn-neutral float-left" title="DPDK Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tofino-setup-guide.html" class="btn btn-neutral float-right" title="Tofino Setup Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>p4rt-ctl Client Guide &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sgnmi_cli Client Guide" href="sgnmi_cli.html" />
+    <link rel="prev" title="gnmi-ctl Client Guide" href="gnmi-ctl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">p4rt-ctl Client Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tdi-pipeline-builder">tdi_pipeline_builder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#p4rt-ctl">p4rt-ctl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-p4rt-ctl">Using p4rt-ctl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-forwarding-pipeline">Get forwarding pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-table-entry-rule-to-forwarding-pipeline">Add table entry (rule) to forwarding pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-table-entry-rule-from-forwarding-pipeline">Delete table entry (rule) from forwarding pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-default-table-entry-in-forwarding-pipeline">Set default table entry in forwarding pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-action-profile-member-to-action-selector-table">Add action profile member to action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-action-profile-member-from-action-selector-table">Delete action profile member from action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-action-profile-member-details-for-action-selector-table">Get action profile member details for action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-action-profile-group-entry-to-action-selector-table">Add action profile group entry to action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-action-profile-group-entry-from-action-selector-table">Delete action profile group entry from action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-action-profile-group-details-for-action-selector-table">Get action profile group details for action selector table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-rule-for-ternary-match-type">Add rule for ternary match_type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-rule-for-ternary-match-type">Delete rule for ternary match_type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-indirect-counter-value">Get indirect counter value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-indirect-counter-value">Reset indirect counter value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-direct-counter-value">Get direct counter value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-flow-dump-entries">Get flow dump entries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">p4rt-ctl Client Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/clients/p4rt-ctl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="p4rt-ctl-client-guide">
+<h1>p4rt-ctl Client Guide<a class="headerlink" href="#p4rt-ctl-client-guide" title="Permalink to this heading"></a></h1>
+<p>This document describes how to use P4 Control Plane executables to support
+P4 programs.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>Before using tdi_pipeline_builder and p4rt-ctl, you need the artifacts
+generated when a P4 program is compiled.</p>
+<p>P4 build artifacts for sample.p4:</p>
+<ul class="simple">
+<li><p>sample.conf</p></li>
+<li><p>p4info.txt</p></li>
+<li><p>bf-rt.json</p></li>
+<li><p>pipe/context.json</p></li>
+<li><p>pipe/sample.spec</p></li>
+</ul>
+<p>The P4 compiler (P4C) backend supports both PSA and PNA architectures. The
+compiler emits the pipeline name based on the architecture used in the P4
+program:</p>
+<ul class="simple">
+<li><p>For the PNA architecture, P4C emits the PIPELINE name as “pipe” regardless
+of the name specified in the P4 program.</p></li>
+<li><p>For the PSA architecture, P4C emits the PIPELINE name specified in the P4
+program. Currently it supports only ingress pipelines.</p></li>
+</ul>
+<p>The pipeline name is referenced as:</p>
+<ul class="simple">
+<li><p>p4_pipeline_name in /usr/share/stratum/target_skip_p4_no_bsp.conf</p></li>
+<li><p>p4_pipeline_name in the sample.conf file</p></li>
+</ul>
+<p>Networking recipe assumes pipeline name is defaulted to “pipe”.
+If the P4 program is defined for PSA architecture and uses a pipeline name
+other than “pipe”, we need to manually change the ‘pipeline name’ at all the
+above places to the ingress pipeline name specified in the p4 file.</p>
+<p>To avoid this handcrafting, we recommend using the ingress pipeline name as
+“pipe” for all PSA programs.</p>
+</section>
+<section id="tdi-pipeline-builder">
+<h2>tdi_pipeline_builder<a class="headerlink" href="#tdi-pipeline-builder" title="Permalink to this heading"></a></h2>
+<p>tdi_pipeline_builder is an executable generated when P4 Control Plane is
+built. It is used to generate a protobuf-based bin file. This pb.bin
+contains information of bfrt-config, context and config which are extracted
+from sample.conf which is generated via the P4 compiler.</p>
+<p>To generate pb.bin:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tdi_pipeline_builder<span class="w"> </span>--p4c_conf_file<span class="o">=</span>&lt;path-to-input-sample-file.conf&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span>&lt;path-to-output-file.pb.bin&gt;
+</pre></div>
+</div>
+<p>For example,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tdi_pipeline_builder<span class="w"> </span>--p4c_conf_file<span class="o">=</span>/home/mydir/sample.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span>/home/mydir/sample.pb.bin
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You need to execute this command from the parent directory of
+relative paths mentioned in bfrt-config/context/config parameters
+of sample.conf</p>
+</div>
+</section>
+<section id="p4rt-ctl">
+<h2>p4rt-ctl<a class="headerlink" href="#p4rt-ctl" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> is an executable generated when P4 Control Plane is built. It
+connects to the P4Runtime server in <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> via gRPC for
+enabling P4Runtime capabilities.</p>
+<p>Each CLI command connects to gRPC ports opened by server and sends a protobuf based
+message. Refer to p4runtime.proto for more details on type of messages and
+services that are available for a p4runtime client.</p>
+<p>For information on security and enabling TLS on gRPC ports, refer to
+guides/security-guide.md</p>
+<section id="syntax">
+<h3>Syntax<a class="headerlink" href="#syntax" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: p4rt-ctl [OPTIONS] COMMAND [ARG...]
+
+positional arguments:
+  command               Subcommand to run
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g, --grpc_addr       GRPC_ADDR P4Runtime gRPC server address
+                        format: &lt;server IP&gt;:&lt;port&gt;
+</pre></div>
+</div>
+</section>
+<section id="arguments">
+<h3>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-g</span> <span class="pre">GRCP_ADDR</span></code> specifies the address of the P4Rtuntime server, in the
+format <em>&lt;server IP&gt;:&lt;port&gt;</em>. This is an optional parameter. The default value
+is 127.0.0.1:9559. If the P4Runtime server is not running locally, you can
+specify the address using this option.</p>
+<p>For example, if the server is listening on 5.5.5.5:9559, the command to
+set the pipeline will be</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>-g<span class="w"> </span><span class="m">5</span>.5.5.5:9559<span class="w"> </span>set-pipe<span class="w"> </span>sample.pb.bin<span class="w"> </span>p4Info.txt
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="using-p4rt-ctl">
+<h2>Using p4rt-ctl<a class="headerlink" href="#using-p4rt-ctl" title="Permalink to this heading"></a></h2>
+<section id="set-forwarding-pipeline">
+<h3>Set forwarding pipeline<a class="headerlink" href="#set-forwarding-pipeline" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>SWITCH<span class="w"> </span>PROGRAM<span class="w"> </span>P4INFO
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROGRAM</span></code>: Binary file generated by tdi_pipeline_builder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P4INFO</span></code>: P4Info.txt file generated by the P4 compiler.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span>&lt;path&gt;/sample.pb.bin<span class="w"> </span>&lt;path&gt;/p4info.txt
+</pre></div>
+</div>
+</section>
+<section id="get-forwarding-pipeline">
+<h3>Get forwarding pipeline<a class="headerlink" href="#get-forwarding-pipeline" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-pipe<span class="w"> </span>SWITCH
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0
+</pre></div>
+</div>
+</section>
+<section id="add-table-entry-rule-to-forwarding-pipeline">
+<h3>Add table entry (rule) to forwarding pipeline<a class="headerlink" href="#add-table-entry-rule-to-forwarding-pipeline" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in the p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Parameters for the TABLE entry.
+Format: match_field_key=value action=action_name(value).</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>ipv4_host<span class="w"> </span><span class="s2">&quot;dst_ip=1.1.1.1,action=send(10)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-table-entry-rule-from-forwarding-pipeline">
+<h3>Delete table entry (rule) from forwarding pipeline<a class="headerlink" href="#delete-table-entry-rule-from-forwarding-pipeline" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>del-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>KEY
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KEY</span></code>: match_field_key parameter in TABLE. Format: match_field_key=value.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>del-entry<span class="w"> </span>br0<span class="w"> </span>ipv4_host<span class="w"> </span><span class="s2">&quot;dst_ip=1.1.1.1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="set-default-table-entry-in-forwarding-pipeline">
+<h3>Set default table entry in forwarding pipeline<a class="headerlink" href="#set-default-table-entry-in-forwarding-pipeline" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-default-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>ACTION
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: Name of a table present in the p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION</span></code>: Action parameter for TABLE. Format: action_name(value).</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-default-entry<span class="w"> </span>br0<span class="w"> </span>ipv4_host<span class="w"> </span><span class="s2">&quot;send(10)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="add-action-profile-member-to-action-selector-table">
+<h3>Add action profile member to action selector table<a class="headerlink" href="#add-action-profile-member-to-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>add-action-profile-member<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Action for the table to which ACTION_PROFILE refers.
+Format: “action=action_name(value),member_id=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-action-profile-member<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3
+<span class="w">         </span><span class="s2">&quot;action=ingress.send(0),member_id=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-action-profile-member-from-action-selector-table">
+<h3>Delete action profile member from action selector table<a class="headerlink" href="#delete-action-profile-member-from-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>delete-action-profile-member<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Member ID specified when entry was added to profile.
+Format: “member_id=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>delete-action-profile-member<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3<span class="w"> </span><span class="s2">&quot;member_id=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-action-profile-member-details-for-action-selector-table">
+<h3>Get action profile member details for action selector table<a class="headerlink" href="#get-action-profile-member-details-for-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-action-profile-member<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Member ID specified when entry was added to profile.
+Format: “member_id=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-action-profile-member<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3<span class="w"> </span><span class="s2">&quot;member_id=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="add-action-profile-group-entry-to-action-selector-table">
+<h3>Add action profile group entry to action selector table<a class="headerlink" href="#add-action-profile-group-entry-to-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-action-profile-group<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Maps group with list of members.
+Format: “group_id=&lt;group number&gt;,reference_members=&lt;member1,member2,..&gt;,max_size=&lt;maxsize of members this group can have&gt;”</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-action-profile-group<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3<span class="w"> </span><span class="s2">&quot;group_id=1,reference_members=(1),max_size=128&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-action-profile-group-entry-from-action-selector-table">
+<h3>Delete action profile group entry from action selector table<a class="headerlink" href="#delete-action-profile-group-entry-from-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>delete-action-profile-group<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Group ID specified when entry was added to table.
+Format: “group_id=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>delete-action-profile-group<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3<span class="w"> </span><span class="s2">&quot;group_id=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-action-profile-group-details-for-action-selector-table">
+<h3>Get action profile group details for action selector table<a class="headerlink" href="#get-action-profile-group-details-for-action-selector-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-action-profile-group<span class="w"> </span>SWITCH<span class="w"> </span>ACTION_PROFILE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTION_PROFILE</span></code>: Action profile name from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Group ID specified when entry was added to table.
+Format: “group_id=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-action-profile-group<span class="w"> </span>br0<span class="w"> </span>ingress.as_sl3<span class="w"> </span><span class="s2">&quot;group_id=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="add-rule-for-ternary-match-type">
+<h3>Add rule for ternary match_type<a class="headerlink" href="#add-rule-for-ternary-match-type" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Parameters for TABLE entry. Since we
+are programming a match_type ternary, we expect user to provide priority
+as well. ‘priority’ is a case sensitive field expected from user.
+Mask for ternary or WCM match field is expected in x.x.x.x format for IPv4,
+or a decimal or hexadecimal value.
+Format: “match_field_key=value,priority=value,action=action_name(value)”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>filter<span class="w"> </span><span class="s2">&quot;src_ip=192.168.15.0/255.255.255.0,priority=100,action=drop&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-rule-for-ternary-match-type">
+<h3>Delete rule for ternary match_type<a class="headerlink" href="#delete-rule-for-ternary-match-type" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>del-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>KEY
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KEY</span></code>: match_field_key parameters specified when entry was added to
+TABLE. Since match_type is ternary, we expect user to
+provide previously configured priority as well. ‘priority’ is a case
+sensitive field expected from user. Mask for ternary or WCM match field
+is expected in x.x.x.x format for IPv4, or a decimal or hexadecimal value.
+Format: “match_field_key=value,priority=value”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>del-entry<span class="w"> </span>br0<span class="w"> </span>ingress.ipv4_wcm<span class="w"> </span><span class="s2">&quot;hdr.ipv4.dst_addr=192.168.1.0/255.255.255.0,priority=10&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-indirect-counter-value">
+<h3>Get indirect counter value<a class="headerlink" href="#get-indirect-counter-value" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-counter<span class="w"> </span>SWITCH<span class="w"> </span>COUNTER_TABLE<span class="w"> </span>COUNTER_FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COUNTER_TABLE</span></code>: Specifies counter table entry from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COUNTER_FLOW</span></code>: Counter ID (generated ID by p4c; see bfrt.json file)
+and counter table index. Format: “counter_id=&lt;number&gt;,index=&lt;number&gt;”.
+counter_id=0 will display value for all counters added up. For index=UNSET,
+all cells for specified counter_id will be displayed.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-counter<span class="w"> </span>br0<span class="w"> </span>ingress.ipv4_host_counter<span class="w"> </span><span class="s2">&quot;counter_id=308545543,index=1&quot;</span>
+
+p4rt-ctl<span class="w"> </span>get-counter<span class="w"> </span>br0<span class="w"> </span>ingress.ipv4_host_counter<span class="w"> </span><span class="s2">&quot;counter_id=0,index=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="reset-indirect-counter-value">
+<h3>Reset indirect counter value<a class="headerlink" href="#reset-indirect-counter-value" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>reset-counter<span class="w"> </span>SWITCH<span class="w"> </span>COUNTER_TABLE<span class="w"> </span>COUNTER_FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COUNTER_TABLE</span></code>: counter table entry from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COUNTER_FLOW</span></code>: counter ID (generated ID by p4c;  see bfrt.json file)
+and counter table index. Format: “counter_id=&lt;number&gt;,index=&lt;number&gt;”.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>reset-counter<span class="w"> </span>br0<span class="w"> </span>ingress.ipv4_host_counter<span class="w"> </span><span class="s2">&quot;counter_id=308545543,index=1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-direct-counter-value">
+<h3>Get direct counter value<a class="headerlink" href="#get-direct-counter-value" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-direct-counter<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>KEY
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KEY</span></code>: match_field_key parameter of the TABLE.
+Format: match_field_key=value.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-direct-counter<span class="w"> </span>br0<span class="w"> </span>my_control.e_fwd<span class="w"> </span><span class="s2">&quot;hdrs.mac[vmeta.common.depth].da=&quot;</span>0x000000000461<span class="s2">&quot;,hdrs.mac[vmeta.common.depth].sa=&quot;</span>0x9ebace98d9d3<span class="s2">&quot;&quot;</span><span class="w"> </span>//<span class="w"> </span>Egress<span class="o">(</span>Tx<span class="o">)</span>
+
+p4rt-ctl<span class="w"> </span>get-direct-counter<span class="w"> </span>br0<span class="w"> </span>my_control.i_fwd<span class="w"> </span><span class="s2">&quot;hdrs.mac[vmeta.common.depth].da=&quot;</span>0x000000000361<span class="s2">&quot;,hdrs.mac[vmeta.common.depth].sa=&quot;</span>0x9ebace98d9d3<span class="s2">&quot;&quot;</span><span class="w"> </span>//<span class="w"> </span>Ingress<span class="o">(</span>Rx<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="get-flow-dump-entries">
+<h3>Get flow dump entries<a class="headerlink" href="#get-flow-dump-entries" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>dump-entries<span class="w"> </span>SWITCH<span class="w"> </span><span class="o">[</span>TABLE<span class="o">]</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: Table entry from the p4 file.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>dump-entries<span class="w"> </span>br0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>SWITCH parameter specified in <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> commands is not utilized
+in current releases. It accepts any kind of value.</p></li>
+<li><p>counter_id=0 in <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span> <span class="pre">get-counter</span></code> for indirect counters
+is not supported in current release. Flow counters index=unset or index=0
+does not give cumulative byte count.</p></li>
+<li><p>Runtime validation of <code class="docutils literal notranslate"><span class="pre">value</span></code> for each key in <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> is not supported.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gnmi-ctl.html" class="btn btn-neutral float-left" title="gnmi-ctl Client Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sgnmi_cli.html" class="btn btn-neutral float-right" title="sgnmi_cli Client Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

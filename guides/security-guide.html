@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Guide &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with TLS Certificates" href="installing-tls-certificates.html" />
+    <link rel="prev" title="sgnmi_cli Client Guide" href="../clients/sgnmi_cli.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Security Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tls-certificates">TLS Certificates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-in-secure-mode">Running in secure mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#server-requirements">Server requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client-requirements">Client requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-in-insecure-mode">Running in insecure mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Security Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/security-guide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="security-guide">
+<h1>Security Guide<a class="headerlink" href="#security-guide" title="Permalink to this heading"></a></h1>
+<p>This document provides information about secure and insecure
+modes for networking recipe and certificate management.</p>
+<section id="tls-certificates">
+<h2>TLS Certificates<a class="headerlink" href="#tls-certificates" title="Permalink to this heading"></a></h2>
+<p>The gRPC ports are secured using TLS certificates. A script and reference
+configuration files are available to assist in generating certificates and
+keys using OpenSSL. You may use other tools if you wish.</p>
+<p>The <a class="reference external" href="https://github.com/ipdk-io/stratum-dev/tree/split-arch/tools/tls">reference files</a>
+uses a simple PKI where a self-signed key and certificate.
+The root level Certificate Authority (CA) is used to generate server-side
+key and cert files, and client-side key and cert files. This results in a
+1-depth level certificate chain, which will suffice for validation and
+confirmation but may not provide sufficient security for production systems.
+It is highly recommended to use well-known CAs, and generate certificates at
+multiple depth levels in order to conform to higher security standards.</p>
+<p>See <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/guides/install-tls-certificates.md">Working with TLS Certificates</a>
+for step by step guide to generate and install TLS certificates</p>
+</section>
+<section id="running-in-secure-mode">
+<h2>Running in secure mode<a class="headerlink" href="#running-in-secure-mode" title="Permalink to this heading"></a></h2>
+<section id="server-requirements">
+<h3>Server requirements<a class="headerlink" href="#server-requirements" title="Permalink to this heading"></a></h3>
+<p>The IPDK Networking Recipe uses a secure-by-default model. If you wish to
+open insecure ports, you must do so explicitly. It is strongly recommended
+that you use secure ports in production systems.</p>
+<p>infrap4d is launched with the gRPC ports secured by TLS certificates.
+The port numbers are:</p>
+<ul class="simple">
+<li><p>9339 - an IANA-registered port for gNMI</p></li>
+<li><p>9559 - an IANA-registered port for P4RT</p></li>
+</ul>
+</section>
+<section id="client-requirements">
+<h3>Client requirements<a class="headerlink" href="#client-requirements" title="Permalink to this heading"></a></h3>
+<p>Under default conditions, the gRPC clients will require the TLS certificates
+to establish communication with infrap4d. The clients will need to use the
+generated client.key and client.crt files signed by the same CA (can copy
+the generated files from the server if client is not on the same system as
+server).</p>
+<ul>
+<li><p>P4RT client</p>
+<p>The P4Runtime Control client will default to communicating in secure mode
+using port 9559. If certificates are not available, the P4RT client will attempt
+a connection using insecure client credentials as a fallback mechanism.
+Note that the communication will fail if infrap4d runs in secure mode. Server
+must specify insecure mode for this to work.</p>
+</li>
+<li><p>gNMI client</p>
+<p>gnmi-ctl (the gNMI client for DPDK) and sgnmi_cli (the secure gNMI client)
+issue requests to port 9339.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="running-in-insecure-mode">
+<h2>Running in insecure mode<a class="headerlink" href="#running-in-insecure-mode" title="Permalink to this heading"></a></h2>
+<p>To launch infrap4d in insecure mode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/sbin/infrap4d<span class="w"> </span>-grpc_open_insecure_mode<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>To launch clients in insecure mode:</p>
+<p>For DPDK target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/bin/gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>For Intel IPU E2100 target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/bin/sgnmi_cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../clients/sgnmi_cli.html" class="btn btn-neutral float-left" title="sgnmi_cli Client Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installing-tls-certificates.html" class="btn btn-neutral float-right" title="Working with TLS Certificates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

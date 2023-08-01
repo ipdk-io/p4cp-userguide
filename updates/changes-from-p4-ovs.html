@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changes from P4-OVS &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Development Update 22.44" href="development-update-22.44.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changes from P4-OVS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transition-to-p4-control-plane">Transition to P4 Control Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physical-differences">Physical Differences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#operational-differences">Operational Differences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repositories">Repositories</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Changes from P4-OVS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/updates/changes-from-p4-ovs.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="changes-from-p4-ovs">
+<h1>Changes from P4-OVS<a class="headerlink" href="#changes-from-p4-ovs" title="Permalink to this heading"></a></h1>
+<p>This document provides an overview of the changes made between P4-OVS and
+the P4 Control Plane.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>The initial implementation of P4-OVS was both physically and logically
+monolithic.</p>
+<ul class="simple">
+<li><p>Two foreign components (Stratum and the Kernel Monitor) were added to a
+fork of the Open vSwitch repository.</p></li>
+<li><p>OvS was modified to build these components and include them in
+<code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>.</p></li>
+<li><p>Stratum initialization was adapted to allow OvS to start the P4 Runtime
+and gNMI services.</p></li>
+<li><p>Extensive changes were made to Stratum to support P4-enabled IPDK hardware
+and software switches.</p></li>
+</ul>
+</section>
+<section id="transition-to-p4-control-plane">
+<h2>Transition to P4 Control Plane<a class="headerlink" href="#transition-to-p4-control-plane" title="Permalink to this heading"></a></h2>
+<p>The P4 Control Plane (formerly known as the Split Architecture) modularizes
+P4-OVS, making the code easier to maintain and more suitable for upstreaming.</p>
+<ul class="simple">
+<li><p>Removed foreign components from the OvS repository, together with most
+of the changes to OvS itself.</p></li>
+<li><p>Reengineered the Stratum modifications to be non-breaking and suitable for
+upstreaming to the parent project. Made <code class="docutils literal notranslate"><span class="pre">tdi</span></code> a distinct platform type,
+with <code class="docutils literal notranslate"><span class="pre">tofino</span></code> and <code class="docutils literal notranslate"><span class="pre">dpdk</span></code> variants (targets).</p></li>
+<li><p>Extracted the Kernel Monitor and make it a separate component. Removed
+OvS dependencies, and refactored for modularity and to support unit testing.</p></li>
+<li><p>Created a new component (<code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>) that combines Stratum, the Kernel
+Monitor, TDI, and a P4 target driver into a separate process (daemon).</p></li>
+<li><p>Created a superproject (<code class="docutils literal notranslate"><span class="pre">networking-recipe</span></code>) to integrate the components
+and orchestrate the overall build.</p></li>
+<li><p>Updated OvS to a more recent version.</p></li>
+<li><p>Integrated the Kernel Monitor into <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>. Merged changes that were
+made in P4-OVS after the original split was done.</p></li>
+<li><p>Created a component (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>) that can be linked with <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>
+to allow OvS to communicate with <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p></li>
+<li><p>Implemented a CMake-based build system in place of Autotools.</p></li>
+</ul>
+</section>
+<section id="physical-differences">
+<h2>Physical Differences<a class="headerlink" href="#physical-differences" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">external</span></code>, <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code>, <code class="docutils literal notranslate"><span class="pre">stratum</span></code>, and <code class="docutils literal notranslate"><span class="pre">unit_test</span></code> directories
+have been removed from the <code class="docutils literal notranslate"><span class="pre">ovs</span></code> repository.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">p4proto</span></code> directory has been removed. Locally-modified Stratum files
+were merged back into Stratum or discarded. Target-specific changes were
+made part of the <code class="docutils literal notranslate"><span class="pre">dpdk</span></code> and <code class="docutils literal notranslate"><span class="pre">tofino</span></code> variants of the <code class="docutils literal notranslate"><span class="pre">tdi</span></code> platform.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">barefoot</span></code> Stratum code has been restored to its original state.</p></li>
+</ul>
+</section>
+<section id="operational-differences">
+<h2>Operational Differences<a class="headerlink" href="#operational-differences" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>OvS no longer manages Stratum or the Kernel Monitor. It also no longer
+makes direct calls to the Kernel Monitor or switch driver. All communication
+with Stratum is by means of calls to the OvS client API (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>),
+which sends gRPC requests to <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p></li>
+</ul>
+</section>
+<section id="repositories">
+<h2>Repositories<a class="headerlink" href="#repositories" title="Permalink to this heading"></a></h2>
+<p>Implementation is done incrementally through ipdk-io repositories.</p>
+<ul class="simple">
+<li><p>OvS development currently takes place on the <code class="docutils literal notranslate"><span class="pre">ipdk-latest</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/ovs</span></code> repository.</p></li>
+<li><p>Stratum development takes place on the <code class="docutils literal notranslate"><span class="pre">split-arch</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/stratum-dev</span></code> repository.</p></li>
+<li><p>Kernel Monitor development takes place on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/krnlmon</span></code> repository.</p></li>
+<li><p>End-to-end test development takes place in the <code class="docutils literal notranslate"><span class="pre">ipdk-io/ptf-tests</span></code>
+repository.</p></li>
+<li><p>Superproject development takes place on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/networking-recipe</span></code> repository.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development-update-22.44.html" class="btn btn-neutral float-left" title="Development Update 22.44" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

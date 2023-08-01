@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enabling the Communication Channel &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/development-update-22.44.html">Development Update 22.44</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates/changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Enabling the Communication Channel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/enabling-communication-channel.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="enabling-the-communication-channel">
+<h1>Enabling the Communication Channel<a class="headerlink" href="#enabling-the-communication-channel" title="Permalink to this heading"></a></h1>
+<p>The Communication channel permits different compute complexes on the IPU to
+communicate with each other. This document explains how to enable communication
+between the ACC and the Host. This allows the P4Runtime client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code>
+running on the Host to communicate with infrap4d running on the ACC.</p>
+<p>Ports used for communication channels are defined by the node policy on IMC.</p>
+<section id="interrupt-default-start-up-routine">
+<h2>1. Interrupt default start-up routine<a class="headerlink" href="#interrupt-default-start-up-routine" title="Permalink to this heading"></a></h2>
+<p>Reboot IMC and type <code class="docutils literal notranslate"><span class="pre">N</span></code> when the following message is shown on IMC console::</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>start ipumgmtd and auxiliary script [Y/N] \
+(default start both automatically after 10 seconds)?
+</pre></div>
+</div>
+</section>
+<section id="specify-communication-channel-ports">
+<h2>2. Specify communication channel ports<a class="headerlink" href="#specify-communication-channel-ports" title="Permalink to this heading"></a></h2>
+<p>The config file uses the function numbers that are defined as below:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function number</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Xeon Host</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>ACC</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>IMC</p></td>
+</tr>
+</tbody>
+</table>
+<p>Format used to indicate communication channels:
+<code class="docutils literal notranslate"><span class="pre">(([function</span> <span class="pre">number,</span> <span class="pre">vport_index],[pf_num,</span> <span class="pre">vport_index]),...)</span></code></p>
+<p>Modify <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> to change the value of <code class="docutils literal notranslate"><span class="pre">comm_vports</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/* IMC_LAN_APF_VPORT_0 ([5,0]) &lt;--&gt; ACC_APF_VPORT_0 ([4,0]) */
+/* HOST0_LAN_APF_VPORT_3 ([0, 3]) &lt;--&gt; ACC_LAN_APF_VPORT_3 [(4,2)]*/
+comm_vports = (([5,0],[4,0]),([0,3],[4,2]));
+</pre></div>
+</div>
+<p>This will enable communication between IMC-ACC and Host-ACC.</p>
+<p>Note: Changes made to <code class="docutils literal notranslate"><span class="pre">cp_init.cfg</span></code> are not persistent across IMC reboots.</p>
+</section>
+<section id="start-the-imc">
+<h2>3. Start the IMC<a class="headerlink" href="#start-the-imc" title="Permalink to this heading"></a></h2>
+<p>Run the IMC start-up script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:~#<span class="w"> </span>/etc/init.d/run_default_init_app
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">cpf_host</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> is set to 4 which
+enables ACC. If the start-up script is executed successfully, ACC comes up with a
+statically assigned IP address <code class="docutils literal notranslate"><span class="pre">192.168.0.2</span></code> to the eth0 network interface.
+You can access ACC from IMC over an SSH session using this IP address.</p>
+</section>
+<section id="load-the-idpf-driver-on-host">
+<h2>3. Load the IDPF driver on Host<a class="headerlink" href="#load-the-idpf-driver-on-host" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>modprobe<span class="w"> </span>idpf
+</pre></div>
+</div>
+</section>
+<section id="identify-communication-channel-netdev">
+<h2>4. Identify Communication Channel Netdev<a class="headerlink" href="#identify-communication-channel-netdev" title="Permalink to this heading"></a></h2>
+<section id="list-the-interfaces">
+<h3>4.1 List the interfaces<a class="headerlink" href="#list-the-interfaces" title="Permalink to this heading"></a></h3>
+<p>Log on to IMC using <code class="docutils literal notranslate"><span class="pre">minicom</span> <span class="pre">IMC</span></code> or ssh from the host over IP address
+<code class="docutils literal notranslate"><span class="pre">100.0.0.100</span></code> and run <code class="docutils literal notranslate"><span class="pre">cli_client</span></code>.</p>
+<p>root&#64;mev-imc# ./usr/bin/cli_client -q -c</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>fn_id</p></th>
+<th class="head"><p>host_id</p></th>
+<th class="head"><p>Is port a VF</p></th>
+<th class="head"><p>VSI ID</p></th>
+<th class="head"><p>Vport ID</p></th>
+<th class="head"><p>is VF created</p></th>
+<th class="head"><p>Is VF enabled</p></th>
+<th class="head"><p>MAC Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fn_id: 0x0</p></td>
+<td><p>host_id: 0x0</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x1</p></td>
+<td><p>vport_id 0x0</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:01:00:00:03:14</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x0</p></td>
+<td><p>host_id: 0x0</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0xb</p></td>
+<td><p>vport_id 0x1</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:0b:00:01:03:14</p></td>
+</tr>
+<tr class="row-even"><td><p>fn_id: 0x0</p></td>
+<td><p>host_id: 0x0</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0xc</p></td>
+<td><p>vport_id 0x2</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:0c:00:02:03:14</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x0</p></td>
+<td><p>host_id: 0x0</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0xd</p></td>
+<td><p>vport_id 0x3</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:0d:00:03:03:14  → (Host, vport 3)</p></td>
+</tr>
+<tr class="row-even"><td><p>fn_id: 0x4</p></td>
+<td><p>host_id: 0x4</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x2</p></td>
+<td><p>vport_id 0x0</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:00:00:00:03:18</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x4</p></td>
+<td><p>host_id: 0x4</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x8</p></td>
+<td><p>vport_id 0x1</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:08:00:01:03:18</p></td>
+</tr>
+<tr class="row-even"><td><p>fn_id: 0x4</p></td>
+<td><p>host_id: 0x4</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x9</p></td>
+<td><p>vport_id 0x2</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:09:00:02:03:18 → (ACC, vport 2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x4</p></td>
+<td><p>host_id: 0x4</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0xa</p></td>
+<td><p>vport_id 0x3</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:0a:00:03:03:18</p></td>
+</tr>
+<tr class="row-even"><td><p>fn_id: 0x5</p></td>
+<td><p>host_id: 0x5</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x3</p></td>
+<td><p>vport_id 0x0</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:00:00:00:03:19</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x5</p></td>
+<td><p>host_id: 0x5</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x5</p></td>
+<td><p>vport_id 0x1</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:05:00:01:03:19</p></td>
+</tr>
+<tr class="row-even"><td><p>fn_id: 0x5</p></td>
+<td><p>host_id: 0x5</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x6</p></td>
+<td><p>vport_id 0x2</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:06:00:02:03:19</p></td>
+</tr>
+<tr class="row-odd"><td><p>fn_id: 0x5</p></td>
+<td><p>host_id: 0x5</p></td>
+<td><p>is_vf: no</p></td>
+<td><p>vsi_id: 0x7</p></td>
+<td><p>vport_id 0x3</p></td>
+<td><p>is_created: yes</p></td>
+<td><p>is_enabled: yes</p></td>
+<td><p>mac addr: 00:07:00:03:03:19</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="find-acc-vport-mac-address">
+<h3>4.2 Find ACC vport MAC address<a class="headerlink" href="#find-acc-vport-mac-address" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:/usr/bin/#<span class="w"> </span>./cli_client<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{if(($2 == 0x4) &amp;&amp; ($4 == 0x4) &amp;&amp; ($10 == 0x2)) {print $17}}&#39;</span>
+</pre></div>
+</div>
+<p>This should provide ACC vport MAC address: eg: 00:09:00:02:03:18</p>
+</section>
+<section id="find-host-vport-mac-address">
+<h3>4.3 Find Host vport MAC address<a class="headerlink" href="#find-host-vport-mac-address" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:/usr/bin/#<span class="w"> </span>./cli_client<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{if(($2 == 0x0) &amp;&amp; ($4 == 0x0) &amp;&amp; ($10 == 0x3)) {print $17}}&#39;</span>
+</pre></div>
+</div>
+<p>This should provide Host vport MAC address: eg: 00:0d:00:03:03:14</p>
+<p>If Host ports are not seen, reload the <code class="docutils literal notranslate"><span class="pre">IDPF</span></code> driver on host using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rmmod<span class="w"> </span>idpf
+modprobe<span class="w"> </span>idpf
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configure-ip-addresses">
+<h2>5. Configure IP addresses<a class="headerlink" href="#configure-ip-addresses" title="Permalink to this heading"></a></h2>
+<p>Once the ports are identified, assign the IP addresses to these interfaces.
+Avoid IP collision when assigning IP addresses, 192.168.x.x network is assigned
+for IMC and ACC communication by default.</p>
+<p>Example:</p>
+<p>On Host, check if the <code class="docutils literal notranslate"><span class="pre">IDPF</span></code> driver is loaded using lsmod</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>idpf
+<span class="c1"># ens801f0d3 is the port with MAC addr 00:0d:00:03:03:14</span>
+nmcli<span class="w"> </span>device<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ens801f0d3<span class="w"> </span>managed<span class="w"> </span>no
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">5</span>.5.5.10/24<span class="w"> </span>dev<span class="w"> </span>ens801f0d3
+</pre></div>
+</div>
+<p>On ACC, check if the <code class="docutils literal notranslate"><span class="pre">IDPF</span></code> driver is loaded using lsmod</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>idpf
+<span class="c1"># enp0s1f0d2 is the port with MAC addr 00:09:00:02:03:18</span>
+nmcli<span class="w"> </span>device<span class="w"> </span><span class="nb">set</span><span class="w"> </span>enp0s1f0d2<span class="w"> </span>managed<span class="w"> </span>no
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">5</span>.5.5.5/24<span class="w"> </span>dev<span class="w"> </span>enp0s1f0d2
+</pre></div>
+</div>
+</section>
+<section id="check-communication-between-acc-and-host">
+<h2>6. Check communication between ACC and Host<a class="headerlink" href="#check-communication-between-acc-and-host" title="Permalink to this heading"></a></h2>
+<p>From ACC:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ping<span class="w"> </span><span class="m">5</span>.5.5.10
+</pre></div>
+</div>
+<p>If node policy is correctly configured and the P4 package loaded has support for
+communication channel, ping should work.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023, Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
