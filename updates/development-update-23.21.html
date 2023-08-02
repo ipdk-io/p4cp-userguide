@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Development Update 22.50" href="development-update-22.50.html" />
-    <link rel="prev" title="Working with TLS Certificates" href="../guides/installing-tls-certificates.html" /> 
+    <link rel="prev" title="Using TLS Certificates" href="../guides/security/using-tls-certificates.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,22 +42,27 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 </ul>
@@ -69,8 +74,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../guides/security-guide.html">Security Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/installing-tls-certificates.html">Working with TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/security/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/security/using-tls-certificates.html">Using TLS Certificates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul class="current">
@@ -263,7 +268,7 @@ the revision is in place.</p>
 The P4Runtime and gNMI ports are opened with TLS enabled, and require that a
 certificate be provided. This can be overridden on startup by specifying
 <code class="docutils literal notranslate"><span class="pre">-grpc_open_insecure_mode=true</span></code> on the <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> command line.</p>
-<p>See the <a class="reference internal" href="../guides/security-guide.html"><span class="std std-doc">security guide</span></a> for more information.</p>
+<p>See the <a class="reference internal" href="../guides/security/security-guide.html"><span class="std std-doc">security guide</span></a> for more information.</p>
 <p><code class="docutils literal notranslate"><span class="pre">sgnmi_cli</span></code> is a gNMI client tool that defaults to secure mode. See the
 <a class="reference internal" href="../clients/sgnmi_cli.html"><span class="std std-doc">sgnmi_cli guide</span></a> for more information.</p>
 </section>
@@ -304,7 +309,7 @@ are now part of the <code class="docutils literal notranslate"><span class="pre"
 renamed.</p>
 <ul class="simple">
 <li><p>Documentation for the command-line clients is in the <code class="docutils literal notranslate"><span class="pre">clients</span></code> subdirectory.</p></li>
-<li><p>The target-specific setup guides and the <a class="reference internal" href="../guides/security-guide.html"><span class="std std-doc">security guide</span></a>
+<li><p>The target-specific setup guides and the <a class="reference internal" href="../guides/security/security-guide.html"><span class="std std-doc">security guide</span></a>
 are in the <code class="docutils literal notranslate"><span class="pre">guides</span></code> subdirectory.</p></li>
 </ul>
 </section>
@@ -331,7 +336,7 @@ are in the <code class="docutils literal notranslate"><span class="pre">guides</
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../guides/installing-tls-certificates.html" class="btn btn-neutral float-left" title="Working with TLS Certificates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../guides/security/using-tls-certificates.html" class="btn btn-neutral float-left" title="Using TLS Certificates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="development-update-22.50.html" class="btn btn-neutral float-right" title="Development Update 22.50" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

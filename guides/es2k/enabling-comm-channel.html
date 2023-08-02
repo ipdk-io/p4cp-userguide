@@ -18,7 +18,9 @@
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Deploying P4 Programs for ES2K" href="deploying-p4-programs.html" />
+    <link rel="prev" title="Compiling P4 Programs for ES2K" href="compiling-p4-programs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,22 +42,41 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Enabling the Communication Channel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#interrupt-default-start-up-routine">1. Interrupt default start-up routine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-communication-channel-ports">2. Specify communication channel ports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#start-the-imc">3. Start the IMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-the-idpf-driver-on-host">3. Load the IDPF driver on Host</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identify-communication-channel-netdev">4. Identify Communication Channel Netdev</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#list-the-interfaces">4.1 List the interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-acc-vport-mac-address">4.2 Find ACC vport MAC address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-host-vport-mac-address">4.3 Find Host vport MAC address</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-ip-addresses">5. Configure IP addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-communication-between-acc-and-host">6. Check communication between ACC and Host</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 </ul>
@@ -67,8 +88,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -94,7 +115,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Enabling the Communication Channel</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/guides/es2k/enabling-communication-channel.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/guides/es2k/enabling-comm-channel.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -352,7 +373,10 @@ communication channel, ping should work.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="compiling-p4-programs.html" class="btn btn-neutral float-left" title="Compiling P4 Programs for ES2K" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deploying-p4-programs.html" class="btn btn-neutral float-right" title="Deploying P4 Programs for ES2K" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
