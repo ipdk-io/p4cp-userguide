@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">DPDK Setup Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -77,16 +77,21 @@
 <li class="toctree-l1"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 </ul>
@@ -98,8 +103,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -225,7 +230,7 @@ sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/copy_conf
 <h4>Run the infrap4d daemon<a class="headerlink" href="#run-the-infrap4d-daemon" title="Permalink to this heading"></a></h4>
 <p>By default, infrap4d runs in secure mode and expects certificates to be available in
 a specific directory. For information on running infrap4d in insecure mode, or steps to generate TLS
-certificates, see the <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/guides/security-guide.md">security guide</a>.</p>
+certificates, see the <a class="reference internal" href="../security/security-guide.html"><span class="std std-doc">security guide</span></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/infrap4d
 </pre></div>
 </div>
@@ -255,7 +260,7 @@ ifconfig<span class="w"> </span>TAP0<span class="w"> </span>up
 ifconfig<span class="w"> </span>TAP1<span class="w"> </span>up
 </pre></div>
 </div>
-<p><em>Note</em>: See <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/clients/gnmi-ctl.rst">gnmi-ctl client guide</a>
+<p><em>Note</em>: See <a class="reference internal" href="../../clients/gnmi-ctl.html"><span class="std std-doc">gnmi-ctl client guide</span></a>
 for more information on the gnmi-ctl utility.</p>
 </section>
 <section id="create-p4-artifacts">
@@ -287,7 +292,7 @@ p4c-dpdk<span class="w"> </span>--arch<span class="w"> </span>pna<span class="w"
 <span class="w">    </span>-o<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/pipe/simple_l3.spec<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3.p4
 </pre></div>
 </div>
-<p><em>Note</em>: The above commands will generate three files (p4Info.txt, bf-rt.json,
+<p>The above commands will generate three files (p4Info.txt, bf-rt.json,
 and context.json).</p>
 <ul class="simple">
 <li><p>Modify simple_l3.conf file to provide correct paths for bfrt-config, context,
@@ -314,7 +319,8 @@ Generate binary executable using tdi-pipeline builder command below:</p></li>
 sudo<span class="w">  </span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>ingress.ipv4_host<span class="w"> </span><span class="s2">&quot;hdr.ipv4.dst_addr=2.2.2.2,action=ingress.send(1)&quot;</span>
 </pre></div>
 </div>
-<p><em>Note</em>: See <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/docs/clients/p4rt-ctl.rst">p4rt-ctl client guide</a> for more information on p4rt-ctl utility.</p>
+<p>See <a class="reference internal" href="../../clients/p4rt-ctl.html"><span class="std std-doc">p4rt-ctl client guide</span></a> for more information on
+the p4rt-ctl utility.</p>
 </section>
 <section id="test-traffic-between-tap0-and-tap1">
 <h4>Test traffic between TAP0 and TAP1<a class="headerlink" href="#test-traffic-between-tap0-and-tap1" title="Permalink to this heading"></a></h4>

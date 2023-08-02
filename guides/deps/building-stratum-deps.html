@@ -18,7 +18,9 @@
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Building Dependencies for the ACC" href="building-acc-stratum-deps.html" />
+    <link rel="prev" title="Tofino Setup Guide" href="../setup/tofino-setup-guide.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,24 +42,53 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building the Stratum Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">1 Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cmake">1.1 CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openssl">1.2 OpenSSL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#source-code">2 Source Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#github-repository">2.1 GitHub Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-package">2.2 Source Package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#install-location">3 Install Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloaded-source-vs-source-package">4 Downloaded Source vs. Source Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmake-build-options">5 CMake Build Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">6 Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#non-root-build">6.1 Non-root build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-root-build-to-system-directory">6.2 Non-root build to system directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#root-build-from-source">6.3 Root build from source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-demand-build">6.4 On-demand build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-build">6.5 Clean build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-the-setup-directory">6.6 Clean the <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="building-acc-stratum-deps.html">Building Stratum Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
@@ -67,8 +98,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../security-guide.html">Security Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing-tls-certificates.html">Working with TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -94,7 +125,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Building the Stratum Dependencies</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/guides/es2k/building-stratum-deps.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/guides/deps/building-stratum-deps.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -110,7 +141,7 @@ be built and installed on the system.</p>
 <p>This document explains how to build and install the Stratum dependencies.</p>
 <blockquote>
 <div><p><strong>Note</strong>: For the Intel® IPU E2100, see
-<a class="reference internal" href="building-acc-stratum-deps.html"><span class="std std-doc">Building Stratum Dependencies for the ES2K ACC</span></a>.</p>
+<a class="reference internal" href="building-acc-stratum-deps.html"><span class="std std-doc">Building Stratum Dependencies for the ACC</span></a>.</p>
 </div></blockquote>
 <section id="prerequisites">
 <h2>1 Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
@@ -294,7 +325,10 @@ source directories.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../setup/tofino-setup-guide.html" class="btn btn-neutral float-left" title="Tofino Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="building-acc-stratum-deps.html" class="btn btn-neutral float-right" title="Building Dependencies for the ACC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
