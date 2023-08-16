@@ -42,26 +42,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/setup-guides.html">Setup Guides</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
-<ul>
+<p class="caption" role="heading"><span class="caption-text">Building</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
-<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installing the ACC SDK</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#sdk-contents">SDK contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#obtain-the-acc-rl-sdk">Obtain the ACC-RL SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#choose-an-install-location">Choose an install location</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#unpack-the-acc-rl-sdk">Unpack the ACC-RL SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#key-components">Key components</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sdk-layout">SDK layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acc-rl-sdk">ACC-RL SDK</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gcc-toolchain">GCC toolchain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#target-sysroot">Target sysroot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#es2k-sde">ES2K SDE</a></li>
@@ -84,6 +80,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -166,8 +166,8 @@ $<span class="w"> </span><span class="nb">popd</span>
 </section>
 <section id="key-components">
 <h2>Key components<a class="headerlink" href="#key-components" title="Permalink to this heading"></a></h2>
-<section id="sdk-layout">
-<h3>SDK layout<a class="headerlink" href="#sdk-layout" title="Permalink to this heading"></a></h3>
+<section id="acc-rl-sdk">
+<h3>ACC-RL SDK<a class="headerlink" href="#acc-rl-sdk" title="Permalink to this heading"></a></h3>
 <p>The  ACC-RL SDK is laid out as follows:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>acc-sdk/
 |-- aarch64-intel-linux-gnu

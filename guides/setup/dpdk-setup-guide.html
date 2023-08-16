@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="ES2K Setup Guide" href="es2k-setup-guide.html" />
-    <link rel="prev" title="P4 Control Plane User Guide" href="../../index.html" /> 
+    <link rel="prev" title="Setup Guides" href="setup-guides.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,48 +42,32 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">DPDK Setup Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#build-p4-sde-for-dpdk">Build P4 SDE for DPDK</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#set-environment-variables">Set environment variables</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#compile-the-recipe">Compile the recipe</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#run-p4-control-plane">Run P4 Control Plane</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#set-up-the-environment-required-by-infrap4d">Set up the environment required by infrap4d</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#set-hugepages-required-for-dpdk">Set hugepages required for DPDK</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#export-all-environment-variables-to-sudo-user">Export all environment variables to sudo user</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#run-the-infrap4d-daemon">Run the infrap4d daemon</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#run-a-sample-program">Run a sample program</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#create-2-tap-ports">Create 2 TAP ports</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts">Create P4 artifacts</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#configure-forwarding-rules">Configure forwarding rules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#test-traffic-between-tap0-and-tap1">Test traffic between TAP0 and TAP1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="setup-guides.html">Setup Guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DPDK Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-p4-sde-for-dpdk">Build P4 SDE for DPDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-p4-control-plane">Run P4 Control Plane</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-a-sample-program">Run a sample program</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tofino-setup-guide.html">Tofino Setup Guide</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
@@ -100,6 +84,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -128,6 +116,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="setup-guides.html">Setup Guides</a></li>
       <li class="breadcrumb-item active">DPDK Setup Guide</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/guides/setup/dpdk-setup-guide.md.txt" rel="nofollow"> View page source</a>
@@ -337,7 +326,7 @@ the p4rt-ctl utility.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../../index.html" class="btn btn-neutral float-left" title="P4 Control Plane User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup-guides.html" class="btn btn-neutral float-left" title="Setup Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="es2k-setup-guide.html" class="btn btn-neutral float-right" title="ES2K Setup Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

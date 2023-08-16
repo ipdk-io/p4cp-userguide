@@ -42,41 +42,42 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tofino Setup Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#docker">Docker</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#git">Git</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#intel-p4studio">Intel P4Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="setup-guides.html">Setup Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tofino Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#docker">Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#git">Git</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intel-p4studio">Intel P4Studio</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#build">Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-intel-p4studio-sde">Build Intel P4Studio SDE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-intel-p4studio-sde">Build Intel P4Studio SDE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#run">Run</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#using-tdi-pipeline-builder">Using tdi_pipeline_builder</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#run">Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-tdi-pipeline-builder">Using tdi_pipeline_builder</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
@@ -93,6 +94,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -121,6 +126,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="setup-guides.html">Setup Guides</a></li>
       <li class="breadcrumb-item active">Tofino Setup Guide</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/guides/setup/tofino-setup-guide.md.txt" rel="nofollow"> View page source</a>

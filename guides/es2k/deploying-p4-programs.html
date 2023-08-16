@@ -42,19 +42,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Setup Guides</span></p>
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../setup/dpdk-setup-guide.html">DPDK Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/tofino-setup-guide.html">Tofino Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/setup-guides.html">Setup Guides</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Stratum Dependencies</span></p>
+<p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">ACC Build</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
@@ -80,6 +76,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -125,7 +125,7 @@
 <p>This section explains how to deploy a P4 program on the hardware Flexible
 Pipeline (FXP).</p>
 <p>It is assumed that that you have already
-<a class="reference internal" href="compiling-p4-programs.html"><span class="std std-doc">Compiled the P4 Program</span></a>
+<a class="reference internal" href="compiling-p4-programs.html"><span class="std std-doc">compiled the P4 program</span></a>
 to generate the P4 artifacts required for deployment.</p>
 </section>
 <section id="deploying-on-hardware-flexible-pipeline-fxp">
@@ -156,7 +156,7 @@ root@mev-imc:/etc/dpcp/package#<span class="w"> </span>cp<span class="w"> </span
 </pre></div>
 </div>
 <p>If Communication Channel support is required,
-<a class="reference internal" href="enabling-comm-channel.html"><span class="std std-doc">Enable the Communication Channel</span></a>
+<a class="reference internal" href="enabling-comm-channel.html"><span class="std std-doc">enable the communication channel</span></a>
 before proceeding to the next step.</p>
 </section>
 <section id="start-the-imc">
@@ -169,7 +169,7 @@ before proceeding to the next step.</p>
 enables ACC. If the start-up script is executed successfully, ACC comes up with a
 statically assigned IP address <code class="docutils literal notranslate"><span class="pre">192.168.0.2</span></code> to the eth0 network interface.
 You can access ACC from IMC over an SSH session using this IP address.</p>
-<p>You are now ready to <a class="reference internal" href="running-infrap4d.html"><span class="std std-doc">Start Infrap4d</span></a>.</p>
+<p>You are now ready to <a class="reference internal" href="running-infrap4d.html"><span class="std std-doc">start infrap4d</span></a>.</p>
 </section>
 </section>
 </section>
