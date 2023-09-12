@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; P4 Control Plane  documentation</title>
+  <title>Helper Scripts &mdash; P4 Control Plane  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="IPsec Offload" href="ipsec-offload.html" />
-    <link rel="prev" title="sgnmi_cli Client Guide" href="../clients/sgnmi_cli.html" /> 
+    <link rel="next" title="make-all.sh" href="make-all.html" />
+    <link rel="prev" title="Building P4 Control Plane for the ACC" href="../guides/es2k/building-acc-p4cp.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,19 +48,31 @@
 <li class="toctree-l1"><a class="reference internal" href="../guides/setup/setup-guides.html">Setup Guides</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../guides/deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Helper Scripts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#build">Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-all.html">make-all.sh</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#es2k-build">ES2K Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-cross-recipe.html">config-cross-recipe.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
@@ -68,9 +80,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/lnw/lnw-index.html">Linux Networking</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -99,9 +112,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">Helper Scripts</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/features/features-index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/scripts/helper-scripts.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -109,18 +122,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="toctree-wrapper compound">
+  <section id="helper-scripts">
+<h1>Helper Scripts<a class="headerlink" href="#helper-scripts" title="Permalink to this heading"></a></h1>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make-all.html">make-all.sh</a></li>
 </ul>
 </div>
+</section>
+<section id="es2k-build">
+<h2>ES2K Build<a class="headerlink" href="#es2k-build" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config-cross-recipe.html">config-cross-recipe.sh</a></li>
+</ul>
+</div>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../clients/sgnmi_cli.html" class="btn btn-neutral float-left" title="sgnmi_cli Client Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ipsec-offload.html" class="btn btn-neutral float-right" title="IPsec Offload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../guides/es2k/building-acc-p4cp.html" class="btn btn-neutral float-left" title="Building P4 Control Plane for the ACC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="make-all.html" class="btn btn-neutral float-right" title="make-all.sh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
