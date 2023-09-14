@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Helper Scripts &mdash; P4 Control Plane  documentation</title>
+  <title>Building for the ES2K ACC &mdash; P4 Control Plane  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="make-all.sh" href="make-all.html" />
-    <link rel="prev" title="Building P4 Control Plane for the ACC" href="../guides/es2k/building-acc-p4cp.html" /> 
+    <link rel="next" title="Installing the ACC SDK" href="es2k/installing-acc-sdk.html" />
+    <link rel="prev" title="Building the Stratum Dependencies" href="deps/building-stratum-deps.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,31 +45,27 @@
               <p class="caption" role="heading"><span class="caption-text">General</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/setup/setup-guides.html">Setup Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup/setup-guides.html">Setup Guides</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Helper Scripts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#build">Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-all.html">make-all.sh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building for the ES2K ACC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es2k/defining-acc-environment.html">Defining the build environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es2k/building-acc-p4cp.html">Building P4 Control Plane</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#acc-build">ACC Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="config-cross-recipe.html">config-cross-recipe.sh</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
@@ -84,8 +80,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../guides/security/security-guide.html">Security Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security/security-guide.html">Security Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security/using-tls-certificates.html">Using TLS Certificates</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -109,9 +105,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Helper Scripts</li>
+      <li class="breadcrumb-item active">Building for the ES2K ACC</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/scripts/helper-scripts.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guides/building-for-es2k-acc.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -119,36 +115,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="helper-scripts">
-<h1>Helper Scripts<a class="headerlink" href="#helper-scripts" title="Permalink to this heading"></a></h1>
-<section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h2>
-<p>This script helps build P4 Control Plane for most targets.</p>
+  <section id="building-for-the-es2k-acc">
+<h1>Building for the ES2K ACC<a class="headerlink" href="#building-for-the-es2k-acc" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="make-all.html">make-all.sh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/defining-acc-environment.html">Defining the build environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="es2k/building-acc-p4cp.html">Building P4 Control Plane</a></li>
 </ul>
 </div>
-</section>
-<section id="acc-build">
-<h2>ACC Build<a class="headerlink" href="#acc-build" title="Permalink to this heading"></a></h2>
-<p>These scripts help build P4 Control Plane for the ARM Compute Complex (ACC)
-of the ES2K target.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config-cross-recipe.html">config-cross-recipe.sh</a></li>
-</ul>
-</div>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../guides/es2k/building-acc-p4cp.html" class="btn btn-neutral float-left" title="Building P4 Control Plane for the ACC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="make-all.html" class="btn btn-neutral float-right" title="make-all.sh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="deps/building-stratum-deps.html" class="btn btn-neutral float-left" title="Building the Stratum Dependencies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="es2k/installing-acc-sdk.html" class="btn btn-neutral float-right" title="Installing the ACC SDK" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

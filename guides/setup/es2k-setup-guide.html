@@ -43,10 +43,13 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">General</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="setup-guides.html">Setup Guides</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup-guides.html">Setup Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Building</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">ES2K Setup Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
@@ -60,24 +63,18 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="tofino-setup-guide.html">Tofino Setup Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Building</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
@@ -85,9 +82,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -133,21 +131,47 @@
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>This document explains how to install, build, and run P4 Control Plane
 for the ES2K target.</p>
+<p>P4 Control Plane can be built to run on an x86 host processor or the ARM
+Compute Complex (ACC). These instructions are for the host processor.
+For the ACC, see <a class="reference internal" href="../building-for-es2k-acc.html"><span class="doc std std-doc">Building for the ES2K ACC</span></a>.</p>
 </section>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
 <section id="install-basic-utilities">
 <h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For<span class="w"> </span>Fedora<span class="w"> </span>distro:<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel<span class="w"> </span>openssl-devel
-For<span class="w"> </span>Ubuntu<span class="w"> </span>distro:<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libatomic1<span class="w"> </span>libnl-route-3-dev<span class="w"> </span>libssl-dev
-pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<p>For a Fedora system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel<span class="w"> </span>openssl-devel
+</pre></div>
+</div>
+<p>For an Ubuntu system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>install<span class="w"> </span>libatomic1<span class="w"> </span>libnl-route-3-dev<span class="w"> </span>libssl-dev
+</pre></div>
+</div>
+<p>For all systems:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
 </div>
 </section>
 <section id="install-p4-sde">
 <h3>Install P4 SDE<a class="headerlink" href="#install-p4-sde" title="Permalink to this heading"></a></h3>
-<p>Obtain a copy of the SDE for the Intel IPU E2100 and install it on your
-development system. A common install location is ‘/opt/p4/p4sde`.</p>
+<p>Obtain a copy of the IPU SDK (SDE) for the Intel® IPU E2100 from the
+manufacturer, together with the instructions for building or installing it.</p>
+<blockquote>
+<div><p>The above description is intentionally vague.
+The ES2K SDE (now called the IPU SDK) is under active development.
+This document cannot keep pace with the changes.</p>
+</div></blockquote>
+<p>Once installed, you will need to locate the root directory of the host SDE.
+A typical location is <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde</span></code>.</p>
+<p>You can use the Linux <code class="docutils literal notranslate"><span class="pre">file</span></code> command to verify that the file structure
+is for the <code class="docutils literal notranslate"><span class="pre">x86-64</span></code> architecture.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ahab@pequod:~/latest$ file -L /opt/deps/bin/protoc
+/opt/deps/bin/protoc: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV),
+dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2,
+BuildID[sha1]=93b21eff920e615fee679b0bd0a3ecc0c1139575, for GNU/Linux 3.2.0,
+not stripped
+</pre></div>
+</div>
 </section>
 <section id="build-and-install-infrap4d-dependencies">
 <h3>Build and install infrap4d dependencies<a class="headerlink" href="#build-and-install-infrap4d-dependencies" title="Permalink to this heading"></a></h3>
