@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Building the Stratum Dependencies" href="../deps/building-stratum-deps.html" />
+    <link rel="next" title="Building for the ES2K Host" href="../building-for-es2k-host.html" />
     <link rel="prev" title="ES2K Setup Guide" href="es2k-setup-guide.html" /> 
 </head>
 
@@ -76,33 +76,34 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -193,6 +194,9 @@ the BSP package.</p>
 </div>
 <section id="install-basic-utilities">
 <h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Permalink to this heading"></a></h3>
+<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
+for OpenSSL version and EOL information.</p>
+<hr class="docutils" />
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>update
 apt-get<span class="w"> </span>install<span class="w"> </span>sudo<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>autoconf<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>libtool<span class="w"> </span>python3<span class="w"> </span>python3-dev<span class="w"> </span>python3-distutils<span class="w"> </span>iproute2<span class="w"> </span>libssl-dev
 </pre></div>
@@ -296,7 +300,7 @@ files relative to SDE_INSTALL.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="es2k-setup-guide.html" class="btn btn-neutral float-left" title="ES2K Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../deps/building-stratum-deps.html" class="btn btn-neutral float-right" title="Building the Stratum Dependencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../building-for-es2k-host.html" class="btn btn-neutral float-right" title="Building for the ES2K Host" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

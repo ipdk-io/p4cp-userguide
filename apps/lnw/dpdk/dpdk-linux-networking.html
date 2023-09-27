@@ -49,11 +49,9 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
@@ -64,9 +62,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul class="current">
@@ -76,8 +75,8 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Linux Networking for DPDK</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#topology">Topology</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts">Create P4 artifacts</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#creating-the-topology">Creating the topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="dpdk-linux-networking-ecmp.html">Linux Networking with ECMP (DPDK)</a></li>
@@ -91,6 +90,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -153,11 +153,17 @@
 <p><img alt="Linux Networking Topology" src="../../../_images/dpdk-lnw-topology.png" /></p>
 <p>Notes about topology:</p>
 <ul class="simple">
-<li><p>VHOST ports, TAP ports, Physical LINK ports are created by GNMI CLI and LINK port is bound to the DPDK target.</p></li>
-<li><p>VLAN 1, VLAN 2, …. VLAN N created using Linux commands and are on top a TAP port. These VLAN ports should be equal to number of VM’s that are spawned.</p></li>
-<li><p>br-int, VxLAN0 ports are created using ovs-vsctl command provided by the networking recipe and all the VLAN ports are attached to br-int using ovs-vsctl command.</p></li>
+<li><p>VHOST ports, TAP ports, Physical LINK ports are created by the GNMI CLI,
+and LINK port is bound to the DPDK target.</p></li>
+<li><p>VLAN 1, VLAN 2, …. VLAN N created using Linux commands and are on top of a
+TAP port. These VLAN ports should be equal to number of VM’s that are spawned.</p></li>
+<li><p>br-int, VxLAN0 ports are created using ovs-vsctl command provided by the
+networking recipe and all the VLAN ports are attached to br-int using the
+ovs-vsctl command.</p></li>
 </ul>
-<p>System under test will have above topology running the networking recipe. Link Partner can have either the networking recipe or legacy OVS or kernel VxLAN. Note the limitations below before setting up the topology.</p>
+<p>System under test will have above topology running the networking recipe.
+Link Partner can have either the networking recipe or legacy OVS or kernel
+VxLAN.  Note the limitations below before setting up the topology.</p>
 </section>
 <section id="create-p4-artifacts">
 <h2>Create P4 artifacts<a class="headerlink" href="#create-p4-artifacts" title="Permalink to this heading"></a></h2>
@@ -190,25 +196,6 @@ to specify absolute path of the artifacts (json and spec files).</p></li>
 </li>
 </ul>
 </section>
-<section id="limitations">
-<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading"></a></h2>
-<p>Current SAI enablement for the networking recipe has following limitations:</p>
-<ul>
-<li><p>Always all VHOST user ports need to be configured first and only then TAP ports/physical ports.</p></li>
-<li><p>TAP port created for the corresponding link port should be created using
-“gnmi-ctl control port creation got the link port”. For example,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT0,pipeline-name:pipe,mempool-name:MEMPOOL0,control-port:TAP1,mtu:1500,pci-bdf:0000:18:00.0,packet-dir=network,port-type:link</span>
-</pre></div>
-</div>
-</li>
-<li><p>All VLAN interfaces created on top of TAP ports, should always be in lowercase format “vlan+vlan_id”
-Ex: vlan1, vlan2, vlan3, … vlan4094</p></li>
-<li><p>br-int port, vxlan0 port and adding vlan ports to br-int need to be done after loading the pipeline.</p></li>
-<li><p>VxLAN destination port should always be standard port. i.e., 4789. (limitation by p4 parser)</p></li>
-<li><p>Only VNI 0 is supported.</p></li>
-<li><p>We are not supporting any ofproto rules which would not allow for FDB learning on OVS.</p></li>
-</ul>
-</section>
 <section id="creating-the-topology">
 <h2>Creating the topology<a class="headerlink" href="#creating-the-topology" title="Permalink to this heading"></a></h2>
 <p>The <a class="reference internal" href="../../../clients/gnmi-ctl.html"><span class="doc std std-doc">gnmi-ctl</span></a> and <a class="reference internal" href="../../../clients/p4rt-ctl.html"><span class="doc std std-doc">p4rt-ctl</span></a> utilities
@@ -221,7 +208,7 @@ They should be run with <code class="docutils literal notranslate"><span class="
 modprobe<span class="w"> </span>vfio-pci
 </pre></div>
 </div>
-<p>Bind the devices to DPDK using dpdk-devbind.py script:</p>
+<p>Bind the devices to DPDK using the dpdk-devbind.py script:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>/bin
 ./dpdk-devbind.py<span class="w"> </span>--bind<span class="o">=</span>vfio-pci<span class="w"> </span>PCI-BDF
 </pre></div>
@@ -231,8 +218,8 @@ modprobe<span class="w"> </span>vfio-pci
 </pre></div>
 </div>
 <p>PCI-BDF can be obtained using the lspci command.
-Check if the device is bound correctly using <code class="docutils literal notranslate"><span class="pre">./dpdk-devbind.py</span> <span class="pre">-s</span></code>.
-(Refer to the section “Network devices using DPDK-compatible driver”.)</p>
+Check if the device is bound correctly using <code class="docutils literal notranslate"><span class="pre">./dpdk-devbind.py</span> <span class="pre">-s</span></code>.</p>
+<!-- (See the section "Network devices using DPDK-compatible driver") -->
 </section>
 <section id="export-environment-variables-and-start-infrap4d">
 <h3>2. Export environment variables and start infrap4d<a class="headerlink" href="#export-environment-variables-and-start-infrap4d" title="Permalink to this heading"></a></h3>
@@ -257,7 +244,9 @@ gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </sp
 gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT1,control-port:TAP2,pci-bdf:0000:18:00.1,packet-dir:network,port-type:link&quot;</span>
 </pre></div>
 </div>
-<p>Note: Specify the pci-bdf of the devices bound to user-space in step 1. Corresponding control port for physical link port will be created if control port attribute is specified.</p>
+<p>Note: Specify the pci-bdf of the devices bound to user-space in step 1.
+Corresponding control port for physical link port will be created if
+control port attribute is specified.</p>
 </section>
 <section id="create-two-tap-ports">
 <h3>5. Create two TAP ports<a class="headerlink" href="#create-two-tap-ports" title="Permalink to this heading"></a></h3>
@@ -370,7 +359,8 @@ statically configured or learned via FRR.</p>
 <span class="w">     </span>options:remote_ip<span class="o">=</span><span class="m">30</span>.1.1.1<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
 </pre></div>
 </div>
-<p>Note: VXLAN destination port should always be standard port, i.e. 4789. (limitation of p4 parser)</p>
+<p>Note: VXLAN destination port should always be standard port, i.e. 4789.
+(limitation of p4 parser)</p>
 </section>
 </section>
 <section id="configure-vlan-ports-on-tap0-and-add-them-to-br-int">
@@ -383,17 +373,22 @@ ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>vlan2<span class="w"> </span>up
 </pre></div>
 </div>
-<p>Note: All VLAN interfaces should be created on top of TAP ports, and should
-always be in lowercase format “vlan+vlan_id. (Eg: vlan1, vlan2, vlan3 …. vlan4094)</p>
+<p>VLAN interfaces should be created on top of TAP ports, and should always be
+in lowercase format “vlan+vlan_id”.</p>
 </section>
 <section id="configure-rules-to-push-and-pop-vlan-from-vhost-0-and-1-ports-to-tap0-port-vhost-user-and-vlan-port-mapping">
 <h3>12. Configure rules to push and pop VLAN from vhost 0 and 1 ports to TAP0 port (vhost-user and vlan port mapping)<a class="headerlink" href="#configure-rules-to-push-and-pop-vlan-from-vhost-0-and-1-ports-to-tap0-port-vhost-user-and-vlan-port-mapping" title="Permalink to this heading"></a></h3>
-<p>Note: Port number used in p4rt-ctl commands are target datapath indexes (unique identifier for each port) which can be queried using following commands below. With current SDE implementation, both tdi-portin-id and tdi-portout-id are the same.</p>
+<p>Note: Port numbers used in p4rt-ctl commands are target datapath indexes
+(unique identifier for each port) which can be queried using the
+commands below. In the current SDE implementation, tdi-portin-id and
+tdi-portout-id are the same.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost0,tdi-portin-id&quot;</span>
 gnmi-ctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost0,tdi-portout-id&quot;</span>
 </pre></div>
 </div>
-<p>Target DP index of control TAP port will be Target DP index of corresponding physical port + 1. If the ports are created in the order mentioned in the above step, target datapath indexes will be:</p>
+<p>Target DP index of control TAP port will be Target DP index of the
+corresponding physical port + 1.  If the ports are created in the order
+specified in the above step, target datapath indexes will be:</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Port name</p></th>
@@ -427,35 +422,41 @@ gnmi-ctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quo
 </tr>
 </tbody>
 </table>
-<p>For any tx control packet from VM1 (TDP 0), pipeline should add a VLAN tag 1 and send it to TAP0 port (TDP 6):</p>
+<p>For any tx control packet from VM1 (TDP 0), pipeline should add a VLAN tag
+1 and send it to TAP0 port (TDP 6):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=0,action=linux_networking_control.push_vlan_fwd(6,1)&quot;</span>
 </pre></div>
 </div>
-<p>For any tx control packet from VM2 (TDP 1), pipeline should add a VLAN tag 2 and send it to TAP0 port (TDP 6):</p>
+<p>For any tx control packet from VM2 (TDP 1), pipeline should add a VLAN tag
+2 and send it to TAP0 port (TDP 6):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=1,action=linux_networking_control.push_vlan_fwd(6,2)&quot;</span>
 </pre></div>
 </div>
-<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 1, pipeline should pop the VLAN tag and send it to VM1 (TDP 0):</p>
+<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 1, pipeline
+should pop the VLAN tag and send it to VM1 (TDP 0):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_vlan_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=6,local_metadata.vlan_id=1,action=linux_networking_control.pop_vlan_fwd(0)&quot;</span>
 </pre></div>
 </div>
-<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 2, pipeline should pop the VLAN tag and send it to VM2 (TDP 1):</p>
+<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 2, pipeline
+should pop the VLAN tag and send it to VM2 (TDP 1):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_vlan_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=6,local_metadata.vlan_id=2,action=linux_networking_control.pop_vlan_fwd(1)&quot;</span>
 </pre></div>
 </div>
 </section>
-<section id="configure-rules-for-control-packets-coming-in-and-out-of-physical-port">
-<h3>13. Configure rules for control packets coming in and out of physical port<a class="headerlink" href="#configure-rules-for-control-packets-coming-in-and-out-of-physical-port" title="Permalink to this heading"></a></h3>
-<p>Any rx control packet from phy port0 (TDP 2) should be sent to corresponding control port TAP1 (TDP 3):</p>
+<section id="configure-rules-for-control-packets-to-or-from-physical-port">
+<h3>13. Configure rules for control packets to or from physical port<a class="headerlink" href="#configure-rules-for-control-packets-to-or-from-physical-port" title="Permalink to this heading"></a></h3>
+<p>Any rx control packet from phy port0 (TDP 2) should be sent to corresponding
+control port TAP1 (TDP 3):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_control_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=2,action=linux_networking_control.set_control_dest(3)&quot;</span>
 </pre></div>
 </div>
-<p>Any rx control packet from phy port1 (TDP 4) should be sent to corresponding control port TAP2 (TDP 5):</p>
+<p>Any rx control packet from phy port1 (TDP 4) should be sent to corresponding
+control port TAP2 (TDP 5):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_control_pkts_table<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">&quot;istd.input_port=4,action=linux_networking_control.set_control_dest(5)&quot;</span>
 </pre></div>
@@ -485,29 +486,29 @@ ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </spa
 <h4>Option 2: Learn dynamic routes via FRR (iBGP route distribution)<a class="headerlink" href="#option-2-learn-dynamic-routes-via-frr-ibgp-route-distribution" title="Permalink to this heading"></a></h4>
 <p>Install FRR:</p>
 <ul class="simple">
-<li><p>Install FRR via default package manager, like “apt install frr” for Ubuntu /”dnf install frr” for Fedora.</p></li>
-<li><p>If not, see official FRR documentation available at
-<a class="reference external" href="https://docs.frrouting.org/en/latest/installation.html">https://docs.frrouting.org/en/latest/installation.html</a>
+<li><p>Install FRR via default package manager, like <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">frr</span></code> for Ubuntu
+or <code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">frr</span></code> for Fedora.</p></li>
+<li><p>If not, see the <a class="reference external" href="https://docs.frrouting.org/en/latest/installation.html">official FRR documentation</a>
 and install according to your distribution.</p></li>
 </ul>
 <p>Configure FRR:</p>
 <ul>
 <li><p>Modify /etc/frr/daemons to enable bgpd daemon</p></li>
-<li><p>Restart FRR service. systemctl restart frr</p></li>
-<li><p>Start VTYSH process, which is a CLI provided by FRR for user configurations.</p></li>
-<li><p>Set the following configuration on the DUT (host1) for single-path scenario.</p>
+<li><p>Restart FRR service: <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">frr</span></code></p></li>
+<li><p>Start VTYSH process, which is a CLI provided by FRR for user configuration</p></li>
+<li><p>Set the following configuration on the DUT (host1) for single-path scenario:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>interface<span class="w"> </span>TAP1
 ip<span class="w"> </span>address<span class="w"> </span><span class="m">50</span>.1.1.1/24
 <span class="nb">exit</span>
-<span class="w">  </span>!
+!
 interface<span class="w"> </span>TEP1
 ip<span class="w"> </span>address<span class="w"> </span><span class="m">40</span>.1.1.1/24
 <span class="nb">exit</span>
-<span class="w">  </span>!
+!
 router<span class="w"> </span>bgp<span class="w"> </span><span class="m">65000</span>
 bgp<span class="w"> </span>router-id<span class="w"> </span><span class="m">40</span>.1.1.1
 neighbor<span class="w"> </span><span class="m">50</span>.1.1.2<span class="w"> </span>remote-as<span class="w"> </span><span class="m">65000</span>
-<span class="w">  </span>!
+!
 address-family<span class="w"> </span>ipv4<span class="w"> </span>unicast
 <span class="w">  </span>network<span class="w"> </span><span class="m">40</span>.1.1.0/24
 exit-address-family
@@ -531,6 +532,25 @@ DUT (host1) and also route learnt on the kernel.</p>
 <li><p>Overlay ping: Ping between VM’s on different hosts</p></li>
 </ul>
 </section>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading"></a></h2>
+<p>Current SAI enablement for the networking recipe has following limitations:</p>
+<ul>
+<li><p>Always all VHOST user ports need to be configured first and only then TAP ports/physical ports.</p></li>
+<li><p>TAP port created for the corresponding link port should be created using
+“gnmi-ctl control port creation got the link port”. For example,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT0,pipeline-name:pipe,mempool-name:MEMPOOL0,control-port:TAP1,mtu:1500,pci-bdf:0000:18:00.0,packet-dir=network,port-type:link</span>
+</pre></div>
+</div>
+</li>
+<li><p>All VLAN interfaces created on top of TAP ports, should always be in lowercase format “vlan+vlan_id”
+Ex: vlan1, vlan2, vlan3, … vlan4094</p></li>
+<li><p>br-int port, vxlan0 port and adding vlan ports to br-int need to be done after loading the pipeline.</p></li>
+<li><p>VxLAN destination port should always be standard port. i.e., 4789. (limitation by p4 parser)</p></li>
+<li><p>Only VNI 0 is supported.</p></li>
+<li><p>We are not supporting any ofproto rules which would not allow for FDB learning on OVS.</p></li>
+</ul>
 </section>
 </section>
 

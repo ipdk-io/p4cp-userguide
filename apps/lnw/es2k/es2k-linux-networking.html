@@ -49,11 +49,9 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/es2k/building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
@@ -64,9 +62,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul class="current">
@@ -93,6 +92,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -166,28 +166,33 @@
 <h2>Create P4 artifacts and start Infrap4d process<a class="headerlink" href="#create-p4-artifacts-and-start-infrap4d-process" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Use Linux networking p4 program present in the directory <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/linux_networking</span></code> for this scenario.</p></li>
-<li><p>Refer to <a class="reference internal" href="../../../guides/es2k/running-infrap4d.html"><span class="std std-doc">Running Infrap4d on Intel IPU E2100</span></a> for compiling <code class="docutils literal notranslate"><span class="pre">P4</span> <span class="pre">artifacts</span></code>, <code class="docutils literal notranslate"><span class="pre">bringing</span> <span class="pre">up</span> <span class="pre">ACC</span></code> and running <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> on ACC.</p></li>
+<li><p>See <a class="reference internal" href="../../../guides/es2k/running-infrap4d.html"><span class="doc std std-doc">Running Infrap4d on Intel IPU E2100</span></a> for compiling <code class="docutils literal notranslate"><span class="pre">P4</span> <span class="pre">artifacts</span></code>, <code class="docutils literal notranslate"><span class="pre">bringing</span> <span class="pre">up</span> <span class="pre">ACC</span></code> and running <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> on ACC.</p></li>
 </ul>
 </section>
 <section id="creating-the-topology">
 <h2>Creating the topology<a class="headerlink" href="#creating-the-topology" title="Permalink to this heading"></a></h2>
-<p><em>Note</em>: p4rt-ctl and ovs-vsctl utilities used in below steps can be found under $P4CP_INSTALL/bin</p>
+<p>The p4rt-ctl and ovs-vsctl utilities can be found in $P4CP_INSTALL/bin.</p>
 <section id="set-the-forwarding-pipeline">
 <h3>Set the forwarding pipeline<a class="headerlink" href="#set-the-forwarding-pipeline" title="Permalink to this heading"></a></h3>
 <p>Once the application is started, set the forwarding pipeline config using
 P4Runtime Client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> set-pipe command</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.pb.bin<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.p4info.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.pb.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.p4info.txt
 </pre></div>
 </div>
-<p>Note: Assuming <code class="docutils literal notranslate"><span class="pre">linux_networking.pb.bin</span></code> and <code class="docutils literal notranslate"><span class="pre">linux_networking.p4info.txt</span></code> along with other P4 artifacts are created as per the steps mentioned in previous section.</p>
+<p>Note: Assuming <code class="docutils literal notranslate"><span class="pre">linux_networking.pb.bin</span></code> and <code class="docutils literal notranslate"><span class="pre">linux_networking.p4info.txt</span></code>
+along with other P4 artifacts are created as per the steps mentioned in previous section.</p>
 </section>
 <section id="configure-vsi-group-and-add-a-netdev">
 <h3>Configure VSI Group and add a netdev<a class="headerlink" href="#configure-vsi-group-and-add-a-netdev" title="Permalink to this heading"></a></h3>
-<p>Use one of the IPDF netdevs on ACC to receive all control packets from overlay VM’s by assigning to a VSI group. VSI group 3 is dedicated for this configuration, execute below devmem commands on IMC.</p>
+<p>Use one of the IPDF netdevs on ACC to receive all control packets from overlay
+VM’s by assigning to a VSI group. VSI group 3 is dedicated for this configuration,
+execute below devmem commands on IMC.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
 devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x8000050000000008
 
-<span class="c1"># SEM_DIRECT_MAP_PGEN_DATA_VSI_GROUP : This will set vsi (set in SEM_DIRECT_MAP_PGEN_CTRL register LSB) into VSIG-3</span>
+<span class="c1"># SEM_DIRECT_MAP_PGEN_DATA_VSI_GROUP : This will set vsi</span>
+<span class="c1"># (set in SEM_DIRECT_MAP_PGEN_CTRL register LSB) into VSIG-3.</span>
 devmem<span class="w"> </span>0x2029200388<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x3
 
 <span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
@@ -211,8 +216,8 @@ ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span
 ifconfig<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF&gt;<span class="w"> </span>up
 </pre></div>
 </div>
-<p>Option 2: If we are unable to spawn VM’s on top of the VF’s, for this use case we can also leverage kernel network namespaces.
-Move each VF to a network namespace and assign IP addresses</p>
+<p>Option 2: If we are unable to spawn VM’s on top of the VF’s, we can leverage kernel network namespaces.
+Move each VF to a network namespace and assign IP addresses:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>VM0
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>netns<span class="w"> </span>VM0
 ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;
@@ -234,7 +239,8 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/var/run/openvswitch
 
-ovsdb-tool<span class="w"> </span>create<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span>/opt/p4/p4-cp-nws/share/openvswitch/vswitch.ovsschema
+ovsdb-tool<span class="w"> </span>create<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/opt/p4/p4-cp-nws/share/openvswitch/vswitch.ovsschema
 
 ovsdb-server<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--remote<span class="o">=</span>punix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span><span class="se">\</span>
@@ -260,7 +266,8 @@ ovs-vsctl<span class="w">  </span>show
 </section>
 <section id="create-vlan-representers">
 <h3>Create VLAN representers<a class="headerlink" href="#create-vlan-representers" title="Permalink to this heading"></a></h3>
-<p>For each VM that is spawned for overlay network we need to have a port representer. We create VLAN netdevs on top of the IPDF netdev which is assigned to VSI group 3 in step-2 mentioned above.</p>
+<p>For each VM that is spawned for overlay network we need to have a port representer.
+We create VLAN netdevs on top of the IPDF netdev which is assigned to VSI group 3 in step-2 mentioned above.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;VSI<span class="w"> </span><span class="m">8</span>&gt;<span class="w"> </span>name<span class="w"> </span>vlan1<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">1</span>
 ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;VSI<span class="w"> </span><span class="m">8</span>&gt;<span class="w"> </span>name<span class="w"> </span>vlan2<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">2</span>
 ifconfig<span class="w"> </span>vlan1<span class="w"> </span>up
@@ -270,8 +277,8 @@ ifconfig<span class="w"> </span>vlan2<span class="w"> </span>up
 <p>Note: Here the assumption is, we have created 2 overlay VM’s and creating 2 port representers for those VM’s.
 Port representer should always be in the format: <code class="docutils literal notranslate"><span class="pre">lowercase</span> <span class="pre">string</span> <span class="pre">'vlan'+'vlanID'</span></code></p>
 </section>
-<section id="create-intergation-bridge-and-add-ports-to-the-bridge">
-<h3>Create intergation bridge and add ports to the bridge<a class="headerlink" href="#create-intergation-bridge-and-add-ports-to-the-bridge" title="Permalink to this heading"></a></h3>
+<section id="create-integration-bridge-and-add-ports-to-the-bridge">
+<h3>Create integration bridge and add ports to the bridge<a class="headerlink" href="#create-integration-bridge-and-add-ports-to-the-bridge" title="Permalink to this heading"></a></h3>
 <p>Create OvS bridge, VxLAN tunnel and assign ports to the bridge.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
 ifconfig<span class="w"> </span>br-int<span class="w"> </span>up
@@ -281,7 +288,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 ifconfig<span class="w"> </span>vlan1<span class="w"> </span>up
 ifconfig<span class="w"> </span>vlan2<span class="w"> </span>up
 
-ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vxlan1<span class="w"> </span>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span>options:local_ip<span class="o">=</span><span class="m">40</span>.1.1.1<span class="w"> </span>options:remote_ip<span class="o">=</span><span class="m">40</span>.1.1.2<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vxlan1<span class="w"> </span>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>options:local_ip<span class="o">=</span><span class="m">40</span>.1.1.1<span class="w"> </span>options:remote_ip<span class="o">=</span><span class="m">40</span>.1.1.2<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
 </pre></div>
 </div>
 <p>Note: Here we are creating VxLAN tunnel with VNI 0, you can create any VNI for tunneling.</p>
@@ -301,29 +309,45 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 <li><p>IDPF netdevs on HOST (if IDPF driver loaded by you on HOST)</p></li>
 <li><p>Netdevs on IMC</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rules for control packets coming from overlay VF(VSI-14), IPU will add a VLAN tag 1 and send to HOST1(VSI-8)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rules for control packets coming from overlay VF (VSI-14).</span>
+<span class="c1"># IPU will add a VLAN tag 1 and send to HOST1 (VSI-8).</span>
 
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(1,24)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_push(1,0,1)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(1,24)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_push(1,0,1)&quot;</span>
 
-<span class="c1"># Rules for control packets coming from overlay VF(VSI-15), IPU will add a VLAN tag 2 and send to HOST1(VSI-8)</span>
+<span class="c1"># Rules for control packets coming from overlay VF (VSI-15).</span>
+<span class="c1"># IPU will add a VLAN tag 2 and send to HOST1 (VSI-8).</span>
 
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(2,24)&quot;</span>
-<span class="w">  </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
-<span class="w">  </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_push(1,0,2)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(2,24)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_push(1,0,2)&quot;</span>
 
-<span class="c1"># Rules for control packets coming from HOST1(VSI-8), IPU will remove the VLAN tag 1 and send to overlay VF(VSI-14)</span>
+<span class="c1"># Rules for control packets coming from HOST1 (VSI-8).</span>
+<span class="c1"># IPU will remove the VLAN tag 1 and send to overlay VF (VSI-14).</span>
 
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=1,action=linux_networking_control.remove_vlan_and_send_to_port(1,30)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(30)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_pop&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=1,action=linux_networking_control.remove_vlan_and_send_to_port(1,30)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(30)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_pop&quot;</span>
 
-<span class="c1"># Rules for control packets coming from HOST1(VSI-8), IPU will remove the VLAN tag 2 and send to overlay VF(VSI-15)</span>
+<span class="c1"># Rules for control packets coming from HOST1 (VSI-8).</span>
+<span class="c1"># IPU will remove the VLAN tag 2 and send to overlay VF (VSI-15).</span>
 
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=2,action=linux_networking_control.remove_vlan_and_send_to_port(2,31)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(31)&quot;</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_pop&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=2,action=linux_networking_control.remove_vlan_and_send_to_port(2,31)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(31)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_pop&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -336,10 +360,12 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 <li><p>First physical port will have a port ID of 0</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration for control packets between physical port 0 to underlay IDPF netdev VSI-10</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_from_wire_to_ovs_table<span class="w"> </span><span class="s2">&quot;vmeta.common.port_id=0,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(26)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_from_wire_to_ovs_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.port_id=0,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(26)&quot;</span>
 
 <span class="c1"># Configuration for control packets between underlay IDPF netdev VSI-10 to physical port 0</span>
-<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="s2">&quot;vmeta.common.vsi=10,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(0)&quot;</span>
+p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=10,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(0)&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -350,7 +376,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 <ul class="simple">
 <li><p>Underlay IDPF netdev has a VSI value 10</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.ecmp_lpm_root_lut<span class="w"> </span><span class="s2">&quot;user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=2,action=linux_networking_control.ecmp_lpm_root_lut_action(0)&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.ecmp_lpm_root_lut<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=2,action=linux_networking_control.ecmp_lpm_root_lut_action(0)&quot;</span>
 
 nmcli<span class="w"> </span>device<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span>managed<span class="w"> </span>no
 ifconfig<span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span><span class="m">40</span>.1.1.1/24<span class="w"> </span>up
