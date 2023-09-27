@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Building P4 Control Plane for the ACC" href="building-acc-p4cp.html" />
+    <link rel="next" title="Building Dependencies for the ACC" href="../deps/building-acc-stratum-deps.html" />
     <link rel="prev" title="Installing the ACC SDK" href="installing-acc-sdk.html" /> 
 </head>
 
@@ -49,38 +49,46 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Defining the ACC Build Environment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#setup-script">Setup script</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#note"><strong>Note</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Defining the build environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup-script">Setup script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#note"><strong>Note</strong></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -104,6 +112,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
       <li class="breadcrumb-item active">Defining the ACC Build Environment</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/guides/es2k/defining-acc-environment.md.txt" rel="nofollow"> View page source</a>
@@ -198,7 +207,7 @@ CMake build in non-obvious ways.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installing-acc-sdk.html" class="btn btn-neutral float-left" title="Installing the ACC SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="building-acc-p4cp.html" class="btn btn-neutral float-right" title="Building P4 Control Plane for the ACC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../deps/building-acc-stratum-deps.html" class="btn btn-neutral float-right" title="Building Dependencies for the ACC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

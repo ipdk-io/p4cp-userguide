@@ -19,8 +19,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Deploying P4 Programs for ES2K" href="deploying-p4-programs.html" />
-    <link rel="prev" title="Compiling P4 Programs for ES2K" href="compiling-p4-programs.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="../../clients/clients-index.html" />
+    <link rel="prev" title="Running Infrap4d on Intel IPU E2100" href="running-infrap4d.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,15 +49,15 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building Dependencies for the ACC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="defining-acc-environment.html">Defining the ACC Build Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane for the ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">ES2K P4 Programs</span></p>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Enabling the Communication Channel</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#interrupt-default-start-up-routine">1. Interrupt default start-up routine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#specify-communication-channel-ports">2. Specify communication channel ports</a></li>
@@ -73,23 +73,24 @@
 <li class="toctree-l2"><a class="reference internal" href="#check-communication-between-acc-and-host">6. Check communication between ACC and Host</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../features/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -374,8 +375,8 @@ communication channel, ping should work.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="compiling-p4-programs.html" class="btn btn-neutral float-left" title="Compiling P4 Programs for ES2K" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="deploying-p4-programs.html" class="btn btn-neutral float-right" title="Deploying P4 Programs for ES2K" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="running-infrap4d.html" class="btn btn-neutral float-left" title="Running Infrap4d on Intel IPU E2100" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../clients/clients-index.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="helper-scripts.html">Helper Scripts</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="helper-scripts.html#build">Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper-scripts.html#general-build">General Build</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="helper-scripts.html#acc-build">ACC Build</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">config-cross-recipe.sh</a><ul>
@@ -76,9 +76,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../clients/gnmi-ctl.html">gnmi-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clients/p4rt-ctl.html">p4rt-ctl Client Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli Client Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Applications</span></p>
 <ul>
@@ -89,6 +90,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/security/security-guide.html">Security Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/security/using-tls-certificates.html">Using TLS Certificates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/security/openssl-guide.html">OpenSSL Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul>
@@ -166,8 +168,8 @@ to build and install the software. For example:</p>
 </dd>
 </dl>
 </section>
-<section id="paths">
-<h3>Paths<a class="headerlink" href="#paths" title="Permalink to this heading"></a></h3>
+<section id="host-paths">
+<h3>Host paths<a class="headerlink" href="#host-paths" title="Permalink to this heading"></a></h3>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">--build=BLDDIR</span></code>, <code class="docutils literal notranslate"><span class="pre">-B</span> <span class="pre">BLDDIR</span></code></dt><dd><p>Directory that CMake will use to perform the build.
 Will be created if it does not exist.</p>
@@ -176,14 +178,6 @@ Can be used to create separate build directories for native and
 cross-compiled builds.
 Defaults to <code class="docutils literal notranslate"><span class="pre">build</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--deps=DEPS</span></code>, <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">DEPS</span></code> <em>(see note)</em></dt><dd><p>Directory in which the Stratum dependencies for the runtime system
-are installed.</p>
-<p>P4 Control Plane will be linked with these libraries.
-Supplies the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL_DIR</span></code> listfile variable.
-Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code> environment variable,
-if defined.
-Otherwise, defaults to <code class="docutils literal notranslate"><span class="pre">//opt/deps</span></code>.</p>
-</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--host=HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">-H</span> <span class="pre">HOST</span></code></dt><dd><p>Directory in which the Stratum dependencies for the development
 system are installed.</p>
 <p>Used to compile Protobufs to C++ during cross-compilation.
@@ -191,6 +185,24 @@ Supplies the value of the <code class="docutils literal notranslate"><span class
 Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">HOST_INSTALL</span></code> environment variable,
 if defined.
 Otherwise, defaults to <code class="docutils literal notranslate"><span class="pre">setup/hostdeps</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--toolchain=FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">FILE</span></code></dt><dd><p>Path to the CMake toolchain file.</p>
+<p>Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> environment
+variable.</p>
+</dd>
+</dl>
+</section>
+<section id="target-paths">
+<h3>Target paths<a class="headerlink" href="#target-paths" title="Permalink to this heading"></a></h3>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--deps=DEPS</span></code>, <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">DEPS</span></code> <em>(see note)</em></dt><dd><p>Directory in which the Stratum dependencies for the runtime system
+are installed.</p>
+<p>P4 Control Plane will be linked with these libraries.
+Supplies the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL_DIR</span></code> listfile variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code> environment variable,
+if defined.
+Otherwise, defaults to <code class="docutils literal notranslate"><span class="pre">//opt/deps</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--ovs=OVS</span></code>, <code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">OVS</span></code> <em>(see note)</em></dt><dd><p>Directory in which Open vSwitch is installed.</p>
 <p>May be omitted if the <code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> option is specified.
@@ -214,11 +226,6 @@ building P4 Control Plane.</p>
 Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code> environment variable,
 if defined.
 Otherwise, defaults to <code class="docutils literal notranslate"><span class="pre">//opt/p4sde</span></code>.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--toolchain=FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">FILE</span></code></dt><dd><p>Path to the CMake toolchain file.</p>
-<p>Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> variable.
-Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> environment
-variable.</p>
 </dd>
 </dl>
 <div class="admonition note">
