@@ -49,7 +49,6 @@
 <li class="toctree-l2"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Tofino Setup Guide</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#docker">Docker</a></li>
@@ -59,7 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#build">Build</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-install-stratum-dependencies">Build and install stratum dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#build-intel-p4studio-sde">Build Intel P4Studio SDE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a></li>
 </ul>
@@ -140,13 +139,10 @@
              
   <section id="tofino-setup-guide">
 <h1>Tofino Setup Guide<a class="headerlink" href="#tofino-setup-guide" title="Permalink to this heading"></a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
-<p>This document explains how to install, build, and run the P4 Control Plane
+<p>This document explains how to build, install, and run the P4 Control Plane
 software on Tofino hardware.</p>
 <p>Similar steps apply when running on the Tofino simulation model. Please see
 Tofino-specific documentation for more details.</p>
-</section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <ul class="simple">
@@ -171,8 +167,12 @@ Tofino-specific documentation for more details.</p>
 </section>
 <section id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this heading"></a></h3>
-<p>Clone IPDK networking-recipe</p>
+<p>Clone IPDK networking-recipe:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+</pre></div>
+</div>
+<p>Clone the repository used to build the Stratum dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
 </pre></div>
 </div>
 </section>
@@ -194,19 +194,16 @@ the BSP package.</p>
 </div>
 <section id="install-basic-utilities">
 <h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Permalink to this heading"></a></h3>
-<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
-for OpenSSL version and EOL information.</p>
-<hr class="docutils" />
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>update
 apt-get<span class="w"> </span>install<span class="w"> </span>sudo<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>autoconf<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>libtool<span class="w"> </span>python3<span class="w"> </span>python3-dev<span class="w"> </span>python3-distutils<span class="w"> </span>iproute2<span class="w"> </span>libssl-dev
 </pre></div>
 </div>
+<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
+for OpenSSL version and EOL information.</p>
 </section>
-<section id="build-and-install-infrap4d-dependencies">
-<h3>Build and install infrap4d dependencies<a class="headerlink" href="#build-and-install-infrap4d-dependencies" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ipdk.recipe
-<span class="nb">export</span><span class="w"> </span><span class="nv">IPDK_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
-<span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>/setup
+<section id="build-and-install-stratum-dependencies">
+<h3>Build and install stratum dependencies<a class="headerlink" href="#build-and-install-stratum-dependencies" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>stratum-deps
 cmake<span class="w"> </span>.<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr/local/
 make
 ldconfig

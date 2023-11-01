@@ -47,14 +47,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="setup-guides.html">Setup Guides</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">DPDK Setup Guide</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#build-p4-sde-for-dpdk">Build P4 SDE for DPDK</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#install-basic-utilities">Install basic utilities</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#build-and-install-infrap4d-dependencies">Build and install infrap4d dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#build-networking-recipe">Build Networking Recipe</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#run-p4-control-plane">Run P4 Control Plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-install-dpdk-sde">Build and install DPDK SDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-install-stratum-dependencies">Build and install stratum dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#define-environment-variables">Define environment variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-networking-recipe">Build networking recipe</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clone-repository">Clone repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compile-the-recipe">Compile the recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#define-p4cp-install">Define P4CP_INSTALL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-infrap4d">Run Infrap4d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-up-the-environment-required-by-infrap4d">Set up the environment required by infrap4d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-hugepages-required-for-dpdk">Set hugepages required for DPDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export-all-environment-variables-to-sudo-user">Export all environment variables to sudo user</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-the-infrap4d-daemon">Run the infrap4d daemon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#run-a-sample-program">Run a sample program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-two-tap-ports">Create two TAP ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts">Create P4 artifacts</a></li>
 </ul>
 </li>
 </ul>
@@ -130,75 +140,111 @@
              
   <section id="dpdk-setup-guide">
 <h1>DPDK Setup Guide<a class="headerlink" href="#dpdk-setup-guide" title="Permalink to this heading"></a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
-<p>This document explains how to install, build, and run P4 Control Plane
+<p>This document explains how to build, install, and run P4 Control Plane
 for the DPDK target.</p>
-</section>
-<section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
-<section id="build-p4-sde-for-dpdk">
-<h3>Build P4 SDE for DPDK<a class="headerlink" href="#build-p4-sde-for-dpdk" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/p4lang/p4-dpdk-target.git<span class="w"> </span>p4sde
-</pre></div>
-</div>
-<p>For build instructions, see <a class="reference external" href="https://github.com/p4lang/p4-dpdk-target/blob/main/README.md#building-and-installing">P4 SDE Readme</a></p>
-</section>
-<section id="install-basic-utilities">
-<h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Permalink to this heading"></a></h3>
-<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
-for OpenSSL version and EOL information.</p>
-<hr class="docutils" />
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>For<span class="w"> </span>Fedora<span class="w"> </span>distro:<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel<span class="w"> </span>openssl
-For<span class="w"> </span>Ubuntu<span class="w"> </span>distro:<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libatomic1<span class="w"> </span>libnl-route-3-dev<span class="w"> </span>openssl
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>For Fedora:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel
 pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
 </div>
-</section>
-<section id="build-and-install-infrap4d-dependencies">
-<h3>Build and install infrap4d dependencies<a class="headerlink" href="#build-and-install-infrap4d-dependencies" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
-<span class="nb">cd</span><span class="w"> </span>ipdk.recipe
-<span class="nb">export</span><span class="w"> </span><span class="nv">IPDK_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
-<span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>/setup
-cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;dependency<span class="w"> </span>install<span class="w"> </span>path&gt;<span class="w"> </span><span class="o">[</span>-DUSE_SUDO<span class="o">=</span>ON<span class="o">]</span>
-cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span><span class="o">[</span>-j&lt;njobs&gt;<span class="o">]</span>
+<p>For Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>install<span class="w"> </span>libatomic1<span class="w"> </span>libnl-route-3-dev
+pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
 </div>
-<p><em>Note</em>: If running as non-root user, provide <code class="docutils literal notranslate"><span class="pre">-DUSE_SUDO=ON</span></code> option to cmake
-config.</p>
+<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
+for information on installing OpenSSL.</p>
+</section>
+<section id="build-and-install-dpdk-sde">
+<h2>Build and install DPDK SDE<a class="headerlink" href="#build-and-install-dpdk-sde" title="Permalink to this heading"></a></h2>
+<p>Clone the repository used to build the DPDK SDE:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/p4lang/p4-dpdk-target.git<span class="w"> </span>p4sde
+</pre></div>
+</div>
+<p>Follow the build and installation instructions in the
+<a class="reference external" href="https://github.com/p4lang/p4-dpdk-target/blob/main/README.md#building-and-installing">P4 SDE Readme</a>.</p>
+<p>Remember the directory in which you install the DPDK SDE.
+You will need it to define the <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code> environment variable.</p>
+</section>
+<section id="build-and-install-stratum-dependencies">
+<h2>Build and install stratum dependencies<a class="headerlink" href="#build-and-install-stratum-dependencies" title="Permalink to this heading"></a></h2>
+<p>Clone the repository used to build the Stratum dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
+</pre></div>
+</div>
+<p>Now follow the instructions in the
+<a class="reference external" href="https://github.com/ipdk-io/stratum-deps/blob/main/docs/building-host-deps.md">Building Host Dependencies</a>
+document.</p>
+<p>Remember the directory in which you install the Stratum dependencies.
+You will need it to define the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code> environment variable.</p>
+</section>
+<section id="define-environment-variables">
+<h2>Define environment variables<a class="headerlink" href="#define-environment-variables" title="Permalink to this heading"></a></h2>
+<p>Define the following environment variables. They supply default values to
+the build system and helper scripts.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code></p></td>
+<td><p>Path to the directory in which the Stratum dependencies are installed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code></p></td>
+<td><p>Path to the directory in which the DPDK SDE is installed.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="build-networking-recipe">
-<h3>Build Networking Recipe<a class="headerlink" href="#build-networking-recipe" title="Permalink to this heading"></a></h3>
-<section id="set-environment-variables">
-<h4>Set environment variables<a class="headerlink" href="#set-environment-variables" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><p>export DEPEND_INSTALL=<code class="docutils literal notranslate"><span class="pre">absolute</span> <span class="pre">path</span> <span class="pre">for</span> <span class="pre">installing</span> <span class="pre">dependencies</span></code></p></li>
-<li><p>export SDE_INSTALL=<code class="docutils literal notranslate"><span class="pre">absolute</span> <span class="pre">path</span> <span class="pre">for</span> <span class="pre">p4</span> <span class="pre">sde</span> <span class="pre">install</span> <span class="pre">built</span> <span class="pre">in</span> <span class="pre">previous</span> <span class="pre">step</span></code></p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
-mkdir<span class="w"> </span>install
-<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_INSTALL</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/install
+<h2>Build networking recipe<a class="headerlink" href="#build-networking-recipe" title="Permalink to this heading"></a></h2>
+<section id="clone-repository">
+<h3>Clone repository<a class="headerlink" href="#clone-repository" title="Permalink to this heading"></a></h3>
+<p>Clone the repository used to build P4 Control Plane:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<span class="nb">cd</span><span class="w"> </span>ipdk.recipe
+<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
 </pre></div>
 </div>
 </section>
 <section id="compile-the-recipe">
-<h4>Compile the recipe<a class="headerlink" href="#compile-the-recipe" title="Permalink to this heading"></a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
-./make-all.sh<span class="w"> </span>--target<span class="o">=</span>dpdk
+<h3>Compile the recipe<a class="headerlink" href="#compile-the-recipe" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$P4CP_RECIPE</span>
+./make-all.sh<span class="w"> </span>--target<span class="o">=</span>dpdk<span class="w"> </span>--rpath
 </pre></div>
 </div>
-<p><em>Note</em>: By default, make-all.sh will create the <code class="docutils literal notranslate"><span class="pre">install</span></code> directory under the
-networking recipe. You can specify a different directory using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code>
-option to <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code>. The following examples assume the default <code class="docutils literal notranslate"><span class="pre">install</span></code>
-directory for the executables. If not, you will need to specify the
-appropriate path instead of <code class="docutils literal notranslate"><span class="pre">./install</span></code>.</p>
+<p>By default, make-all.sh will create an <code class="docutils literal notranslate"><span class="pre">install</span></code> folder in the networking-recipe
+directory in which to install the build artifacts. You can specify a different
+directory by means of the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> parameter.</p>
+<p>See the <a class="reference internal" href="../../scripts/make-all.html"><span class="std std-doc">make-all.sh</span></a> user guide for information
+about the options of the <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> helper script.</p>
+</section>
+<section id="define-p4cp-install">
+<h3>Define P4CP_INSTALL<a class="headerlink" href="#define-p4cp-install" title="Permalink to this heading"></a></h3>
+<p>We recommend that you define the following environment variable:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">P4CP_INSTALL</span></code></p></td>
+<td><p>Path to the directory in which the P4 Control Plane build artifacts are installed.</p></td>
+</tr>
+</tbody>
+</table>
+<p>It is used throughout the remainder of this document.</p>
 </section>
 </section>
-<section id="run-p4-control-plane">
-<h3>Run P4 Control Plane<a class="headerlink" href="#run-p4-control-plane" title="Permalink to this heading"></a></h3>
+<section id="run-infrap4d">
+<h2>Run Infrap4d<a class="headerlink" href="#run-infrap4d" title="Permalink to this heading"></a></h2>
 <section id="set-up-the-environment-required-by-infrap4d">
-<h4>Set up the environment required by infrap4d<a class="headerlink" href="#set-up-the-environment-required-by-infrap4d" title="Permalink to this heading"></a></h4>
+<h3>Set up the environment required by infrap4d<a class="headerlink" href="#set-up-the-environment-required-by-infrap4d" title="Permalink to this heading"></a></h3>
 <p><em>Note</em>: <code class="docutils literal notranslate"><span class="pre">sudo</span></code> is required when running <code class="docutils literal notranslate"><span class="pre">copy_config_files.sh</span></code> since you are
 copying files to system directories.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/setup_env.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span><span class="w"> </span><span class="nv">$DEPEND_INSTALL</span>
@@ -207,20 +253,20 @@ sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/copy_conf
 </div>
 </section>
 <section id="set-hugepages-required-for-dpdk">
-<h4>Set hugepages required for DPDK<a class="headerlink" href="#set-hugepages-required-for-dpdk" title="Permalink to this heading"></a></h4>
+<h3>Set hugepages required for DPDK<a class="headerlink" href="#set-hugepages-required-for-dpdk" title="Permalink to this heading"></a></h3>
 <p>Run the hugepages script.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/set_hugepages.sh
 </pre></div>
 </div>
 </section>
 <section id="export-all-environment-variables-to-sudo-user">
-<h4>Export all environment variables to sudo user<a class="headerlink" href="#export-all-environment-variables-to-sudo-user" title="Permalink to this heading"></a></h4>
+<h3>Export all environment variables to sudo user<a class="headerlink" href="#export-all-environment-variables-to-sudo-user" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo PATH=&quot;$PATH&quot; HOME=&quot;$HOME&quot; LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH&quot; SDE_INSTALL=&quot;$SDE_INSTALL&quot;&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="run-the-infrap4d-daemon">
-<h4>Run the infrap4d daemon<a class="headerlink" href="#run-the-infrap4d-daemon" title="Permalink to this heading"></a></h4>
+<h3>Run the infrap4d daemon<a class="headerlink" href="#run-the-infrap4d-daemon" title="Permalink to this heading"></a></h3>
 <p>By default, infrap4d runs in secure mode and expects certificates to be available in
 a specific directory. For information on running infrap4d in insecure mode, or steps to generate TLS
 certificates, see the <a class="reference internal" href="../security/security-guide.html"><span class="std std-doc">security guide</span></a>.</p>
@@ -231,10 +277,9 @@ certificates, see the <a class="reference internal" href="../security/security-g
 infrap4d in attached mode, use the <code class="docutils literal notranslate"><span class="pre">--nodetach</span></code> option.</p>
 <ul class="simple">
 <li><p>All infrap4d logs are by default logged under /var/log/stratum.</p></li>
-<li><p>All P4SDE logs are logged in p4_driver.log under $IPDK_RECIPE.</p></li>
+<li><p>All P4SDE logs are logged in p4_driver.log under $P4CP_RECIPE.</p></li>
 <li><p>All OVS logs are logged under /tmp/ovs-vswitchd.log.</p></li>
 </ul>
-</section>
 </section>
 <section id="run-a-sample-program">
 <h3>Run a sample program<a class="headerlink" href="#run-a-sample-program" title="Permalink to this heading"></a></h3>
@@ -245,8 +290,9 @@ Set up the environment and export all environment variables to sudo user.</p>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo PATH=&quot;$PATH&quot; HOME=&quot;$HOME&quot; LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH&quot; SDE_INSTALL=&quot;$SDE_INSTALL&quot;&#39;</span>
 </pre></div>
 </div>
-<section id="create-2-tap-ports">
-<h4>Create 2 TAP ports<a class="headerlink" href="#create-2-tap-ports" title="Permalink to this heading"></a></h4>
+</section>
+<section id="create-two-tap-ports">
+<h3>Create two TAP ports<a class="headerlink" href="#create-two-tap-ports" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./install/bin/gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:TAP0,pipeline-name:pipe,mempool-name:MEMPOOL0,mtu:1500,port-type:TAP&quot;</span>
 sudo<span class="w"> </span>./install/bin/gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:TAP1,pipeline-name:pipe,mempool-name:MEMPOOL0,mtu:1500,port-type:TAP&quot;</span>
 ifconfig<span class="w"> </span>TAP0<span class="w"> </span>up
@@ -257,7 +303,7 @@ ifconfig<span class="w"> </span>TAP1<span class="w"> </span>up
 for more information on the gnmi-ctl utility.</p>
 </section>
 <section id="create-p4-artifacts">
-<h4>Create P4 artifacts<a class="headerlink" href="#create-p4-artifacts" title="Permalink to this heading"></a></h4>
+<h3>Create P4 artifacts<a class="headerlink" href="#create-p4-artifacts" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Clone the ipdk repo for scripts to build p4c and sample p4 program</p></li>
 </ul>
@@ -268,7 +314,7 @@ for more information on the gnmi-ctl utility.</p>
 <li><p>Install p4c compiler from <a class="reference external" href="https://github.com/p4lang/p4c">p4c</a> repository
 and follow the readme for procedure. Alternatively, refer to
 <a class="reference external" href="https://github.com/ipdk-io/ipdk/blob/main/build/networking/scripts/build_p4c.sh">p4c script</a></p></li>
-<li><p>Set the environment variable OUTPUT_DIR to the location where artifacts
+<li><p>Set the environment variable OUTPUT_DIR to the directory in which artifacts
 should be generated and where p4 files are available</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/root/ipdk-io/build/networking/examples/simple_l3
@@ -299,7 +345,6 @@ Generate binary executable using tdi-pipeline builder command below:</p></li>
 <span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/simple_l3.pb.bin
 </pre></div>
 </div>
-</section>
 <section id="set-forwarding-pipeline">
 <h4>Set forwarding pipeline<a class="headerlink" href="#set-forwarding-pipeline" title="Permalink to this heading"></a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3.pb.bin<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/p4Info.txt
