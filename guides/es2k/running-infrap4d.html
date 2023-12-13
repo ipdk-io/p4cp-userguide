@@ -62,8 +62,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#set-up-the-environment">2. Set up the environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-tls-certificates">3. Install TLS certificates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generate-forwarding-pipeline-binary">4. Generate forwarding pipeline binary</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-tofino-bin">Create tofino.bin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#copy-p4-artifacts-to-acc">Copy P4 artifacts to ACC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-ipu-bin">Create ipu.bin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-configuration-file">Prepare configuration file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#generate-binary-file">Generate binary file</a></li>
 </ul>
@@ -87,6 +87,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -175,19 +176,22 @@ for step by step guide for generating and installing TLS certificates</p>
 </section>
 <section id="generate-forwarding-pipeline-binary">
 <h2>4. Generate forwarding pipeline binary<a class="headerlink" href="#generate-forwarding-pipeline-binary" title="Permalink to this heading"></a></h2>
-<section id="create-tofino-bin">
-<h3>Create tofino.bin<a class="headerlink" href="#create-tofino-bin" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna
-<span class="nb">cd</span><span class="w"> </span><span class="nv">$OUTPUT_DIR</span>
-touch<span class="w"> </span>tofino.bin
-</pre></div>
-</div>
-</section>
+<p>Download <code class="docutils literal notranslate"><span class="pre">hw-p4-programs</span></code> TAR file specific to the release build and extract it to get p4 artifacts.
+This document explains with <code class="docutils literal notranslate"><span class="pre">l3-fwd_sem</span></code> as a reference P4 program and the P4 artifacts are copied to <code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem</span></code></p>
 <section id="copy-p4-artifacts-to-acc">
 <h3>Copy P4 artifacts to ACC<a class="headerlink" href="#copy-p4-artifacts-to-acc" title="Permalink to this heading"></a></h3>
-<p>Copy <code class="docutils literal notranslate"><span class="pre">bfrt.json</span></code>, <code class="docutils literal notranslate"><span class="pre">context.json</span></code>, <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code> to the ACC. See
+<p>Copy <code class="docutils literal notranslate"><span class="pre">bf-rt.json</span></code>, <code class="docutils literal notranslate"><span class="pre">context.json</span></code>, <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code> to the ACC. See
 <a class="reference internal" href="compiling-p4-programs.html"><span class="std std-doc">Compiling P4 programs</span></a>
-for instructions on generating these files.</p>
+for instructions on generating these files manually without downloading from
+release build.</p>
+</section>
+<section id="create-ipu-bin">
+<h3>Create ipu.bin<a class="headerlink" href="#create-ipu-bin" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/opt/p4/l3-fwd_sem
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$OUTPUT_DIR</span>
+touch<span class="w"> </span>ipu.bin
+</pre></div>
+</div>
 </section>
 <section id="prepare-configuration-file">
 <h3>Prepare configuration file<a class="headerlink" href="#prepare-configuration-file" title="Permalink to this heading"></a></h3>
@@ -229,26 +233,26 @@ queues between multi-processes. For example, to configure two cfgq; use
 <code class="docutils literal notranslate"><span class="pre">cfgqs-idx:</span> <span class="pre">&quot;0-1&quot;</span></code>. Supported index numbers are from 0 to 15.</p>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">program-name</span></code></p>
-<p>Specify the name of P4 program. For simple_l3_l4_pna example, replace
-<code class="docutils literal notranslate"><span class="pre">P4-PROGRAM-NAME</span></code> with <code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna</span></code></p>
+<p>Specify the name of P4 program. For l3-fwd_sem example, replace
+<code class="docutils literal notranslate"><span class="pre">P4-PROGRAM-NAME</span></code> with <code class="docutils literal notranslate"><span class="pre">l3-fwd_sem</span></code></p>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">p4_pipeline_name</span></code></p>
-<p>Specify the name of P4 pipeline. For simple_l3_l4_pna example, replace
+<p>Specify the name of P4 pipeline. For l3-fwd_sem example, replace
 <code class="docutils literal notranslate"><span class="pre">P4-PIPELINE-NAME</span></code> with <code class="docutils literal notranslate"><span class="pre">main</span></code></p>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">bfrt-config</span></code>,  <code class="docutils literal notranslate"><span class="pre">context</span></code>, <code class="docutils literal notranslate"><span class="pre">config</span></code> and <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
-<p>Specify the absolute paths for the files. For simple_l3_l4_pna sample program:</p>
+<p>Specify the absolute paths for the files. For l3-fwd_sem sample program:</p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-BFRT-JSON-FILE</span></code> with
-<code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/simple_l3_l4_pna.bf-rt.json</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/bf-rt.json</span></code></p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-CONTEXT-JSON-FILE</span></code> with
-<code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/simple_l3_l4_pna.context.json</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/context.json</span></code></p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-TOFINO-BIN-FILE</span></code> with
-<code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/tofino.bin</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/ipu.bin</span></code></p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-FOR-JSON-FILES</span></code> with
-<code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem</span></code></p>
 </li>
 </ul>
-<p>The final es2k_skip_p4.conf for simple_l3_l4_pna sample program will look like:</p>
+<p>The final es2k_skip_p4.conf for l3-fwd_sem sample program will look like:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
     &quot;chip_list&quot;: [
     {
@@ -268,20 +272,20 @@ queues between multi-processes. For example, to configure two cfgq; use
         &quot;eal-args&quot;: &quot;--lcores=1-2 -a 00:01.6,vport=[0-1] -- -i --rxq=1 --txq=1 --hairpinq=1 --hairpin-mode=0x0&quot;,
         &quot;p4_programs&quot;: [
         {
-            &quot;program-name&quot;: &quot;simple_l3_l4_pna&quot;,
-            &quot;bfrt-config&quot;: &quot;/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/simple_l3_l4_pna.bf-rt.json&quot;,
+            &quot;program-name&quot;: &quot;l3-fwd_sem&quot;,
+            &quot;bfrt-config&quot;: &quot;/opt/p4/l3-fwd_sem/bf-rt.json&quot;,
             &quot;p4_pipelines&quot;: [
             {
                 &quot;p4_pipeline_name&quot;: &quot;main&quot;,
-                &quot;context&quot;: &quot;/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/simple_l3_l4_pna.context.json&quot;,
-                &quot;config&quot;: &quot;/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna/tofino.bin&quot;,
+                &quot;context&quot;: &quot;/opt/p4/l3-fwd_sem/context.json&quot;,
+                &quot;config&quot;: &quot;/opt/p4/l3-fwd_sem/ipu.bin&quot;,
                 &quot;pipe_scope&quot;: [
                     0,
                     1,
                     2,
                     3
                 ],
-                &quot;path&quot;: &quot;/opt/p4/p4sde/share/mev_reference_p4_files/simple_l3_l4_pna&quot;
+                &quot;path&quot;: &quot;/opt/p4/l3-fwd_sem&quot;
             }
             ]
         }
@@ -300,7 +304,7 @@ combine the artifacts generated by the <code class="docutils literal notranslate
 forwarding pipeline binary.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--p4c_conf_file<span class="o">=</span>/usr/share/stratum/es2k/es2k_skip_p4.conf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.pb.bin
+<span class="w">    </span>--bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.pb.bin
 </pre></div>
 </div>
 </section>
@@ -329,8 +333,8 @@ type: string default: “localhost:9559”</p>
 <h2>6. Set the pipeline<a class="headerlink" href="#set-the-pipeline" title="Permalink to this heading"></a></h2>
 <p>Once the application is started, set the forwarding pipeline config using
 P4Runtime Client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> set-pipe command</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.pb.bin<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/simple_l3_l4_pna.p4info.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.pb.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.p4info.txt
 </pre></div>
 </div>
 </section>

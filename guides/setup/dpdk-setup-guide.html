@@ -98,6 +98,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -205,16 +206,15 @@ the build system and helper scripts.</p>
 <section id="clone-repository">
 <h3>Clone repository<a class="headerlink" href="#clone-repository" title="Permalink to this heading"></a></h3>
 <p>Clone the repository used to build P4 Control Plane:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
-<span class="nb">cd</span><span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
+<span class="nb">cd</span><span class="w"> </span>p4cp.recipe
 <span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
 </pre></div>
 </div>
 </section>
 <section id="compile-the-recipe">
 <h3>Compile the recipe<a class="headerlink" href="#compile-the-recipe" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$P4CP_RECIPE</span>
-./make-all.sh<span class="w"> </span>--target<span class="o">=</span>dpdk<span class="w"> </span>--rpath
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_RECIPE</span>/make-all.sh<span class="w"> </span>--target<span class="o">=</span>dpdk<span class="w"> </span>--rpath
 </pre></div>
 </div>
 <p>By default, make-all.sh will create an <code class="docutils literal notranslate"><span class="pre">install</span></code> folder in the networking-recipe

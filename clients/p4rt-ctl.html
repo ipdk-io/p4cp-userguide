@@ -89,6 +89,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#reset-indirect-counter-value">Reset indirect counter value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-direct-counter-value">Get direct counter value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-flow-dump-entries">Get flow dump entries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-configuration-to-meter-table">Add configuration to meter table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-table-entry-rule-for-direct-meter">Add table entry (rule) for direct meter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-direct-meter-value">Get direct meter value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-indirect-meter-value">Get indirect meter value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-packet-i-o">Start Packet I/O</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
@@ -101,6 +106,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -536,6 +542,88 @@ p4rt-ctl<span class="w"> </span>get-direct-counter<span class="w"> </span>br0<sp
 </ul>
 <p>Example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>dump-entries<span class="w"> </span>br0
+</pre></div>
+</div>
+</section>
+<section id="add-configuration-to-meter-table">
+<h3>Add configuration to meter table<a class="headerlink" href="#add-configuration-to-meter-table" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>add-meter-config<span class="w"> </span>SWITCH<span class="w"> </span>METER_TBL<span class="w"> </span>METER_CONFIGURATION
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">METER_TBL</span></code>: Meter table.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">METER_CONFIGURATION</span></code>: Configuration for meter table.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-meter-config<span class="w"> </span>br0<span class="w"> </span>my_control.meter1<span class="w"> </span><span class="s2">&quot;meter_id=2244878476,meter_index=10,meter_config=policer_meter_prof_id=0,policer_spec_cir_unit=1,policer_spec_cbs_unit=1,policer_spec_eir_unit=1,policer_spec_ebs_unit=1,policer_spec_cir=1000,policer_spec_cbs=1500,policer_spec_eir=1000,policer_spec_ebs=1500&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="add-table-entry-rule-for-direct-meter">
+<h3>Add table entry (rule) for direct meter<a class="headerlink" href="#add-table-entry-rule-for-direct-meter" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in the p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FLOW</span></code>: Parameters for the TABLE entry.
+Format: match_field_key=value config_data=value action=action_name(value).</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>my_control.i_fwd<span class="w"> </span><span class="s2">&quot;hdrs.mac[vmeta.common.depth].da=&quot;</span>0x000000000193<span class="s2">&quot;,hdrs.mac[vmeta.common.depth].sa=&quot;</span>0x9ebace99d1d2<span class="s2">&quot;,config_data=policer_meter_prof_id=0,policer_spec_cir_unit=0,policer_spec_cbs_unit=1,policer_spec_eir_unit=0,policer_spec_ebs_unit=1,policer_spec_cir=100,policer_spec_cbs=1500,policer_spec_eir=100,policer_spec_ebs=1500,action=my_control.send_with_policer_meter3(17)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-direct-meter-value">
+<h3>Get direct meter value<a class="headerlink" href="#get-direct-meter-value" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-direct-meter<span class="w"> </span>SWITCH<span class="w"> </span>TABLE<span class="w"> </span>KEY
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TABLE</span></code>: table_name present in p4info.txt file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KEY</span></code>: match_field_key parameter of the TABLE.
+Format: match_field_key=value.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-direct-meter<span class="w"> </span>br0<span class="w"> </span>my_control.i_fwd<span class="w"> </span><span class="s2">&quot;hdrs.mac[vmeta.common.depth].da=&quot;</span>0x000000000193<span class="s2">&quot;,hdrs.mac[vmeta.common.depth].sa=&quot;</span>0x9ebace99d1d2<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="get-indirect-meter-value">
+<h3>Get indirect meter value<a class="headerlink" href="#get-indirect-meter-value" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-packet-mod-meter<span class="w"> </span>SWITCH<span class="w"> </span>METER_TABLE<span class="w"> </span>METER_FLOW
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">METER_TABLE</span></code>: Specifies meter table entry from the p4 file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">METER_FLOW</span></code>: Meter ID (generated ID by p4c; see bfrt.json file)
+and meter table index.
+Format: “meter_id=&lt;number&gt;,meter_index=&lt;number&gt;”.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>get-packet-mod-meter<span class="w"> </span>br0<span class="w"> </span>my_control.meter1<span class="w"> </span><span class="s2">&quot;meter_id=2244878476,meter_index=10&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="start-packet-i-o">
+<h3>Start Packet I/O<a class="headerlink" href="#start-packet-i-o" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>start-pktio<span class="w"> </span>SWITCH
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SWITCH</span></code>: Bridge name. Maps internally to device name.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>start-pktio<span class="w"> </span>br0
 </pre></div>
 </div>
 </section>

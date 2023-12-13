@@ -92,6 +92,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -162,15 +163,15 @@ setup file, in order to cross-compile P4 Control Plane for the ACC.</p>
 <h2>Fetch the Source Code<a class="headerlink" href="#fetch-the-source-code" title="Permalink to this heading"></a></h2>
 <p>If you have not already done so, you will need to get a copy of the IPDK
 networking-recipe repository and its submodules:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
 </pre></div>
 </div>
-<p>You may substitute your own local directory name for <code class="docutils literal notranslate"><span class="pre">ipdk.recipe</span></code>.</p>
+<p>You may substitute your own local directory name for <code class="docutils literal notranslate"><span class="pre">p4cp.recipe</span></code>.</p>
 </section>
 <section id="define-the-environment">
 <h2>Define the Environment<a class="headerlink" href="#define-the-environment" title="Permalink to this heading"></a></h2>
 <p>First, change to the source directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>p4cp.recipe
 </pre></div>
 </div>
 <p>Source the file that defines the

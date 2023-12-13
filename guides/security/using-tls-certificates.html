@@ -71,15 +71,18 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="security-guide.html">Security Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Using TLS Certificates</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#generating-certificates">Generating certificates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-certificates">Generating certificates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openssl-version">OpenSSL version</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-certificates">Installing certificates</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#default-location">Default location</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#non-default-location">Non-default location</a></li>
 </ul>
 </li>
 </ul>
@@ -137,6 +140,12 @@ For example, <code class="docutils literal notranslate"><span class="pre">IP</sp
 </pre></div>
 </div>
 <p>The system relies on mTLS (mutual TLS) for authentication.</p>
+<section id="openssl-version">
+<h3>OpenSSL version<a class="headerlink" href="#openssl-version" title="Permalink to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/generate-certs.sh</span></code> script uses the installed OpenSSL version to generate the certificates.</p>
+<p>OpenSSL 1.1.1x has reached EOL and usage should be discontinued. See the <a class="reference internal" href="openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a> for details.</p>
+<p>Also, note that if running gRPC clients on remote system, both systems should be running OpenSSL 3.x. Running an OpenSSL 1.1.1x client with a OpenSSL 3.x server has been known to fail TLS handshakes with <code class="docutils literal notranslate"><span class="pre">WRONG_VERSION_NUMBER</span></code> error when trying to establish communication.</p>
+</section>
 </section>
 <section id="installing-certificates">
 <h2>Installing certificates<a class="headerlink" href="#installing-certificates" title="Permalink to this heading"></a></h2>
@@ -148,38 +157,6 @@ For example, <code class="docutils literal notranslate"><span class="pre">IP</sp
 default location <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/certs/</span></code> to the server running infrap4d.</p>
 <p>Copy the generated <code class="docutils literal notranslate"><span class="pre">ca.crt</span></code>, <code class="docutils literal notranslate"><span class="pre">client.crt</span></code>, and <code class="docutils literal notranslate"><span class="pre">client.key</span></code> in the
 default location <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/certs/</span></code> to the client machine.</p>
-</section>
-<section id="non-default-location">
-<h3>Non-default location<a class="headerlink" href="#non-default-location" title="Permalink to this heading"></a></h3>
-<p>If you would like to use a different location for the server certificates,
-copy the certifactes to the location and specify the following options on
-the <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> command line.</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Option</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>-ca_cert_file=PATH</p></td>
-<td><p>CA certificate file</p></td>
-</tr>
-<tr class="row-odd"><td><p>-server_cert_file=PATH</p></td>
-<td><p>Server certificate file</p></td>
-</tr>
-<tr class="row-even"><td><p>-server_key_file=PATH</p></td>
-<td><p>Server private key file</p></td>
-</tr>
-</tbody>
-</table>
-<p>For example, start infrap4d with certificates in <code class="docutils literal notranslate"><span class="pre">/tmp/certs</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/sbin/infrap4d<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-ca_cert_file<span class="o">=</span>/tmp/certs/ca.crt<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-server_cert_file<span class="o">=</span>/tmp/certs/stratum.crt<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-server_key_file<span class="o">=</span>/tmp/certs/stratum.key
-</pre></div>
-</div>
-<p>Note: Client certificates must be installed in <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/certs</span></code>.</p>
 <p>For more details about available options with respect to running infrap4d and
 clients in insecure mode and default behavior, see the
 <a class="reference internal" href="security-guide.html"><span class="std std-doc">security_guide</span></a>.</p>

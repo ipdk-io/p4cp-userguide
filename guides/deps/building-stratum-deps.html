@@ -52,26 +52,20 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Building the Stratum Dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#prerequisites">1 Prerequisites</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmake">1.1 CMake</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#openssl">1.2 OpenSSL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code">Source Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#github-repository">GitHub repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-package">Source package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#source-code">2 Source Code</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#github-repository">2.1 GitHub Repository</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#source-package">2.2 Source Package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#install-location">3 Install Location</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#downloaded-source-vs-source-package">4 Downloaded Source vs. Source Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cmake-build-options">5 CMake Build Options</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#examples">6 Examples</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#non-root-build">6.1 Non-root build</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#non-root-build-to-system-directory">6.2 Non-root build to system directory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#root-build-from-source">6.3 Root build from source</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#on-demand-build">6.4 On-demand build</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clean-build">6.5 Clean build</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clean-the-setup-directory">6.6 Clean the <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-location">Install Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmake-build-options">CMake Build Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#non-root-build">Non-root build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-root-build-to-system-directory">Non-root build to system directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#on-demand-build">On-demand build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rebuilding-without-downloading">Rebuilding without downloading</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clean-builds">Clean builds</a></li>
 </ul>
 </li>
 </ul>
@@ -99,6 +93,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -150,44 +145,41 @@ be built and installed on the system.</p>
 <a class="reference internal" href="building-acc-stratum-deps.html"><span class="std std-doc">Building Stratum Dependencies for the ACC</span></a>.</p>
 </div></blockquote>
 <section id="prerequisites">
-<h2>1 Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
-<section id="cmake">
-<h3>1.1 CMake<a class="headerlink" href="#cmake" title="Permalink to this heading"></a></h3>
-<p>CMake 3.15 or above must be installed.</p>
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>There are a couple of things to do before you build the dependencies:</p>
+<ul>
+<li><p>Install CMake 3.15 or above</p>
 <p>Avoid versions 3.24 and 3.25. There is an issue in cmake that causes the
 Protobuf build to fail. This problem was fixed in version 3.26.</p>
-</section>
-<section id="openssl">
-<h3>1.2 OpenSSL<a class="headerlink" href="#openssl" title="Permalink to this heading"></a></h3>
-<p>OpenSSL 3.x must be installed. P4 Control Plane uses OpenSSL instead of
-BoringSSL.</p>
-</section>
+</li>
+<li><p>Install OpenSSL 3.x</p>
+<p>P4 Control Plane uses OpenSSL instead of BoringSSL.</p>
+</li>
+</ul>
 </section>
 <section id="source-code">
-<h2>2 Source Code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h2>
+<h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h2>
 <p>There are two ways to obtain the source code: from the open-source repository
 on GitHub, or as a source package.</p>
 <section id="github-repository">
-<h3>2.1 GitHub Repository<a class="headerlink" href="#github-repository" title="Permalink to this heading"></a></h3>
-<p>The Stratum dependencies can be built using a script that is part of the
-IPDK networking-recipe. To clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<h3>GitHub repository<a class="headerlink" href="#github-repository" title="Permalink to this heading"></a></h3>
+<p>The script to build the Stratum dependencies is in the <code class="docutils literal notranslate"><span class="pre">stratum-deps</span></code>
+repository. To clone the repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
 </pre></div>
 </div>
-<p>You may omit the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> option if you are only interested in building
-the dependencies.</p>
-<p>You may substitute your own local directory name for <code class="docutils literal notranslate"><span class="pre">ipdk.recipe</span></code>.</p>
-<p>The build script for the stratum dependencies is in the <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory.</p>
+<p>The source code for the dependencies is not part of the distribution.
+It is downloaded by the build script.</p>
 </section>
 <section id="source-package">
-<h3>2.2 Source Package<a class="headerlink" href="#source-package" title="Permalink to this heading"></a></h3>
+<h3>Source package<a class="headerlink" href="#source-package" title="Permalink to this heading"></a></h3>
 <p>You may receive the source code for the Stratum dependencies in the form of
 an RPM file, a Debian file, or a tarball.</p>
 <p>If this is case, use the appropriate command to unpack the source files.</p>
 </section>
 </section>
 <section id="install-location">
-<h2>3 Install Location<a class="headerlink" href="#install-location" title="Permalink to this heading"></a></h2>
+<h2>Install Location<a class="headerlink" href="#install-location" title="Permalink to this heading"></a></h2>
 <p>You will need to decide where on your system you would like to install the
 dependencies. This location (the “install prefix”) must be specified when you
 configure the build.</p>
@@ -199,20 +191,8 @@ the dependencies should be installed.</p>
 <p>If you plan to install the dependency libraries in a system directory, you will
 need to log in as <code class="docutils literal notranslate"><span class="pre">root</span></code> or run from an account that has <code class="docutils literal notranslate"><span class="pre">sudo</span></code> privilege.</p>
 </section>
-<section id="downloaded-source-vs-source-package">
-<h2>4 Downloaded Source vs. Source Package<a class="headerlink" href="#downloaded-source-vs-source-package" title="Permalink to this heading"></a></h2>
-<p>By default, the cmake build script downloads the source code for each module
-and then builds and installs it.</p>
-<p>If you are working from a source distribution, or if the source files were
-downloaded by a previous build, you can override the download stage by
-specifying:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>  -DDOWNLOAD=no -DFORCE_PATCH=yes
-</pre></div>
-</div>
-<p>when you configure the cmake build.</p>
-</section>
 <section id="cmake-build-options">
-<h2>5 CMake Build Options<a class="headerlink" href="#cmake-build-options" title="Permalink to this heading"></a></h2>
+<h2>CMake Build Options<a class="headerlink" href="#cmake-build-options" title="Permalink to this heading"></a></h2>
 <p>The CMake build script supports the following configuration options.</p>
 <table class="docutils align-default">
 <thead>
@@ -228,15 +208,15 @@ specifying:</p>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CXX_STANDARD</span></code></p></td>
 <td><p>Number</p></td>
-<td><p>C++ standard (11, 14, 17, etc.) the compiler should apply. (Default: not specified)</p></td>
+<td><p>C++ standard (11, 14, 17, etc.) the compiler should apply. (Default: None)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code></p></td>
 <td><p>Boolean</p></td>
-<td><p>Whether to download the source repositories. (Default: TRUE)</p></td>
+<td><p>Whether to download the source repositories. (Default: [1])</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FORCE_PATCH</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code></p></td>
 <td><p>Boolean</p></td>
-<td><p>Whether to specify the force (<code class="docutils literal notranslate"><span class="pre">-f</span></code>) option when patching a downloaded repository. (Default: FALSE)</p></td>
+<td><p>Whether to patch the downloaded repositories. (Default: [1])</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ON_DEMAND</span></code></p></td>
 <td><p>Boolean</p></td>
@@ -244,7 +224,7 @@ specifying:</p>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">USE_LDCONFIG</span></code></p></td>
 <td><p>Boolean</p></td>
-<td><p>Whether to use <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> to update the loader cache[1] after installing a module. Only valid if <code class="docutils literal notranslate"><span class="pre">USE_SUDO</span></code> is enabled. (Default: FALSE)</p></td>
+<td><p>Whether to use <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> to update the loader cache[2] after installing a module. Only valid if <code class="docutils literal notranslate"><span class="pre">USE_SUDO</span></code> is enabled. (Default: FALSE)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">USE_SUDO</span></code></p></td>
 <td><p>Boolean</p></td>
@@ -254,51 +234,40 @@ specifying:</p>
 </table>
 <p>Boolean values are (<code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, <code class="docutils literal notranslate"><span class="pre">YES</span></code>, <code class="docutils literal notranslate"><span class="pre">ON</span></code>) and (<code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, <code class="docutils literal notranslate"><span class="pre">NO</span></code>, <code class="docutils literal notranslate"><span class="pre">OFF</span></code>).
 They may be upper or lower case.</p>
-<p>[1] See the <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> man page for more information.</p>
+<p>[1] <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> and <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> default to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if you download stratum-deps
+from GitHub, and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> if you receive a distribution that includes
+the source.</p>
+<p>[2] See the <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> man page for more information.</p>
 </section>
 <section id="examples">
-<h2>6 Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <section id="non-root-build">
-<h3>6.1 Non-root build<a class="headerlink" href="#non-root-build" title="Permalink to this heading"></a></h3>
+<h3>Non-root build<a class="headerlink" href="#non-root-build" title="Permalink to this heading"></a></h3>
 <p>To build and install as a non-privileged user:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>setup
 cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>./install
 cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8
 </pre></div>
 </div>
-<p>The source files will be downloaded, built, and installed in the <code class="docutils literal notranslate"><span class="pre">setup/install</span></code>
+<p>The source files will be downloaded, built, and installed in the <code class="docutils literal notranslate"><span class="pre">install</span></code>
 directory. The targets will be built in parallel, using eight threads.</p>
-<p>CMake will generate all of its temporary files in the <code class="docutils literal notranslate"><span class="pre">setup/build</span></code> directory.
+<p>CMake will generate all of its temporary files in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory.
 This is called an “out-of-source” build.</p>
 </section>
 <section id="non-root-build-to-system-directory">
-<h3>6.2 Non-root build to system directory<a class="headerlink" href="#non-root-build-to-system-directory" title="Permalink to this heading"></a></h3>
-<p>To build as a non-privileged user and use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> to install the libraries to
-a system directory:</p>
+<h3>Non-root build to system directory<a class="headerlink" href="#non-root-build-to-system-directory" title="Permalink to this heading"></a></h3>
+<p>To build as a non-privileged user and install the libraries in a
+system directory:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/deps<span class="w"> </span>-DUSE_SUDO<span class="o">=</span>yes
 cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6
 </pre></div>
 </div>
-<p>CMake will build the dependencies as the current user and use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> to
-install the libraries in <code class="docutils literal notranslate"><span class="pre">/opt/deps</span></code>. The build will be done in parallel,
-using six threads.</p>
-</section>
-<section id="root-build-from-source">
-<h3>6.3 Root build from source<a class="headerlink" href="#root-build-from-source" title="Permalink to this heading"></a></h3>
-<p>To build from a source distribution or from repositories that were previously
-downloaded:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DDOWNLOAD<span class="o">=</span>no<span class="w"> </span>-DFORCE_PATCH<span class="o">=</span>yes<span class="w"> </span><span class="se">\</span>
-<span class="w">      </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/ipdk/hostdeps
-cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8
-</pre></div>
-</div>
-<p>CMake will build and install the dependency libraries without downloading the
-source code.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">FORCE_PATCH</span></code> option instructs the patch step to continue without prompting
-if a module has already patched.</p>
+<p>CMake will build the dependencies as the current user.
+It will use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> only when it installs the libraries.
+The build will be done in parallel, using six threads.</p>
 </section>
 <section id="on-demand-build">
-<h3>6.4 On-demand build<a class="headerlink" href="#on-demand-build" title="Permalink to this heading"></a></h3>
+<h3>On-demand build<a class="headerlink" href="#on-demand-build" title="Permalink to this heading"></a></h3>
 <p>To build and install just gRPC and its dependencies:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DON_DEMAND<span class="o">=</span>yes<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>~/hostdeps
 cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6<span class="w"> </span>--target<span class="w"> </span>grpc
@@ -308,22 +277,40 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 <code class="docutils literal notranslate"><span class="pre">/home/&lt;username&gt;/hostdeps</span></code>. The build will be done in parallel, using
 six threads.</p>
 </section>
-<section id="clean-build">
-<h3>6.5 Clean build<a class="headerlink" href="#clean-build" title="Permalink to this heading"></a></h3>
+<section id="rebuilding-without-downloading">
+<h3>Rebuilding without downloading<a class="headerlink" href="#rebuilding-without-downloading" title="Permalink to this heading"></a></h3>
+<p>To instruct cmake not to download the source repositories again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>deps<span class="w"> </span>-DDOWNLOAD<span class="o">=</span>NO<span class="w"> </span>-DPATCH<span class="o">=</span>NO
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>Alternatively, you can run a script that changes the default values
+of the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> and <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> parameters to <code class="docutils literal notranslate"><span class="pre">NO</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/preconfig.sh
+</pre></div>
+</div>
+<p>The script writes a <code class="docutils literal notranslate"><span class="pre">preload.cmake</span></code> file to the <code class="docutils literal notranslate"><span class="pre">source</span></code> directory
+that cmake will read the next time it configures the build.</p>
+</section>
+<section id="clean-builds">
+<h3>Clean builds<a class="headerlink" href="#clean-builds" title="Permalink to this heading"></a></h3>
 <p>To do a clean build without deleting the source directories:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-fr<span class="w"> </span>build
+cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>deps<span class="w"> </span>...
 </pre></div>
 </div>
-<p>This deletes all temporary files from the previous build, preserving the
-source directories.</p>
-</section>
-<section id="clean-the-setup-directory">
-<h3>6.6 Clean the <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory<a class="headerlink" href="#clean-the-setup-directory" title="Permalink to this heading"></a></h3>
+<p>You’ll need to specify <code class="docutils literal notranslate"><span class="pre">-DDOWNLOAD=NO</span> <span class="pre">-DPATCH=NO</span></code> or run the <code class="docutils literal notranslate"><span class="pre">preload.sh</span></code>
+script, as described under
+<a class="reference internal" href="#rebuilding-without-downloading">Rebuilding without downloading</a>, or
+cmake will download the repositories a second time.</p>
+<p>This erases the configuration as well as the binary build artifacts.</p>
+<hr class="docutils" />
+<p>To get a fresh start, delete both the <code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">source</span></code> directories:</p>
 <p>To scrub the directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./cleanup.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-fr<span class="w"> </span>build<span class="w"> </span>
 </pre></div>
 </div>
-<p>This removes the <code class="docutils literal notranslate"><span class="pre">build</span></code> and source directories.</p>
 </section>
 </section>
 </section>

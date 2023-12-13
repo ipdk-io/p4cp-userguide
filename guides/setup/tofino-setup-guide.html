@@ -97,6 +97,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -168,7 +169,9 @@ Tofino-specific documentation for more details.</p>
 <section id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this heading"></a></h3>
 <p>Clone IPDK networking-recipe:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
+<span class="nb">cd</span><span class="w"> </span>p4cp.recipe
+<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
 </pre></div>
 </div>
 <p>Clone the repository used to build the Stratum dependencies:</p>
@@ -228,20 +231,19 @@ change the <code class="docutils literal notranslate"><span class="pre">asic</sp
 </section>
 <section id="build-networking-recipe">
 <h3>Build Networking Recipe<a class="headerlink" href="#build-networking-recipe" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$IPDK_RECIPE</span>
-./make-all.sh<span class="w"> </span>--target<span class="o">=</span>tofino<span class="w"> </span>--deps<span class="o">=</span>/usr/local
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_RECIPE</span>/make-all.sh<span class="w"> </span>--target<span class="o">=</span>tofino<span class="w"> </span>--deps<span class="o">=</span>/usr/local
 </pre></div>
 </div>
 </section>
 </section>
 <section id="run">
 <h2>Run<a class="headerlink" href="#run" title="Permalink to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>IPDK_RECIPE
-cp<span class="w"> </span><span class="nv">$SDE_INSTALL</span>/share/bf_switchd/zlog-cfg<span class="w"> </span><span class="nv">$IPDK_RECIPE</span>/zlog-cfg-cur
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>P4CP_RECIPE
+cp<span class="w"> </span><span class="nv">$SDE_INSTALL</span>/share/bf_switchd/zlog-cfg<span class="w"> </span><span class="nv">$P4CP_RECIPE</span>/zlog-cfg-cur
 mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/stratum/
 mkdir<span class="w"> </span>-p<span class="w"> </span>/var/log/stratum/
 
-<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$IPDK_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
+<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>./install/sbin/infrap4d<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-chassis_config_file<span class="o">=</span>./stratum/stratum/stratum/hal/config/x86-64-accton-wedge100bf-32x-r0/chassis_config.pb.txt<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-tdi_switchd_cfg<span class="o">=</span><span class="nv">$SDE_INSTALL</span>/share/p4/targets/tofino/tofino_skip_p4.conf<span class="w"> </span><span class="se">\</span>
@@ -282,10 +284,10 @@ files relative to SDE_INSTALL.</p>
 <h3>Using tdi_pipeline_builder<a class="headerlink" href="#using-tdi-pipeline-builder" title="Permalink to this heading"></a></h3>
 <p>To generate the bin file for the controller.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>
-<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$IPDK_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">$IPDK_RECIPE</span>/install/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
+<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$P4CP_RECIPE</span>/install/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-p4c_conf_file<span class="o">=</span><span class="nv">$SDE_INSTALL</span>/share/p4/targets/tofino/tna_exact_match.conf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$IPDK_RECIPE</span>/tna_exact_match.pb.bin
+<span class="w">    </span>-bf_pipeline_config_binary_file<span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/tna_exact_match.pb.bin
 </pre></div>
 </div>
 </section>

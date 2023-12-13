@@ -102,6 +102,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -224,8 +225,8 @@ the build system and helper scripts.</p>
 <section id="clone-repository">
 <h3>Clone repository<a class="headerlink" href="#clone-repository" title="Permalink to this heading"></a></h3>
 <p>Clone the repository used to build P4 Control Plane:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
-<span class="nb">cd</span><span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
+<span class="nb">cd</span><span class="w"> </span>p4cp.recipe
 <span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
 </pre></div>
 </div>
@@ -298,16 +299,15 @@ the range with cfgqs-idx parameter. Total number of queues split between process
 </section>
 <section id="run-the-infrap4d-daemon">
 <h3>Run the infrap4d daemon<a class="headerlink" href="#run-the-infrap4d-daemon" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$P4CP_RECIPE</span>
-sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/infrap4d
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/infrap4d
 </pre></div>
 </div>
 <p><em>Note</em>: By default, infrap4d runs in detached mode. If you want to run in
-attached mode, specify the –nodetach command-line option.</p>
+attached mode, specify the <code class="docutils literal notranslate"><span class="pre">--nodetach</span></code> command-line option.</p>
 <ul class="simple">
 <li><p>All infrap4d logs are by default logged under <code class="docutils literal notranslate"><span class="pre">/var/log/stratum</span></code>.</p></li>
-<li><p>All P4SDE logs are logged in <code class="docutils literal notranslate"><span class="pre">p4_driver.log</span></code> under <code class="docutils literal notranslate"><span class="pre">$P4CP_RECIPE</span></code>.
-*-All OVS logs are logged under <code class="docutils literal notranslate"><span class="pre">/tmp/ovs-vswitchd.log</span></code>.</p></li>
+<li><p>All P4SDE logs are logged in <code class="docutils literal notranslate"><span class="pre">p4_driver.log</span></code> under <code class="docutils literal notranslate"><span class="pre">$P4CP_RECIPE</span></code>.</p></li>
+<li><p>All OVS logs are logged under <code class="docutils literal notranslate"><span class="pre">/tmp/ovs-vswitchd.log</span></code>.</p></li>
 </ul>
 </section>
 <section id="run-a-sample-program">

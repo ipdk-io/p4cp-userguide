@@ -19,7 +19,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Linux Networking with IPv6 (ES2K)" href="es2k-linux-networking-ipv6.html" />
+    <link rel="next" title="Linux Networking with Overlay VMs" href="es2k-lnw-overlay-vms.html" />
     <link rel="prev" title="Linux Networking with ECMP (DPDK)" href="../dpdk/dpdk-linux-networking-ecmp.html" /> 
 </head>
 
@@ -74,19 +74,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../lnw-index.html#dpdk">DPDK</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../lnw-index.html#es2k">ES2K</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Linux Networking for ES2K</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#feature-overview">Feature Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#topology">Topology</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts-and-start-infrap4d-process">Create P4 artifacts and start Infrap4d process</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#creating-the-topology">Creating the topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#detailed-design">Detailed Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-overlay-vms.html">Linux Networking with Overlay VMs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-frr.html">Linux Networking with FRR (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-lag.html">Linux Networking with LAG (ES2K)</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -128,285 +132,322 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <!--
-/*
- * Copyright (c) 2023 Intel Corporation.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-- -->
-<section id="linux-networking-for-es2k">
+  <section id="linux-networking-for-es2k">
 <h1>Linux Networking for ES2K<a class="headerlink" href="#linux-networking-for-es2k" title="Permalink to this heading"></a></h1>
-<p>This document explains how to run the Linux networking scenario on ES2K.</p>
+<p>Linux Networking provides support for offloading various networking functions, such as L2 forwarding, L3 forwarding, ECMP, and VxLAN encapsulation and decapsulation intelligence to the IPU. This capability empowers overlay services to establish communication with endpoints through VxLAN tunnels, thereby extending the L2 segment across the underlay network. To achieve Linux networking support, we have used legacy OvS for overlay source MAC learning and VxLAN configurations, while relying on the kernel for underlay neighbor discovery, route management, and next-hop information.</p>
+<section id="feature-overview">
+<h2>Feature Overview<a class="headerlink" href="#feature-overview" title="Permalink to this heading"></a></h2>
+<p>This feature can run in two modes:</p>
+<ul class="simple">
+<li><p>Slow path: All packets must land on the control plane and only the control plane has the intelligence to forward the traffic.</p></li>
+<li><p>Fast path: Only first unknown traffic (both SMAC and DMAC) will be sent to the control plane and subsequent traffic should be forwarded by IPU E2100.</p></li>
+</ul>
+<p>To enable this feature we have,</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Infrap4d</span></code>: This process includes a p4runtime server. Calls TDI front end to program IPU E2100.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>: This process is integrated with p4runtime intelligence and acts as a gRPC client. Programs IPU E2100 with control plane configuration and forwarding tables by communicating with gRPC server.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code>: This python CLI includes a p4runtime client. Programs IPU E2100 with runtime rules by communicating with gRPC server.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">stack</span></code>: All underlay related configurations are picked by <code class="docutils literal notranslate"><span class="pre">kernel</span> <span class="pre">monitor</span></code> thread via netlink events in <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> and these are programmed in IPU E2100 by calling TDI front end calls.</p></li>
+</ul>
+</section>
 <section id="topology">
 <h2>Topology<a class="headerlink" href="#topology" title="Permalink to this heading"></a></h2>
+<p>This topology breakdown and configuration assumes all VMs are spawned on HOST VFs and the control plane is running on ACC.</p>
 <p><img alt="Linux Networking Topology" src="../../../_images/es2k-lnw-topology.png" /></p>
-<p>Notes about topology:</p>
+<section id="topology-breakdown">
+<h3>Topology breakdown<a class="headerlink" href="#topology-breakdown" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Four Kernel netdevs are created by default by loading IDPF driver during ACC bring-up. You can also create more than Four netdevs. For that, we need to modify <code class="docutils literal notranslate"><span class="pre">acc_apf</span></code> parameter under <code class="docutils literal notranslate"><span class="pre">num_default_vport</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> on IMC before starting <code class="docutils literal notranslate"><span class="pre">run_default_init_app</span></code>.</p></li>
-<li><p>In <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> file also modify default <code class="docutils literal notranslate"><span class="pre">sem_num_pages</span></code> value to the value mentioned in <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/linux_networking/README_P4_CP_NWS</span></code>.</p></li>
-<li><p>vlan1, vlan2, …. vlanN created using Linux commands and are on top of an IDPF Netdev. These VLAN ports should be equal to number of VM’s that are spawned.</p></li>
-<li><p>br-int, VxLAN ports are created using ovs-vsctl command provided by the networking recipe and all the vlan ports are attached to br-int using ovs-vsctl command.</p></li>
-</ul>
-<p>System under test will have above topology running the networking recipe. Link Partner can have the networking recipe or legacy OvS or kernel VxLAN. Note the <a class="reference internal" href="#limitations">Limitations</a> section before setting up the topology.</p>
-</section>
-<section id="create-p4-artifacts-and-start-infrap4d-process">
-<h2>Create P4 artifacts and start Infrap4d process<a class="headerlink" href="#create-p4-artifacts-and-start-infrap4d-process" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>Use Linux networking p4 program present in the directory <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde/share/mev_reference_p4_files/linux_networking</span></code> for this scenario.</p></li>
-<li><p>See <a class="reference internal" href="../../../guides/es2k/running-infrap4d.html"><span class="doc std std-doc">Running Infrap4d on Intel IPU E2100</span></a> for compiling <code class="docutils literal notranslate"><span class="pre">P4</span> <span class="pre">artifacts</span></code>, <code class="docutils literal notranslate"><span class="pre">bringing</span> <span class="pre">up</span> <span class="pre">ACC</span></code> and running <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> on ACC.</p></li>
+<li><p>Every VM spawned on top of a VF will have a corresponding port representer in ACC.</p></li>
+<li><p>Every physical port will have a corresponding port representer in ACC.</p></li>
+<li><p>Every physical port will have an uplink (APF netdev) in HOST and this uplink will have a corresponding port representer in ACC.</p></li>
+<li><p>All port representers are associated with an OvS bridge.</p></li>
+<li><p>For VxLAN egress traffic, the underlay port should be associated with a termination bridge and IP to reach the underlay network should be configured on top of this bridge.</p></li>
 </ul>
 </section>
-<section id="creating-the-topology">
-<h2>Creating the topology<a class="headerlink" href="#creating-the-topology" title="Permalink to this heading"></a></h2>
-<p>The p4rt-ctl and ovs-vsctl utilities can be found in $P4CP_INSTALL/bin.</p>
-<section id="set-the-forwarding-pipeline">
-<h3>Set the forwarding pipeline<a class="headerlink" href="#set-the-forwarding-pipeline" title="Permalink to this heading"></a></h3>
-<p>Once the application is started, set the forwarding pipeline config using
-P4Runtime Client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> set-pipe command</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.pb.bin<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.p4info.txt
-</pre></div>
-</div>
-<p>Note: Assuming <code class="docutils literal notranslate"><span class="pre">linux_networking.pb.bin</span></code> and <code class="docutils literal notranslate"><span class="pre">linux_networking.p4info.txt</span></code>
-along with other P4 artifacts are created as per the steps mentioned in previous section.</p>
 </section>
-<section id="configure-vsi-group-and-add-a-netdev">
-<h3>Configure VSI Group and add a netdev<a class="headerlink" href="#configure-vsi-group-and-add-a-netdev" title="Permalink to this heading"></a></h3>
-<p>Use one of the IPDF netdevs on ACC to receive all control packets from overlay
-VM’s by assigning to a VSI group. VSI group 3 is dedicated for this configuration,
-execute below devmem commands on IMC.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
-devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x8000050000000008
-
-<span class="c1"># SEM_DIRECT_MAP_PGEN_DATA_VSI_GROUP : This will set vsi</span>
-<span class="c1"># (set in SEM_DIRECT_MAP_PGEN_CTRL register LSB) into VSIG-3.</span>
-devmem<span class="w"> </span>0x2029200388<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x3
-
-<span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
-devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0xA000050000000008
+<section id="detailed-design">
+<h2>Detailed Design<a class="headerlink" href="#detailed-design" title="Permalink to this heading"></a></h2>
+<section id="slow-path">
+<h3>Slow path<a class="headerlink" href="#slow-path" title="Permalink to this heading"></a></h3>
+<p>To enable slow path mode:</p>
+<ul class="simple">
+<li><p>Start the infrap4d process with the Kernel Monitor disabled. Command: <code class="docutils literal notranslate"><span class="pre">infrap4d</span> <span class="pre">-disable-krnlmon</span></code></p></li>
+<li><p>Set environment variable <code class="docutils literal notranslate"><span class="pre">OVS_P4_OFFLOAD=false</span></code> before starting the <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> process.</p></li>
+</ul>
+<p>In this mode, we need to associate VFs on top of which VMs are created and its port representers, also physical ports with its port representers.
+Configure tables:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_source_port
+- tx_source_port_v4/tx_source_port_v6
+- tx_acc_vsi
+- vsi_to_vsi_loopback
+- source_port_to_pr_map
+- rx_phy_port_to_pr_map
 </pre></div>
 </div>
-<p>Note: Here VSI 8 has been used for receiving all control packets and added to VSI group 3. This refers to HOST netdev VSIG 3 as per the topology diagram. Modify this VSI based on your configuration.</p>
-</section>
-<section id="create-overlay-network">
-<h3>Create Overlay network<a class="headerlink" href="#create-overlay-network" title="Permalink to this heading"></a></h3>
-<p>Option 1: Create VF’s on HOST and spawn VM’s on top of those VF’s.
-Example to create 4 VF’s:  echo 4 &gt; /sys/devices/pci0000:ae/0000:ae:00.0/0000:af:00.0/sriov_numvfs</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># VM1 configuration</span>
-telnet<span class="w"> </span>&lt;VM1<span class="w"> </span>IP&gt;<span class="w"> </span>&lt;VM1<span class="w"> </span>port&gt;
-ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF1&gt;
-ifconfig<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF&gt;<span class="w"> </span>up
-
-<span class="c1"># VM2 configuration</span>
-telnet<span class="w"> </span>&lt;VM2<span class="w"> </span>IP&gt;<span class="w"> </span>&lt;VM2<span class="w"> </span>port&gt;
-ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.2/24<span class="w"> </span>dev<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF2&gt;
-ifconfig<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF&gt;<span class="w"> </span>up
+<p>All port representers (PRs) in ACC should be associated with an OvS bridge. Mapping between PRs and bridges need to be programmed in IPU as well.
+Configure table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- source_port_to_bridge_map
 </pre></div>
 </div>
-<p>Option 2: If we are unable to spawn VM’s on top of the VF’s, we can leverage kernel network namespaces.
-Move each VF to a network namespace and assign IP addresses:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>VM0
-ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>netns<span class="w"> </span>VM0
-ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;
-ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w">  </span>ifconfig<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>up
-
-ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>VM1
-ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;VF2<span class="w"> </span>port&gt;<span class="w"> </span>netns<span class="w"> </span>VM1
-ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM1<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.2/24<span class="w"> </span>dev<span class="w"> </span>&lt;VF2<span class="w"> </span>port&gt;
-ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM1<span class="w"> </span>ifconfig<span class="w"> </span>&lt;VF2<span class="w"> </span>port&gt;<span class="w"> </span>up
+<p>For egress VxLAN traffic, an OvS VxLAN port needs to be created in ACC and associated to the integration bridge that handles overlay traffic.
+Configure table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_ipv4_tunnel_source_port/rx_ipv6_tunnel_source_port
+- source_port_to_bridge_map
 </pre></div>
 </div>
-</section>
-<section id="start-ovs-as-a-separate-process">
-<h3>Start OvS as a separate process<a class="headerlink" href="#start-ovs-as-a-separate-process" title="Permalink to this heading"></a></h3>
-<p>Legacy OvS is used as a control plane for source MAC learning of overlay VM’s. OvS should be started as a seperate process.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">RUN_OVS</span><span class="o">=</span>/tmp
-rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch
-rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</span>/var/run/openvswitch
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/var/run/openvswitch
-
-ovsdb-tool<span class="w"> </span>create<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>/opt/p4/p4-cp-nws/share/openvswitch/vswitch.ovsschema
-
-ovsdb-server<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--remote<span class="o">=</span>punix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--remote<span class="o">=</span>db:Open_vSwitch,Open_vSwitch,manager_options<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--pidfile<span class="o">=</span><span class="nv">$RUN_OVS</span>/var/run/openvswitch/ovsdb-server.pid<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--unixctl<span class="o">=</span><span class="nv">$RUN_OVS</span>/var/run/openvswitch/ovsdb-server.ctl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--detach
-
-ovs-vswitchd<span class="w"> </span>--detach<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--pidfile<span class="o">=</span><span class="nv">$RUN_OVS</span>/var/run/openvswitch/ovs-vswitchd.pid<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--no-chdir<span class="w"> </span>unix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--unixctl<span class="o">=</span><span class="nv">$RUN_OVS</span>/var/run/openvswitch/ovs-vswitchd.ctl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--mlockall<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--log-file<span class="o">=</span>/tmp/ovs-vswitchd.log
-
-<span class="nb">alias</span><span class="w"> </span>ovs-vsctl<span class="o">=</span><span class="s2">&quot;ovs-vsctl --db unix:</span><span class="nv">$RUN_OVS</span><span class="s2">/var/run/openvswitch/db.sock&quot;</span>
-ovs-vsctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>Open_vSwitch<span class="w"> </span>.<span class="w"> </span>other_config:n-revalidator-threads<span class="o">=</span><span class="m">1</span>
-ovs-vsctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>Open_vSwitch<span class="w"> </span>.<span class="w"> </span>other_config:n-handler-threads<span class="o">=</span><span class="m">1</span>
-
-ovs-vsctl<span class="w">  </span>show
-</pre></div>
-</div>
-</section>
-<section id="create-vlan-representers">
-<h3>Create VLAN representers<a class="headerlink" href="#create-vlan-representers" title="Permalink to this heading"></a></h3>
-<p>For each VM that is spawned for overlay network we need to have a port representer.
-We create VLAN netdevs on top of the IPDF netdev which is assigned to VSI group 3 in step-2 mentioned above.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;VSI<span class="w"> </span><span class="m">8</span>&gt;<span class="w"> </span>name<span class="w"> </span>vlan1<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">1</span>
-ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;VSI<span class="w"> </span><span class="m">8</span>&gt;<span class="w"> </span>name<span class="w"> </span>vlan2<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">2</span>
-ifconfig<span class="w"> </span>vlan1<span class="w"> </span>up
-ifconfig<span class="w"> </span>vlan2<span class="w"> </span>up
-</pre></div>
-</div>
-<p>Note: Here the assumption is, we have created 2 overlay VM’s and creating 2 port representers for those VM’s.
-Port representer should always be in the format: <code class="docutils literal notranslate"><span class="pre">lowercase</span> <span class="pre">string</span> <span class="pre">'vlan'+'vlanID'</span></code></p>
-</section>
-<section id="create-integration-bridge-and-add-ports-to-the-bridge">
-<h3>Create integration bridge and add ports to the bridge<a class="headerlink" href="#create-integration-bridge-and-add-ports-to-the-bridge" title="Permalink to this heading"></a></h3>
-<p>Create OvS bridge, VxLAN tunnel and assign ports to the bridge.</p>
+<p>Once these tables are configured refer to packet flow as mentioned below.</p>
+<section id="for-tx">
+<h4>For Tx<a class="headerlink" href="#for-tx" title="Permalink to this heading"></a></h4>
+<section id="egress-traffic-without-vxlan-encap">
+<h5>Egress traffic without VxLAN encap<a class="headerlink" href="#egress-traffic-without-vxlan-encap" title="Permalink to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards the packets to destined PR if MAC is already learnt, else flood the packet in the respective bridge.</p></li>
+<li><p>Sample OvS config:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
-ifconfig<span class="w"> </span>br-int<span class="w"> </span>up
-
-ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vlan1
-ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vlan2
-ifconfig<span class="w"> </span>vlan1<span class="w"> </span>up
-ifconfig<span class="w"> </span>vlan2<span class="w"> </span>up
-
-ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vxlan1<span class="w"> </span>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>options:local_ip<span class="o">=</span><span class="m">40</span>.1.1.1<span class="w"> </span>options:remote_ip<span class="o">=</span><span class="m">40</span>.1.1.2<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
 </pre></div>
 </div>
-<p>Note: Here we are creating VxLAN tunnel with VNI 0, you can create any VNI for tunneling.</p>
+</li>
+</ul>
 </section>
-<section id="configure-rules-for-overlay-control-packets">
-<h3>Configure rules for overlay control packets<a class="headerlink" href="#configure-rules-for-overlay-control-packets" title="Permalink to this heading"></a></h3>
-<p>Configure rules to send overlay control packets from a VM to its respective port representers.</p>
-<p>Below configuration assumes</p>
-<ul class="simple">
-<li><p>Overlay VF1 has a VSI value 14</p></li>
-<li><p>Overlay VF2 has a VSI value 15</p></li>
-</ul>
-<p>These VSI values can be checked with <code class="docutils literal notranslate"><span class="pre">/usr/bin/cli_client</span> <span class="pre">-q</span> <span class="pre">-c</span></code> command on IMC. This command provides VSI ID, Vport ID, and corresponding MAC addresses for all</p>
-<ul class="simple">
-<li><p>IDPF netdevs on ACC</p></li>
-<li><p>VF’s on HOST</p></li>
-<li><p>IDPF netdevs on HOST (if IDPF driver loaded by you on HOST)</p></li>
-<li><p>Netdevs on IMC</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rules for control packets coming from overlay VF (VSI-14).</span>
-<span class="c1"># IPU will add a VLAN tag 1 and send to HOST1 (VSI-8).</span>
-
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(1,24)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_push(1,0,1)&quot;</span>
-
-<span class="c1"># Rules for control packets coming from overlay VF (VSI-15).</span>
-<span class="c1"># IPU will add a VLAN tag 2 and send to HOST1 (VSI-8).</span>
-
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.add_vlan_and_send_to_port(2,24)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_host_to_ovs_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(24)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_push_mod_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_push(1,0,2)&quot;</span>
-
-<span class="c1"># Rules for control packets coming from HOST1 (VSI-8).</span>
-<span class="c1"># IPU will remove the VLAN tag 1 and send to overlay VF (VSI-14).</span>
-
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=1,action=linux_networking_control.remove_vlan_and_send_to_port(1,30)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=14,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(30)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=1,action=linux_networking_control.vlan_pop&quot;</span>
-
-<span class="c1"># Rules for control packets coming from HOST1 (VSI-8).</span>
-<span class="c1"># IPU will remove the VLAN tag 2 and send to overlay VF (VSI-15).</span>
-
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=8,hdrs.dot1q_tag[vmeta.common.depth].hdr.vid=2,action=linux_networking_control.remove_vlan_and_send_to_port(2,31)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_loopback_from_ovs_to_host_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.misc_internal.vm_to_vm_or_port_to_port[27:17]=15,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(31)&quot;</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vlan_pop_mod_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.mod_blob_ptr=2,action=linux_networking_control.vlan_pop&quot;</span>
+<section id="egress-traffic-with-vxlan-encap">
+<h5>Egress traffic with VxLAN encap<a class="headerlink" href="#egress-traffic-with-vxlan-encap" title="Permalink to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards the packets to the destined VxLAN port if MAC is already learnt, else flood the packet in the respective bridge.</p></li>
+<li><p>Once the packet reaches the VxLAN port, here the kernel checks the routing table to reach <code class="docutils literal notranslate"><span class="pre">remote_ip</span></code> that is configured for the OvS VxLAN tunnel.</p></li>
+<li><p>Underlay network to reach <code class="docutils literal notranslate"><span class="pre">remote_ip</span></code> is configured on a TEP termination bridge. Here, the kernel resolves ARP of the underlay network.</p></li>
+<li><p>Once ARP is resolved, kernel encapsulates the packet and this packet will be forwarded to the destined PR of the physical port if MAC is already learnt, else flood the packet in the respective TEP termination bridge.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
 </pre></div>
 </div>
-</section>
-<section id="configure-rules-for-underlay-control-packets">
-<h3>Configure rules for underlay control packets<a class="headerlink" href="#configure-rules-for-underlay-control-packets" title="Permalink to this heading"></a></h3>
-<p>Configure rules to send underlay control packets from IDPF netdev to physical port.</p>
-<p>Below configuration assumes</p>
-<ul class="simple">
-<li><p>Underlay IDPF netdev has a VSI value 10</p></li>
-<li><p>First physical port will have a port ID of 0</p></li>
+</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration for control packets between physical port 0 to underlay IDPF netdev VSI-10</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_from_wire_to_ovs_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.port_id=0,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(26)&quot;</span>
-
-<span class="c1"># Configuration for control packets between underlay IDPF netdev VSI-10 to physical port 0</span>
-p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_from_host_to_ovs_and_ovs_to_wire_table<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=10,user_meta.cmeta.bit32_zeros=0,action=linux_networking_control.set_dest(0)&quot;</span>
+</section>
+</section>
+<section id="for-rx">
+<h4>For Rx<a class="headerlink" href="#for-rx" title="Permalink to this heading"></a></h4>
+<section id="ingress-non-vxlan-packet">
+<h5>Ingress non VxLAN packet<a class="headerlink" href="#ingress-non-vxlan-packet" title="Permalink to this heading"></a></h5>
+<p>If the packets coming from a remote machine to the physical port are not VxLAN tunnel packets:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards the packets to destined PR if MAC is already learnt, else flood the packet in the respective bridge.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
 </pre></div>
 </div>
-</section>
-<section id="underlay-configuration">
-<h3>Underlay configuration<a class="headerlink" href="#underlay-configuration" title="Permalink to this heading"></a></h3>
-<p>Configure underlay IP addresses, and add static routes.</p>
-<p>Below configuration assumes</p>
-<ul class="simple">
-<li><p>Underlay IDPF netdev has a VSI value 10</p></li>
+</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.ecmp_lpm_root_lut<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=2,action=linux_networking_control.ecmp_lpm_root_lut_action(0)&quot;</span>
-
-nmcli<span class="w"> </span>device<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span>managed<span class="w"> </span>no
-ifconfig<span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span><span class="m">40</span>.1.1.1/24<span class="w"> </span>up
-ip<span class="w"> </span>route<span class="w"> </span>show
-ip<span class="w"> </span>route<span class="w"> </span>change<span class="w"> </span><span class="m">40</span>.1.1.0/24<span class="w"> </span>via<span class="w"> </span><span class="m">40</span>.1.1.2<span class="w"> </span>dev<span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;
+</section>
+<section id="ingress-vxlan-packet">
+<h5>Ingress VxLAN packet<a class="headerlink" href="#ingress-vxlan-packet" title="Permalink to this heading"></a></h5>
+<p>If the packets coming from a remote machine to the physical port are not VxLAN tunnel packets:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the physical port and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet on a TEP termination bridge, packet gets decapped and sent to VxLAN port.</p></li>
+<li><p>Since VxLAN port and overlay VMs PR are in the same bridge, if the overlay MAC is already learnt the packet will be forwarded to destined PR else packet will be flooded in the respective bridge.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
 </pre></div>
 </div>
-</section>
-<section id="test-the-ping-scenarios">
-<h3>Test the ping scenarios<a class="headerlink" href="#test-the-ping-scenarios" title="Permalink to this heading"></a></h3>
-<ul class="simple">
-<li><p>Ping between VM’s on the same host</p></li>
-<li><p>Underlay ping</p></li>
-<li><p>Overlay ping: Ping between VM’s on different hosts</p></li>
+</li>
 </ul>
 </section>
+</section>
+</section>
+<section id="fast-path-when-ipu-forwards-the-packet">
+<h3>Fast path (when IPU forwards the packet)<a class="headerlink" href="#fast-path-when-ipu-forwards-the-packet" title="Permalink to this heading"></a></h3>
+<p>To enable fast path mode:</p>
+<ul class="simple">
+<li><p>Start the infrap4d process.</p></li>
+<li><p>Remove the environment variable <code class="docutils literal notranslate"><span class="pre">OVS_P4_OFFLOAD=false</span></code> before starting the <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> process.</p></li>
+</ul>
+<p>In this mode, we need to associate VFs on top which VMs are created and its port representers and also physical ports with its port representers.
+Configure tables:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_source_port
+- tx_source_port_v4/tx_source_port_v6
+- tx_acc_vsi
+- vsi_to_vsi_loopback
+- source_port_to_pr_map
+- rx_phy_port_to_pr_map
+- tx_lag_table     ## This is a dummy LAG entry when we have underlay as Non LAG case.
+</pre></div>
+</div>
+<p>Once OvS bridge is created and PR’s are added to the OvS bridge, a unique bridge ID for the OvS bridge is created and creates a mapping between ACC PR’s &amp; OvS bridge. This mapping is programed in IPU E2100 with,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- source_port_to_bridge_map
+- vlan_push_mod_table                           ## If ACC PR is part of a VLAN
+- vlan_pop_mod_table                            ## If ACC PR is part of a VLAN
+</pre></div>
+</div>
+<p>Once a VxLAN tunnel is created on a particular OvS bridge, we program IPU E2100 with,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_ipv4_tunnel_source_port/rx_ipv6_tunnel_source_port
+- vxlan_encap_mod_table/vxlan_encap_v6_mod_table
+- vxlan_encap_vlan_pop_mod_table/vxlan_encap_v6_vlan_pop_mod_table        ## If VxLAN is part of a VLAN
+- vxlan_decap_mod_table
+- vxlan_decap_and_push_vlan_mod_table                                     ## If VxLAN is part of a VLAN
+- ipv4_tunnel_term_table/ipv6_tunnel_term_table
+</pre></div>
+</div>
+<p>When the first packet (either Tx or Rx) reaches the IPU, since no rules are programmed, this packet will be sent to respective PR’s. From PR’s OvS learns the MAC address and control plane dynamically programs,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- l2_fwd_smac_table
+- l2_fwd_tx_table
+- l2_fwd_rx_table
+- l2_to_tunnel_v4/l2_to_tunnel_v6
+</pre></div>
+</div>
+<p>When underlay network is configured and underlay neighbor is learnt we dynamically program,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- ipv4_table/ipv6_table
+- nexthop_table
+- neighbor_mod_table
+</pre></div>
+</div>
+<p>Once these tables are configured refer to packet flow as mentioned below.</p>
+<section id="id1">
+<h4>For Tx<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<section id="id2">
+<h5>Egress traffic without VxLAN encap<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if SMAC of the packet is learnt.</p></li>
+<li><p>Check if DMAC packet is learnt against the bridge derived above. If entry matches, forward the packet to VF corresponding to the physical port.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h5>Egress traffic with VxLAN encap<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Check if the DMAC of the packet is reachable via the VxLAN tunnel and set the remote_ip of the tunnel.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if SMAC of the packet is learnt.</p></li>
+<li><p>Check if DMAC packet is learnt against the bridge derived above. If yes, populated Src IP, Dest IP, VNI, SRC port and Dest port of outer packet.</p></li>
+<li><p>Based on the above derived remote_ip, retrieve what is the nexthop from ipv4_table.</p></li>
+<li><p>Derive from which physical port this nexthop is learnt and add the nexthop MAC address as DMAC and underlay port MAC as SMAC of the packet.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h4>For Rx<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<section id="id5">
+<h5>Ingress non VxLAN packet<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<p>If the packets coming from a remote machine to the physical port are not VxLAN tunnel packets:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if the inner SMAC of the packet is learnt.</p></li>
+<li><p>Check if the inner DMAC packet is learnt against the bridge derived above. If entry matches, forward the packet to VF corresponding to the overlay VM.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h5>Ingress VxLAN packet<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
+<p>If the packets coming from a remote machine to the physical port are not VxLAN tunnel packets:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if the inner SMAC of the packet is learnt.</p></li>
+<li><p>Check if the inner DMAC packet is learnt against the bridge derived above. If entry matches, decap the outer packet and forward the inner packet to the overlay VF where DMAC is learnt.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Verification of source port and Associated L2 Bridge: The P4 Control Plane (P4 CP) must ensure the validation of the source port and its corresponding L2 bridge before initiating any further regulation of datapath packet classification.</p></li>
+<li><p>Exception Packet Handling for All Protocols: The P4 Control Plane (P4 CP) shall incorporate exception packet handling logic, not limited to ARP but applicable to the first packet of any protocol.</p></li>
+<li><p>Offloading of Networking Functions: The P4 Control Plane (P4 CP) software shall provide support for the offloading of various networking functions as specified in the Linux Networking use case. These networking functions include Layer 2 (L2) and Layer 3 (L3) forwarding, Equal-Cost Multi-Path (ECMP) routing, Link Aggregation Group (LAG), as well as Virtual Extensible LAN (VXLAN) encapsulation and decapsulation. These functions shall support both single and multiple Open vSwitch (OvS) bridges.</p></li>
+</ul>
 </section>
 <section id="limitations">
 <h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading"></a></h2>
-<p>Current Linux Networking support for the networking recipe has following limitations:</p>
+<p>Current Linux Networking support for the networking recipe has the following limitations:</p>
 <ul class="simple">
-<li><p>All VLAN interfaces created on top of IDPF netdev, should always be in lowercase format “vlan+vlan_id”
-Ex: vlan1, vlan2, vlan3 … vlan4094.</p></li>
-<li><p>Set the pipeline before adding br-int port, vxlan0 port, and adding vlan ports to br-int bridge.</p></li>
-<li><p>VxLAN destination port should always be standard port. i.e., 4789. (limitation by p4 parser)</p></li>
-<li><p>We do not support any ofproto rules that would prevent FDB learning on OvS.</p></li>
-<li><p>VLAN Tagged packets are not supported.</p></li>
-<li><p>For VxLAN tunneled packets only IPv4-in-IPv4 is supported.</p></li>
+<li><p>VLAN configuration on OvS is supported only for NATIVE-TAG and NATIVE-UNTAG modes.</p></li>
+<li><p>Physical port’s port representer should be added as the 1st port in Tunnel TEP bridge (br-tep-termination).</p></li>
+<li><p>Only OvS bridges are supported.</p></li>
+<li><p>Configure p4rt-ctl runtime rules before OvS configuration.</p></li>
+<li><p>Double vlan tag is NOT supported.</p></li>
+<li><p>Add all ACC PR’s to VSI group 1</p></li>
+<li><p>On ACC firewalld need to be disabled, this service is blocking tunnel packets.</p>
+<ul>
+<li><p>systemctl stop firewalld</p></li>
 </ul>
+</li>
+<li><p>Refer LNW-V2 README_P4_CP_NWS which comes along with the p4 program for limitation with router_interface_id action in nexthop_table (Bug created for this)</p>
+<ul>
+<li><p>Manually modify context.json to remove NOP hardware action for in context.json from “set_nexthop ” action in “nexthop_table”. Open defect is present in p4-sde to fix this issue.</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Content to be removed under hardware action is 
+{
+    &quot;prec&quot;: 0,
+    &quot;action_code&quot;: &quot;NOP&quot;,
+    &quot;index&quot;: 0,
+    &quot;value&quot;: 0,
+    &quot;mask&quot;: 0
+},
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -415,7 +456,7 @@ Ex: vlan1, vlan2, vlan3 … vlan4094.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../dpdk/dpdk-linux-networking-ecmp.html" class="btn btn-neutral float-left" title="Linux Networking with ECMP (DPDK)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="es2k-linux-networking-ipv6.html" class="btn btn-neutral float-right" title="Linux Networking with IPv6 (ES2K)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="es2k-lnw-overlay-vms.html" class="btn btn-neutral float-right" title="Linux Networking with Overlay VMs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
