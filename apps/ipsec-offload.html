@@ -88,6 +88,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -169,10 +170,10 @@ to load the hardware FXP pipeline with the IPsec package.</p>
 </section>
 <section id="configure-and-run-infrap4d">
 <h3>Configure and run infrap4d<a class="headerlink" href="#configure-and-run-infrap4d" title="Permalink to this heading"></a></h3>
-<p>To be able to program Security Association Database (SAD) entries using gNMI,
-enable fixed function support in infrap4d. Follow the instructions in
+<p>Follow the instructions in
 <a class="reference internal" href="../guides/es2k/running-infrap4d.html"><span class="std std-doc">Running infrap4d</span></a>
-to prepare system with generated TDI.json and context.json file references.</p>
+and prepare the system with generated TDI.json and context.json file references.
+In order to  offload IPsec, fixed function support must be enabled in infrap4d.</p>
 <p>The /usr/share/stratum/es2k/es2k_skip_p4.conf file must include the fixed
 function configuration reference.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;fixed_functions&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -205,7 +206,7 @@ between local and peer system.</p>
 <h2>OpenConfig and gNMI messages<a class="headerlink" href="#openconfig-and-gnmi-messages" title="Permalink to this heading"></a></h2>
 <p>This section provides detailed information on OpenConfig model and gNMI
 messages with the expected format. The strongSwan plugin has the following
-details encoded.</p>
+details encoded, and user interaction is not needed.</p>
 <section id="config-sad-message">
 <h3>Config SAD message<a class="headerlink" href="#config-sad-message" title="Permalink to this heading"></a></h3>
 <p>The P4 Control Plane provides SET and DELETE service to the
@@ -249,12 +250,12 @@ at <code class="docutils literal notranslate"><span class="pre">/ipsec-offload/i
 <section id="key-expiry-notification-message">
 <h3>Key Expiry Notification message<a class="headerlink" href="#key-expiry-notification-message" title="Permalink to this heading"></a></h3>
 <p>The <a class="reference external" href="https://github.com/ipdk-io/openconfig-public/blob/master/release/models/ipsec/openconfig-ipsec-offload.yang#L308">gRPC Notification message</a>
-at <code class="docutils literal notranslate"><span class="pre">/ipsec-offload</span></code> is used as a signal to trigger the
+at <code class="docutils literal notranslate"><span class="pre">/ipsec-offload/sadb-expire</span></code> is used as a signal to trigger the
 re-keying mechanism in IKE protocol.</p>
 <p>A gNMI subscription stream is opened from the gNMI client listening to these
 notification messages originating in the target. Upon receiving this
-notification, clients will initiate the re-keying mechanism to refresh
-the encyrption keys.</p>
+notification, client will initiate the re-keying mechanism to refresh
+the encryption keys.</p>
 </section>
 </section>
 </section>

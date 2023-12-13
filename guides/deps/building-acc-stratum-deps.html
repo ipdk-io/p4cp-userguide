@@ -93,6 +93,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -138,7 +139,7 @@
 <p>This document explains how to build the Stratum dependencies for the
 ARM Compute Complex (ACC) of the Intel® IPU E2100.</p>
 <blockquote>
-<div><p><strong>Note</strong>: To build the dependencies for a different target, see
+<div><p><strong>Note</strong>: To build the dependencies for a target other than ES2K, see
 <a class="reference internal" href="building-stratum-deps.html"><span class="std std-doc">Building the Stratum Dependencies</span></a>.</p>
 </div></blockquote>
 <section id="introduction">
@@ -157,31 +158,25 @@ compiled and linked against these libraries.</p></li>
 </section>
 <section id="preparing-the-system">
 <h2>2. Preparing the System<a class="headerlink" href="#preparing-the-system" title="Permalink to this heading"></a></h2>
-<p>There are several things to do before you can build the dependencies.</p>
+<p>There are a couple of things to do before you build the dependencies:</p>
 <ul>
 <li><p>Install CMake 3.15 or above</p>
-<p>Avoid versions 3.24 and 3.25. They cause the dependencies build to fail.</p>
+<p>Avoid versions 3.24 and 3.25. There is an issue in cmake that causes the
+Protobuf build to fail. This problem was fixed in version 3.26.</p>
 </li>
 <li><p>Install OpenSSL 3.x</p>
 <p>Note that P4 Control Plane is not compatible with BoringSSL.</p>
-</li>
-<li><p>Install the ACC SDK</p>
-<p>See <a class="reference internal" href="../es2k/installing-acc-sdk.html"><span class="std std-doc">Installing the ACC SDK</span></a> for directions.</p>
 </li>
 </ul>
 </section>
 <section id="getting-the-source-code">
 <h2>3. Getting the Source Code<a class="headerlink" href="#getting-the-source-code" title="Permalink to this heading"></a></h2>
-<p>The script to build the Stratum dependencies is in the IPDK networking-recipe
+<p>The script to build the Stratum dependencies is in the stratum-deps
 repository.</p>
 <p>To clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>ipdk.recipe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
 </pre></div>
 </div>
-<p>You may omit the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> option if you are only interested in building
-the dependencies.</p>
-<p>You may substitute your own local directory name for <code class="docutils literal notranslate"><span class="pre">ipdk.recipe</span></code>.</p>
-<p>The build script for the Stratum dependencies is in the <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory.</p>
 <p>The source code for the dependencies is not part of the distribution.
 It is downloaded by the build script.</p>
 </section>
@@ -197,16 +192,13 @@ for directions on creating the environment setup file.</p>
 <p>It is recommended that you <em>not</em> install the Host dependencies in <code class="docutils literal notranslate"><span class="pre">/usr</span></code> or
 <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>. It will be easier to rebuild or update the dependencies if
 their libraries are not mingled with other libraries.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory includes a helper script (<code class="docutils literal notranslate"><span class="pre">make-host-deps.sh</span></code>) that
+<p>The <code class="docutils literal notranslate"><span class="pre">scripts</span></code> subdirectory includes a helper script (<code class="docutils literal notranslate"><span class="pre">make-host-deps.sh</span></code>) that
 can be used to build the Host dependencies.</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">--help</span></code> (<code class="docutils literal notranslate"><span class="pre">-h</span></code>) option lists the parameters the helper script supports</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> (<code class="docutils literal notranslate"><span class="pre">-n</span></code>) option displays the parameter values without
 running CMake</p></li>
 </ul>
-<p>The script normally does a minimal build, containing just the components
-needed for cross-compilation. Specify the <code class="docutils literal notranslate"><span class="pre">--full</span></code> parameter if you want
-to build all the libraries.</p>
 <blockquote>
 <div><p><strong>Note:</strong> The Host and Target build environments are mutually incompatible.
 You must ensure that the <a class="reference internal" href="../es2k/defining-acc-environment.html"><span class="std std-doc">target build environment variables</span></a>
@@ -215,7 +207,7 @@ are undefined before you build the Host dependencies.</p>
 <section id="user-build">
 <h3>User build<a class="headerlink" href="#user-build" title="Permalink to this heading"></a></h3>
 <p>To install the dependencies in a user directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-host-deps.sh<span class="w"> </span>--prefix<span class="o">=</span>PREFIX
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/make-host-deps.sh<span class="w"> </span>--prefix<span class="o">=</span>PREFIX
 </pre></div>
 </div>
 <p>PREFIX might something like <code class="docutils literal notranslate"><span class="pre">~/hostdeps</span></code>.</p>
@@ -226,7 +218,7 @@ installed in the specified directory.</p>
 <h3>System build<a class="headerlink" href="#system-build" title="Permalink to this heading"></a></h3>
 <p>To install the Host dependencies in a system directory, log in as <code class="docutils literal notranslate"><span class="pre">root</span></code>
 or build from an account that has <code class="docutils literal notranslate"><span class="pre">sudo</span></code> privilege.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-host-deps.sh<span class="w"> </span>--prefix<span class="o">=</span>PREFIX<span class="w"> </span>--sudo
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/make-host-deps.sh<span class="w"> </span>--prefix<span class="o">=</span>PREFIX<span class="w"> </span>--sudo
 </pre></div>
 </div>
 <p>PREFIX might be something like <code class="docutils literal notranslate"><span class="pre">/opt/ipdk/x86deps</span></code>.</p>
@@ -240,8 +232,8 @@ if you are running as <code class="docutils literal notranslate"><span class="pr
 This will typically be under the sysroot directory structure. For
 example, the <code class="docutils literal notranslate"><span class="pre">opt</span></code> subdirectory will become the root-level <code class="docutils literal notranslate"><span class="pre">/opt</span></code>
 directory when the file structure is copied to the E2100 file system.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">setup</span></code> directory includes a helper script (<code class="docutils literal notranslate"><span class="pre">make-cross-deps.sh</span></code>) that
-can be used to build the Target dependencies.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">scripts</span></code> subdirectory includes a helper script (<code class="docutils literal notranslate"><span class="pre">make-cross-deps.sh</span></code>)
+that can be used to build the Target dependencies.</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">--help</span></code> (<code class="docutils literal notranslate"><span class="pre">-h</span></code>) option lists the parameters the helper script supports</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> (<code class="docutils literal notranslate"><span class="pre">-n</span></code>) option displays the parameter values without
@@ -251,7 +243,8 @@ running CMake</p></li>
 dependencies (<code class="docutils literal notranslate"><span class="pre">--host</span></code>) as well as the install prefix (<code class="docutils literal notranslate"><span class="pre">--prefix</span></code>).</p>
 <section id="target-build">
 <h3>Target build<a class="headerlink" href="#target-build" title="Permalink to this heading"></a></h3>
-<p>Source the file that the defines the <a class="reference internal" href="../es2k/defining-acc-environment.html"><span class="std std-doc">target build environment variables</span></a>.</p>
+<p>Source the file that defines the
+<a class="reference internal" href="../es2k/defining-acc-environment.html"><span class="std std-doc">target build environment variables</span></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>es2k-setup.env
 </pre></div>
 </div>
@@ -260,7 +253,7 @@ dependencies (<code class="docutils literal notranslate"><span class="pre">--hos
 </pre></div>
 </div>
 <p>Now run the build script:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-cross-deps.sh<span class="w"> </span>--host<span class="o">=</span>HOSTDEPS<span class="w"> </span>--prefix<span class="o">=</span>PREFIX
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/make-cross-deps.sh<span class="w"> </span>--host<span class="o">=</span>HOSTDEPS<span class="w"> </span>--prefix<span class="o">=</span>PREFIX
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">HOSTDEPS</span></code> is the path to the Host dependencies, e.g., <code class="docutils literal notranslate"><span class="pre">~/p4cp-dev/hostdeps</span></code>.</p>

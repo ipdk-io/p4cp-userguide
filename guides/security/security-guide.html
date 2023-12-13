@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Using TLS Certificates" href="using-tls-certificates.html" />
-    <link rel="prev" title="Linux Networking with FRR (ES2K)" href="../../apps/lnw/es2k/es2k-linux-networking-frr.html" /> 
+    <link rel="prev" title="Packet I/O" href="../../apps/packet-io.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -71,6 +71,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/ipsec-offload.html">IPsec Offload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/packet-io.html">Packet I/O</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul class="current">
@@ -178,18 +179,16 @@ issue requests to port 9339.</p>
 <section id="running-in-insecure-mode">
 <h2>Running in insecure mode<a class="headerlink" href="#running-in-insecure-mode" title="Permalink to this heading"></a></h2>
 <p>To launch infrap4d in insecure mode:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/sbin/infrap4d<span class="w"> </span>-grpc_open_insecure_mode<span class="o">=</span><span class="nb">true</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>infrap4d<span class="w"> </span>-grpc_open_insecure_mode<span class="o">=</span><span class="nb">true</span>
 </pre></div>
 </div>
 <p>To launch clients in insecure mode:</p>
 <p>For DPDK target:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/bin/gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
 </pre></div>
 </div>
 <p>For Intel IPU E2100 target:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$IPDK_RECIPE</span>/install/bin/sgnmi_cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sgnmi_cli<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;COMMAND&gt;<span class="w"> </span>-grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
 </pre></div>
 </div>
 </section>
@@ -199,7 +198,7 @@ issue requests to port 9339.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../../apps/lnw/es2k/es2k-linux-networking-frr.html" class="btn btn-neutral float-left" title="Linux Networking with FRR (ES2K)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../apps/packet-io.html" class="btn btn-neutral float-left" title="Packet I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="using-tls-certificates.html" class="btn btn-neutral float-right" title="Using TLS Certificates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
