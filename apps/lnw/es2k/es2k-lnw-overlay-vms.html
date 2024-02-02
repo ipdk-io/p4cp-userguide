@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Linux Networking with Overlay VMs &mdash; P4 Control Plane  documentation</title>
@@ -129,24 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <!--
-Copyright (c) 2023 Intel Corporation.
-
-SPDX-License-Identifier: Apache-2.0
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at:
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<section id="linux-networking-with-overlay-vms">
+  <section id="linux-networking-with-overlay-vms">
 <h1>Linux Networking with Overlay VMs<a class="headerlink" href="#linux-networking-with-overlay-vms" title="Permalink to this heading"></a></h1>
 <p>This document explains how to run the Linux networking scenario on ES2K with 8 overlay VMs.</p>
 <section id="topology">
@@ -155,14 +138,17 @@ limitations under the License.
 <p>See <a class="reference internal" href="es2k-linux-networking.html"><span class="std std-doc">Linux Networking for ES2K</span></a>
 for more details on this feature.</p>
 <p>Prerequisites:</p>
-<ul>
-<li><p>Follow steps mentioned in <a class="reference internal" href="../../../guides/es2k/deploying-p4-programs.html"><span class="doc std std-doc">Deploying P4 Programs for E2100</span></a> for bringing up IPU with a particular release build.</p></li>
-<li><p>Download <code class="docutils literal notranslate"><span class="pre">hw-p4-programs</span></code> TAR file specific to the build and extract it to get <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking-v2</span></code> p4 artifacts. Go through <code class="docutils literal notranslate"><span class="pre">Limitations</span></code> specified in <code class="docutils literal notranslate"><span class="pre">README</span></code> and bringup the setup accordingly.</p>
 <ul class="simple">
-<li><p>Modify <code class="docutils literal notranslate"><span class="pre">sem_num_pages</span></code> to 25 and <code class="docutils literal notranslate"><span class="pre">lem_num_pages</span></code> to 10 in <code class="docutils literal notranslate"><span class="pre">cp_init.cfg</span></code> present in IMC.</p></li>
+<li><p>Download <code class="docutils literal notranslate"><span class="pre">hw-p4-programs</span></code> TAR file specific to the build and extract it to get <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking-v2</span></code> p4 artifacts. Go through <code class="docutils literal notranslate"><span class="pre">Limitations</span></code> specified in <code class="docutils literal notranslate"><span class="pre">README</span></code> and bringup the setup accordingly.</p></li>
+<li><p>Follow steps mentioned in <a class="reference internal" href="../../../guides/es2k/deploying-p4-programs.html"><span class="doc std std-doc">Deploying P4 Programs for E2100</span></a> for bringing up IPU with a custom P4 package.
+Modify <code class="docutils literal notranslate"><span class="pre">load_custom_pkg.sh</span></code> with following parameters for linux_networking package:</p></li>
 </ul>
-</li>
-<li><p>For this use case, before booting ACC with a particular release build, modify <code class="docutils literal notranslate"><span class="pre">acc_apf</span></code> value to 16 under <code class="docutils literal notranslate"><span class="pre">num_default_vport</span></code> in file <code class="docutils literal notranslate"><span class="pre">cp_init.cfg</span></code> present in IMC.</p></li>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    sed -i &#39;s/sem_num_pages = 1;/sem_num_pages = 25;/g&#39; $CP_INIT_CFG
+    sed -i &#39;s/lem_num_pages = 1;/lem_num_pages = 10;/g&#39; $CP_INIT_CFG
+    sed -i &#39;s/acc_apf = 4;/acc_apf = 16;/g&#39; $CP_INIT_CFG
+</pre></div>
+</div>
+<ul>
 <li><p>Download <code class="docutils literal notranslate"><span class="pre">IPU_Documentation</span></code> TAR file specific to the build and refer to <code class="docutils literal notranslate"><span class="pre">Getting</span> <span class="pre">Started</span> <span class="pre">Guide</span></code> on how to install compatible <code class="docutils literal notranslate"><span class="pre">IDPF</span> <span class="pre">driver</span></code> on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the <code class="docutils literal notranslate"><span class="pre">sriov_numvfs</span></code> file present under one of the IDPF network devices. Example as below</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="m">16</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/net/ens802f0/device/sriov_numvfs
 </pre></div>
@@ -171,19 +157,19 @@ for more details on this feature.</p>
 </ul>
 <p>Notes about topology:</p>
 <ul class="simple">
-<li><p>VMs are spawned on top of each VFs. Each VF will have a respective port representer in ACC. P4 runtime rules are configured to map VFs and its corresponding port representers.</p></li>
-<li><p>Each physical port will have a port representer in ACC. P4 runtime rules are configured to map VFs and its corresponding port representers.</p></li>
-<li><p>Each physical port will have a corresponding APF netdev on HOST. Create port representers in ACC for each HOST APF netdev. These APF netdev on HOST will receive unknown traffic for applications to act on.</p></li>
-<li><p>All port representers should be part of an OvS bridge. Based on topology, these OvS bridges will just perform bridging or TEP termination bridges which are used to enable underlay connectivity for VxLAN traffic.</p></li>
-<li><p>OvS bridges, VxLAN ports are created using ovs-vsctl command provided by the networking recipe and all the port representers are attached to OvS bridge using ovs-vsctl command.</p></li>
+<li><p>VMs are spawned on top of each VF. Each VF will have a port representor in ACC. P4 runtime rules are configured to map VFs and their corresponding port representors.</p></li>
+<li><p>Each physical port will have a port representor in ACC. P4 runtime rules are configured to map VFs and its corresponding port representors.</p></li>
+<li><p>Each physical port will have a corresponding APF netdev on HOST. Create port representors in ACC for each HOST APF netdev. These APF netdev on HOST will receive unknown traffic for applications to act on.</p></li>
+<li><p>All port representors should be part of an OvS bridge. Based on topology, these OvS bridges will just perform bridging or TEP termination bridges which are used to enable underlay connectivity for VxLAN traffic.</p></li>
+<li><p>OvS bridges, VxLAN ports are created using ovs-vsctl command provided by the networking recipe and all the port representors are attached to OvS bridge using ovs-vsctl command.</p></li>
 <li><p>This config has:</p>
 <ul>
 <li><p>8 Overlay VFs</p></li>
-<li><p>8 Port representers in ACC for the above 8 Overlay VFs</p></li>
+<li><p>8 Port representors in ACC for the above 8 Overlay VFs</p></li>
 <li><p>2 physical ports</p></li>
-<li><p>2 Port representers in ACC for the above 2 physical ports</p></li>
+<li><p>2 Port representors in ACC for the above 2 physical ports</p></li>
 <li><p>2 APF netdev on HOST</p></li>
-<li><p>2 Port representers in ACC for the above 2 HOST APF netdevs</p></li>
+<li><p>2 Port representors in ACC for the above 2 HOST APF netdevs</p></li>
 </ul>
 </li>
 </ul>
@@ -205,8 +191,8 @@ for more details on this feature.</p>
 <thead>
 <tr class="row-odd"><th class="head"><p>Overlay VFs</p></th>
 <th class="head"><p>Overlay VFs VSI ID</p></th>
-<th class="head"><p>ACC port representer</p></th>
-<th class="head"><p>ACC port representer VSI ID</p></th>
+<th class="head"><p>ACC port representor</p></th>
+<th class="head"><p>ACC port representor VSI ID</p></th>
 </tr>
 </thead>
 <tbody>
@@ -309,7 +295,7 @@ along with other P4 artifacts are created as per the steps mentioned in the prev
 </section>
 <section id="configure-vsi-group-and-add-a-netdev">
 <h3>Configure VSI Group and add a netdev<a class="headerlink" href="#configure-vsi-group-and-add-a-netdev" title="Permalink to this heading"></a></h3>
-<p>Add all ACC port representers to VSI group 1. VSI group 1 is dedicated for this configuration,
+<p>Add all ACC port representors to VSI group 1. VSI group 1 is dedicated for this configuration,
 execute below devmem commands on IMC.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
 devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x8000050000000009
@@ -322,11 +308,11 @@ devmem<span class="w"> </span>0x2029200388<span class="w"> </span><span class="m
 devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0xA000050000000009
 </pre></div>
 </div>
-<p>Note: Here VSI 9 has been used as one of the ACC port representers and added to VSI group 1. For this use case add all 16 IDPF interfaces created on ACC. Modify this VSI based on your configuration.</p>
+<p>Note: Here VSI 9 has been used as one of the ACC port representors and added to VSI group 1. For this use case add all 16 IDPF interfaces created on ACC. Modify this VSI based on your configuration.</p>
 </section>
 <section id="start-ovs-as-a-separate-process">
 <h3>Start OvS as a separate process<a class="headerlink" href="#start-ovs-as-a-separate-process" title="Permalink to this heading"></a></h3>
-<p>Legacy OvS is used as a control plane for source MAC learning of overlay VM’s. OvS should be started as a separate process.</p>
+<p>Enhanced OvS is used as a control plane for source MAC learning of overlay VM’s. This OvS binary is available as part of ACC build and should be started as a separate process.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">RUN_OVS</span><span class="o">=</span>/opt/p4/p4-cp-nws
 
 rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch
@@ -380,14 +366,14 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 </pre></div>
 </div>
 </section>
-<section id="configure-rules-for-mapping-between-overlay-vf-and-acc-port-representer">
-<h3>Configure rules for mapping between Overlay VF and ACC port representer<a class="headerlink" href="#configure-rules-for-mapping-between-overlay-vf-and-acc-port-representer" title="Permalink to this heading"></a></h3>
-<p>Configure rules to send overlay packets from a VM to its respective port representers.</p>
-<p>Refer above port mapping for overlay VF to ACC port representer mapping. Here sample commands are shown for a single overlay network, configure similar mapping for remaining VFs.</p>
+<section id="configure-rules-for-mapping-between-overlay-vf-and-acc-port-representor">
+<h3>Configure rules for mapping between Overlay VF and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-overlay-vf-and-acc-port-representor" title="Permalink to this heading"></a></h3>
+<p>Configure rules to send overlay packets from a VM to its respective port representors.</p>
+<p>Refer above port mapping for overlay VF to ACC port representor mapping. Here sample commands are shown for a single overlay network, configure similar mapping for remaining VFs.</p>
 <p>Example:</p>
 <ul class="simple">
 <li><p>Overlay VF1 has a VSI value 27</p></li>
-<li><p>Corresponding port representer VSI value 9</p></li>
+<li><p>Corresponding port representor VSI value 9</p></li>
 <li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source port for an overlay VF (VSI-27). Source port action can be any value.</span>
@@ -395,7 +381,7 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 <span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_source_port_v4<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=27,zero_padding=0,action=linux_networking_control.set_source_port(43)&quot;</span>
 
-<span class="c1"># Create a mapping between overlay VF (VSI-27/source port-43) and ACC port representer (VSI-9)</span>
+<span class="c1"># Create a mapping between overlay VF (VSI-27/source port-43) and ACC port representor (VSI-9)</span>
 <span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.source_port_to_pr_map<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="s2">&quot;user_meta.cmeta.source_port=43,zero_padding=0,action=linux_networking_control.fwd_to_vsi(25)&quot;</span>
 
@@ -411,14 +397,14 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 </pre></div>
 </div>
 </section>
-<section id="configure-rules-for-mapping-between-physical-port-and-acc-port-representer">
-<h3>Configure rules for mapping between Physical port and ACC port representer<a class="headerlink" href="#configure-rules-for-mapping-between-physical-port-and-acc-port-representer" title="Permalink to this heading"></a></h3>
-<p>Configure rules to send ingress packets from a physical port to its respective port representers.</p>
-<p>Refer above port mapping for physical port to ACC port representer mapping. Here sample commands are shown for a single physical port, configure similar mapping for remaining physical ports.</p>
+<section id="configure-rules-for-mapping-between-physical-port-and-acc-port-representor">
+<h3>Configure rules for mapping between Physical port and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-physical-port-and-acc-port-representor" title="Permalink to this heading"></a></h3>
+<p>Configure rules to send ingress packets from a physical port to its respective port representors.</p>
+<p>Refer above port mapping for physical port to ACC port representor mapping. Here sample commands are shown for a single physical port, configure similar mapping for remaining physical ports.</p>
 <p>Example:</p>
 <ul class="simple">
 <li><p>Physical port 0 port id is 0</p></li>
-<li><p>Corresponding port representer VSI value 17</p></li>
+<li><p>Corresponding port representor VSI value 17</p></li>
 <li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source port for a physical port (Phy port-0). Source port action can be any value.</span>
@@ -426,7 +412,7 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 <span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.rx_source_port<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="s2">&quot;vmeta.common.port_id=0,zero_padding=0,action=linux_networking_control.set_source_port(0)&quot;</span>
 
-<span class="c1"># Create a mapping between physical port (Phy port 0/src port 0) and ACC port representer (VSI-17)</span>
+<span class="c1"># Create a mapping between physical port (Phy port 0/src port 0) and ACC port representor (VSI-17)</span>
 <span class="w">  </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.rx_phy_port_to_pr_map<span class="w"> </span><span class="se">\</span>
 <span class="w">      </span><span class="s2">&quot;vmeta.common.port_id=0,zero_padding=0,action=linux_networking_control.fwd_to_vsi(33)&quot;</span>
 
@@ -438,14 +424,14 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 </pre></div>
 </div>
 </section>
-<section id="configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representer">
-<h3>Configure rules for mapping between APF netdev on HOST and ACC port representer<a class="headerlink" href="#configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representer" title="Permalink to this heading"></a></h3>
-<p>Configure rules to send APF netdev on HOST to its respective port representers.</p>
-<p>Refer above port mapping for APF netdev on HOST to ACC port representer mapping. Here sample commands are shown for APF netdev on HOST, configure similar mapping for remaining APF netdevs on HOST.</p>
+<section id="configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representor">
+<h3>Configure rules for mapping between APF netdev on HOST and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representor" title="Permalink to this heading"></a></h3>
+<p>Configure rules to send APF netdev on HOST to its respective port representors.</p>
+<p>Refer above port mapping for APF netdev on HOST to ACC port representor mapping. Here sample commands are shown for APF netdev on HOST, configure similar mapping for remaining APF netdevs on HOST.</p>
 <p>Example:</p>
 <ul class="simple">
 <li><p>APF netdev 1 on HOST has a VSI value 24</p></li>
-<li><p>Corresponding port representer VSI value 18</p></li>
+<li><p>Corresponding port representor VSI value 18</p></li>
 <li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source port for an overlay VF (VSI-24). Source port action can be any value.</span>
@@ -454,7 +440,7 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 <span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=24,zero_padding=0,action=linux_networking_control.set_source_port(40)&quot;</span>
 
 
-<span class="c1"># Create a mapping between overlay VF (VSI-24/source port-40) and ACC port representer (VSI-18)</span>
+<span class="c1"># Create a mapping between overlay VF (VSI-24/source port-40) and ACC port representor (VSI-18)</span>
 <span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.source_port_to_pr_map<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="s2">&quot;user_meta.cmeta.source_port=40,zero_padding=0,action=linux_networking_control.fwd_to_vsi(34)&quot;</span>
 
@@ -506,7 +492,7 @@ ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</sp
 </section>
 <section id="create-integration-bridge-and-add-ports-to-the-bridge">
 <h3>Create integration bridge and add ports to the bridge<a class="headerlink" href="#create-integration-bridge-and-add-ports-to-the-bridge" title="Permalink to this heading"></a></h3>
-<p>Create OvS bridge, VxLAN tunnel and assign overlay VFs port representer to individual bridges.
+<p>Create OvS bridge, VxLAN tunnel and assign overlay VFs port representor to individual bridges.
 Reference provided for single overlay network, repeat similar steps for other VFs.</p>
 <p>Each bridge has:</p>
 <ul class="simple">
@@ -523,7 +509,7 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-1<span class
 </section>
 <section id="underlay-configuration">
 <h3>Underlay configuration<a class="headerlink" href="#underlay-configuration" title="Permalink to this heading"></a></h3>
-<p>Create TEP termination bridge, add physical port’s port representer and APF netdev port representer.
+<p>Create TEP termination bridge, add physical port’s port representor and APF netdev port representor.
 Reference provided for underlay network, repeat similar steps for multiple underlay networks.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tun-1
 ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tun-1<span class="w"> </span>enp0s1f0d9
