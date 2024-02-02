@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DPDK Setup Guide &mdash; P4 Control Plane  documentation</title>
@@ -145,6 +145,12 @@
 for the DPDK target.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>It is assumed that the DPDK SDE dependencies have been installed on the
+system. The list of dependencies can be found
+in <code class="docutils literal notranslate"><span class="pre">sde/tools/setup/install_dep.py</span></code> file.</p>
+<p>Prerequisites for stratum-deps are assumed to be
+installed. Some of them also apply to networking-recipe.</p>
+<p>Install the following packages for building networking-recipe.</p>
 <p>For Fedora:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum<span class="w"> </span>install<span class="w"> </span>libatomic<span class="w"> </span>libnl3-devel
 pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt

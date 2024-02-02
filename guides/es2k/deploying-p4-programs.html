@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deploying P4 Programs for ES2K &mdash; P4 Control Plane  documentation</title>
@@ -59,9 +59,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Deploying P4 Programs for ES2K</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">1. Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deploying-on-hardware-flexible-pipeline-fxp">2. Deploying on Hardware Flexible Pipeline (FXP)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#interrupt-default-startup-routine">2.1 Interrupt default startup routine</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#copy-the-custom-p4-package">2.2 Copy the custom P4 package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#start-the-imc">2.3 Start the IMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy-the-custom-p4-package">2.1 Copy the custom P4 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-the-script-responsible-for-loading-custom-package">2.2 Modify the script responsible for loading custom package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reboot-the-imc">2.3 Reboot the IMC</a></li>
 </ul>
 </li>
 </ul>
@@ -134,41 +134,43 @@ to generate the P4 artifacts required for deployment.</p>
 <h2>2. Deploying on Hardware Flexible Pipeline (FXP)<a class="headerlink" href="#deploying-on-hardware-flexible-pipeline-fxp" title="Permalink to this heading"></a></h2>
 <p>Data Path Control Plane (DPCP) starts with a default P4 package. To load a
 custom P4 package follow below steps:</p>
-<section id="interrupt-default-startup-routine">
-<h3>2.1 Interrupt default startup routine<a class="headerlink" href="#interrupt-default-startup-routine" title="Permalink to this heading"></a></h3>
-<p>Reboot IMC and type <code class="docutils literal notranslate"><span class="pre">N</span></code> when the following message is shown on IMC console::</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>start ipumgmtd and auxiliary script [Y/N] \
-(default start both automatically after 10 seconds)?
-</pre></div>
-</div>
-</section>
 <section id="copy-the-custom-p4-package">
-<h3>2.2 Copy the custom P4 package<a class="headerlink" href="#copy-the-custom-p4-package" title="Permalink to this heading"></a></h3>
-<p>Copy the custom P4 package (.pkg) in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/package</span></code> directory and
-overwrite the <code class="docutils literal notranslate"><span class="pre">default_pkg.pkg</span></code>.</p>
-<p>For example, replace <code class="docutils literal notranslate"><span class="pre">default_pkg.pkg</span></code> with <code class="docutils literal notranslate"><span class="pre">simple_l3_l4_pna.pkg</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:/etc/dpcp/package#<span class="w"> </span>ls<span class="w"> </span>-lrt<span class="w"> </span>/etc/dpcp/package/
-total<span class="w"> </span><span class="m">2364</span>
--rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">963032</span><span class="w"> </span>Jan<span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">04</span>:56<span class="w"> </span>simple_l3_l4_pna.pkg
--rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">1450456</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>e2100-default-1.0.3.0.pkg
-drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">       </span><span class="m">0</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>runtime_files
-drwxr-xr-x<span class="w"> </span><span class="m">3</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">       </span><span class="m">0</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>ref_pkg
-lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">      </span><span class="m">25</span><span class="w"> </span>Jun<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>default_pkg.pkg<span class="w"> </span>-&gt;<span class="w"> </span>e2100-default-1.0.3.0.pkg
-root@mev-imc:/etc/dpcp/package#<span class="w"> </span>cp<span class="w"> </span>simple_l3_l4_pna.pkg<span class="w"> </span>default_pkg.pkg
+<h3>2.1 Copy the custom P4 package<a class="headerlink" href="#copy-the-custom-p4-package" title="Permalink to this heading"></a></h3>
+<p>Copy the custom P4 package (p4_custom.pkg) in <code class="docutils literal notranslate"><span class="pre">/work/scripts</span></code> directory to IMC.</p>
+</section>
+<section id="modify-the-script-responsible-for-loading-custom-package">
+<h3>2.2 Modify the script responsible for loading custom package<a class="headerlink" href="#modify-the-script-responsible-for-loading-custom-package" title="Permalink to this heading"></a></h3>
+<p>Replace the <code class="docutils literal notranslate"><span class="pre">p4_custom.pkg</span></code> with custom package name in <code class="docutils literal notranslate"><span class="pre">load_custom_pkg.sh</span></code> script.</p>
+<p>Any modifications intended in node policy <code class="docutils literal notranslate"><span class="pre">cp_init.cfg</span></code> should be provided as part of
+the same script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@ipu-imc<span class="w"> </span>/<span class="o">]</span><span class="c1"># cd /work/scripts</span>
+<span class="o">[</span>root@ipu-imc<span class="w"> </span>scripts<span class="o">]</span><span class="c1"># cat load_custom_pkg.sh</span>
+<span class="c1">#!/bin/sh</span>
+<span class="nv">CP_INIT_CFG</span><span class="o">=</span>/etc/dpcp/cfg/cp_init.cfg
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checking for custom package...&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span>p4_custom.pkg<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Custom package p4_custom.pkg found. Overriding default package&quot;</span>
+<span class="w">    </span>cp<span class="w">  </span>p4_custom.pkg<span class="w"> </span>/etc/dpcp/package/
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span>/etc/dpcp/package/default_pkg.pkg
+<span class="w">    </span>ln<span class="w"> </span>-s<span class="w"> </span>/etc/dpcp/package/<span class="w"> </span>p4_custom.pkg<span class="w"> </span>/etc/dpcp/package/default_pkg.pkg
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/sem_num_pages = 1;/sem_num_pages = 25;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No custom package found. Continuing with default package&quot;</span>
+<span class="k">fi</span>
 </pre></div>
 </div>
 <p>If Communication Channel support is required,
 <a class="reference internal" href="enabling-comm-channel.html"><span class="std std-doc">enable the communication channel</span></a>
 before proceeding to the next step.</p>
 </section>
-<section id="start-the-imc">
-<h3>2.3 Start the IMC<a class="headerlink" href="#start-the-imc" title="Permalink to this heading"></a></h3>
-<p>Run the IMC start-up script.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:~#<span class="w"> </span>/etc/init.d/run_default_init_app
+<section id="reboot-the-imc">
+<h3>2.3 Reboot the IMC<a class="headerlink" href="#reboot-the-imc" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>root@mev-imc:~#<span class="w"> </span>reboot
 </pre></div>
 </div>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">cpf_host</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> is set to 4 which
-enables ACC. If the start-up script is executed successfully, ACC comes up with a
+<p>Once the IMC reboots successfully, IPU is loaded with the custom P4 package.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">cpf_host</span></code> parameter in node_policy is set to 4 which
+enables ACC. If the IMC reboots successfully, ACC comes up with a
 statically assigned IP address <code class="docutils literal notranslate"><span class="pre">192.168.0.2</span></code> to the eth0 network interface.
 You can access ACC from IMC over an SSH session using this IP address.</p>
 <p>You are now ready to <a class="reference internal" href="running-infrap4d.html"><span class="std std-doc">start infrap4d</span></a>.</p>
