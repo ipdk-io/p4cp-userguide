@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Packet I/O" href="../../packet-io.html" />
-    <link rel="prev" title="Linux Networking with FRR (ES2K)" href="es2k-linux-networking-frr.html" /> 
+    <link rel="prev" title="Linux Networking with FRR (ES2K)" href="es2k-lnw-underlay-frr.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -75,9 +75,9 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../lnw-index.html#es2k">ES2K</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking.html">Linux Networking for ES2K</a></li>
 <li class="toctree-l3"><a class="reference internal" href="es2k-lnw-overlay-vms.html">Linux Networking with Overlay VMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-frr.html">Linux Networking with FRR (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-overlay-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-underlay-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-underlay-frr.html">Linux Networking with FRR (ES2K)</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Linux Networking with LAG (ES2K)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#topology">Topology</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#create-p4-artifacts-and-start-infrap4d-process">Create P4 artifacts and start Infrap4d process</a></li>
@@ -136,7 +136,7 @@
 <p>This document explains how to run the Linux networking scenario with LAG (Link Aggregation Group) on ES2K.</p>
 <section id="topology">
 <h2>Topology<a class="headerlink" href="#topology" title="Permalink to this heading"></a></h2>
-<p><img alt="Linux Networking Topology" src="../../../_images/es2k-ecmp-topology.png" /></p>
+<p><img alt="Linux Networking Topology" src="apps/lnw/es2k/es2k-ecmp-topology.png" /></p>
 <p>Notes about topology:</p>
 <ul class="simple">
 <li><p>Four Kernel netdevs are created by default by loading IDPF driver during ACC bring-up. You can also create more than four netdevs. For that, we need to modify the <code class="docutils literal notranslate"><span class="pre">acc_apf</span></code> parameter under <code class="docutils literal notranslate"><span class="pre">num_default_vport</span></code> in <code class="docutils literal notranslate"><span class="pre">/etc/dpcp/cfg/cp_init.cfg</span></code> on IMC before starting <code class="docutils literal notranslate"><span class="pre">run_default_init_app</span></code>.</p></li>
@@ -373,7 +373,10 @@ p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class=
 <li><p>Underlay IDPF netdev has a VSI value 10 for first LAG member</p></li>
 <li><p>Underlay IDPF netdev has a VSI value 11 for second LAG member</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>bond0<span class="w"> </span><span class="nb">type</span><span class="w"> </span>bond<span class="w"> </span>miimon<span class="w"> </span><span class="m">100</span><span class="w"> </span>mode<span class="w"> </span>active-backup
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For static LAG:</span>
+<span class="c1">#     ip link add bond0 type bond miimon 100 mode active-backup</span>
+<span class="c1"># For dynamic LAG:</span>
+<span class="c1">#     ip link add bond0 type bond miimon 100 mode 802.3ad</span>
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span>down
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">10</span>&gt;<span class="w"> </span>master<span class="w"> </span>bond0
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;IDPF<span class="w"> </span>netdev<span class="w"> </span><span class="k">for</span><span class="w"> </span>VSI<span class="w"> </span><span class="m">11</span>&gt;<span class="w"> </span>down
@@ -386,7 +389,10 @@ ip<span class="w"> </span>route<span class="w"> </span>change<span class="w"> </
 <p>Sample link partner underlay configuration.
 Create a LAG interface and assign IP to the LAG interface
 Assuming ens785f0np0 and ens785f1np1 ports are B2B connected to MEV.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>bond0<span class="w"> </span><span class="nb">type</span><span class="w"> </span>bond<span class="w"> </span>miimon<span class="w"> </span><span class="m">100</span><span class="w"> </span>mode<span class="w"> </span>active-backup
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For static LAG:</span>
+<span class="c1">#     ip link add bond0 type bond miimon 100 mode active-backup</span>
+<span class="c1"># For dynamic LAG:</span>
+<span class="c1">#     ip link add bond0 type bond miimon 100 mode 802.3ad</span>
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ens785f0np0<span class="w"> </span>down
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ens785f0np0<span class="w"> </span>master<span class="w"> </span>bond0
 ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ens785f1np1<span class="w"> </span>down
@@ -404,6 +410,7 @@ ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span
 </section>
 <section id="test-the-ping-scenarios">
 <h3>Test the ping scenarios<a class="headerlink" href="#test-the-ping-scenarios" title="Permalink to this heading"></a></h3>
+<p>For static LAG:</p>
 <ul class="simple">
 <li><p>Verify the underlay ping is working fine via the active path.</p></li>
 <li><p>Verify the overlay ping between VMs on same host is working fine via the active path.</p></li>
@@ -411,6 +418,14 @@ ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span
 <li><p>Shut the active link on both MEV host and its peer Link Partner.</p></li>
 <li><p>Verify the switchover happened from active to backup interface.</p></li>
 <li><p>Verify both underlay and overlay ping are working fine and taking a backup path.</p></li>
+</ul>
+<p>For dynamic LAG:</p>
+<ul class="simple">
+<li><p>Verify the underlay ping is working fine.</p></li>
+<li><p>Verify the overlay ping between VMs on same host is working fine.</p></li>
+<li><p>Note down the interface which is forwarding the traffic.</p></li>
+<li><p>Bring down that interface.</p></li>
+<li><p>Verify both underlay and overlay ping resume and traffic is forwarded via other LAG member.</p></li>
 </ul>
 </section>
 </section>
@@ -426,7 +441,8 @@ Ex: vlan1, vlan2, vlan3 … vlan4094.</p></li>
 <li><p>VLAN-tagged packets are not supported.</p></li>
 <li><p>For VxLAN tunneled packets only IPv4-in-IPv4 is supported.</p></li>
 <li><p>LAG and ECMP are mutually exclusive. Both can’t co-exist in the system configuration at the same time.</p></li>
-<li><p>LAG configuration done via bonding driver is supported and the supported mode in active-backup.</p></li>
+<li><p>LAG configuration done via bonding driver is supported.</p></li>
+<li><p>The supported modes are active-backup and active-active with 802.3ad (LACP).</p></li>
 <li><p>Number of nexthop table entries cannot go beyond 8K, because nexthop table is now part of WCM block.</p></li>
 </ul>
 </section>
@@ -436,7 +452,7 @@ Ex: vlan1, vlan2, vlan3 … vlan4094.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="es2k-linux-networking-frr.html" class="btn btn-neutral float-left" title="Linux Networking with FRR (ES2K)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="es2k-lnw-underlay-frr.html" class="btn btn-neutral float-left" title="Linux Networking with FRR (ES2K)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../../packet-io.html" class="btn btn-neutral float-right" title="Packet I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

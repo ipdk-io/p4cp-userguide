@@ -82,10 +82,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="es2k-lnw-overlay-vms.html">Linux Networking with Overlay VMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-frr.html">Linux Networking with FRR (ES2K)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es2k-linux-networking-lag.html">Linux Networking with LAG (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-overlay-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-underlay-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-underlay-frr.html">Linux Networking with FRR (ES2K)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-lnw-underlay-lag.html">Linux Networking with LAG (ES2K)</a></li>
 </ul>
 </li>
 </ul>
@@ -193,10 +193,10 @@
 </pre></div>
 </div>
 <p>Once these tables are configured refer to packet flow as mentioned below.</p>
-<section id="for-tx">
-<h4>For Tx<a class="headerlink" href="#for-tx" title="Permalink to this heading"></a></h4>
-<section id="egress-traffic-without-vxlan-encapsulation">
-<h5>Egress traffic without VxLAN encapsulation<a class="headerlink" href="#egress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
+<section id="for-slow-path-tx-forwarding">
+<h4>For slow path Tx forwarding<a class="headerlink" href="#for-slow-path-tx-forwarding" title="Permalink to this heading"></a></h4>
+<section id="slow-path-egress-traffic-without-vxlan-encapsulation">
+<h5>Slow path egress traffic without VxLAN encapsulation<a class="headerlink" href="#slow-path-egress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>Packets coming from overlay network:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
@@ -212,8 +212,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 </li>
 </ul>
 </section>
-<section id="egress-traffic-with-vxlan-encapsulation">
-<h5>Egress traffic with VxLAN encapsulation<a class="headerlink" href="#egress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
+<section id="slow-path-egress-traffic-with-vxlan-encapsulation">
+<h5>Slow path egress traffic with VxLAN encapsulation<a class="headerlink" href="#slow-path-egress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>Packets coming from overlay network:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
@@ -236,10 +236,10 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-terminat
 </ul>
 </section>
 </section>
-<section id="for-rx">
-<h4>For Rx<a class="headerlink" href="#for-rx" title="Permalink to this heading"></a></h4>
-<section id="ingress-traffic-without-vxlan-encapsulation">
-<h5>Ingress traffic without VxLAN encapsulation<a class="headerlink" href="#ingress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
+<section id="for-slow-path-rx-forwarding">
+<h4>For slow path Rx forwarding<a class="headerlink" href="#for-slow-path-rx-forwarding" title="Permalink to this heading"></a></h4>
+<section id="slow-path-ingress-traffic-without-vxlan-encapsulation">
+<h5>Slow path ingress traffic without VxLAN encapsulation<a class="headerlink" href="#slow-path-ingress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>If the packet coming from a remote machine to the physical port is not VxLAN encapsulated packet:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
@@ -255,8 +255,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 </li>
 </ul>
 </section>
-<section id="ingress-traffic-with-vxlan-encapsulation">
-<h5>Ingress traffic with VxLAN encapsulation<a class="headerlink" href="#ingress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
+<section id="slow-path-ingress-traffic-with-vxlan-encapsulation">
+<h5>Slow path ingress traffic with VxLAN encapsulation<a class="headerlink" href="#slow-path-ingress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>If the packet coming from a remote machine to the physical port is VxLAN encapsulated packet:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
@@ -324,10 +324,10 @@ Configure tables:</p>
 </pre></div>
 </div>
 <p>Once these tables are configured refer to packet flow as mentioned below.</p>
-<section id="id1">
-<h4>For Tx<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
-<section id="id2">
-<h5>Egress traffic without VxLAN encapsulation<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
+<section id="for-fast-path-tx-forwarding">
+<h4>For fast path Tx forwarding<a class="headerlink" href="#for-fast-path-tx-forwarding" title="Permalink to this heading"></a></h4>
+<section id="fast-path-egress-traffic-without-vxlan-encapsulation">
+<h5>Fast path egress traffic without VxLAN encapsulation<a class="headerlink" href="#fast-path-egress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>Packets coming from overlay network:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
@@ -343,8 +343,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 </li>
 </ul>
 </section>
-<section id="id3">
-<h5>Egress traffic with VxLAN encapsulation<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h5>
+<section id="fast-path-egress-traffic-with-vxlan-encapsulation">
+<h5>Fast path egress traffic with VxLAN encapsulation<a class="headerlink" href="#fast-path-egress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>Packets coming from overlay network:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
@@ -366,10 +366,10 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-terminat
 </ul>
 </section>
 </section>
-<section id="id4">
-<h4>For Rx<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
-<section id="id5">
-<h5>Ingress traffic without VxLAN encapsulation<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<section id="for-fast-path-rx-forwarding">
+<h4>For fast path Rx forwarding<a class="headerlink" href="#for-fast-path-rx-forwarding" title="Permalink to this heading"></a></h4>
+<section id="fast-path-ingress-traffic-without-vxlan-encapsulation">
+<h5>Fast path ingress traffic without VxLAN encapsulation<a class="headerlink" href="#fast-path-ingress-traffic-without-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>If the packet coming from a remote machine to the physical port is not VxLAN encapsulated packet:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
@@ -385,8 +385,8 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span cla
 </li>
 </ul>
 </section>
-<section id="id6">
-<h5>Ingress traffic with VxLAN encapsulation<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
+<section id="fast-path-ingress-traffic-with-vxlan-encapsulation">
+<h5>Fast path ingress traffic with VxLAN encapsulation<a class="headerlink" href="#fast-path-ingress-traffic-with-vxlan-encapsulation" title="Permalink to this heading"></a></h5>
 <p>If the packet coming from a remote machine to the physical port are VxLAN encapsulated packet:</p>
 <ul>
 <li><p>Determine the source port of the packet based on which physical port the packet has landed</p></li>
@@ -430,21 +430,10 @@ ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-terminat
 <li><p>systemctl stop firewalld</p></li>
 </ul>
 </li>
-<li><p>See LNW-V2 README_P4_CP_NWS, which comes with the P4 program for more information about limitations in router_interface_id action in nexthop_table(Defect filed).</p>
-<ul>
-<li><p>Manually modify context.json to remove NOP hardware action for in context.json from “set_nexthop “ action in “nexthop_table”. Open defect is present in p4-sde to fix this issue. Content to be removed under hardware action in context.json is</p></li>
+<li><p>LAG and ECMP are mutually exclusive. Both can’t co-exist in the system configuration at the same time.</p></li>
+<li><p>LAG configuration done via bonding driver is supported.</p></li>
+<li><p>The supported modes are active-backup and active-active with 802.3ad (LACP).</p></li>
 </ul>
-</li>
-</ul>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
-    &quot;prec&quot;: 0,
-    &quot;action_code&quot;: &quot;NOP&quot;,
-    &quot;index&quot;: 0,
-    &quot;value&quot;: 0,
-    &quot;mask&quot;: 0
-},
-</pre></div>
-</div>
 </section>
 </section>
 
