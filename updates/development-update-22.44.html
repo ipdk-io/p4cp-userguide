@@ -19,7 +19,6 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Changes from P4-OVS" href="changes-from-p4-ovs.html" />
     <link rel="prev" title="Development Update 22.50" href="development-update-22.50.html" /> 
 </head>
 
@@ -47,18 +46,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/setup/setup-guides.html">Setup Guides</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/packet-io.html">Packet I/O</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Building</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scripts/helper-scripts.html">Helper Scripts</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
@@ -67,11 +65,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../clients/p4rt_perf_test.html">p4rt_perf_test</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clients/sgnmi_cli.html">sgnmi_cli</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Applications</span></p>
+<p class="caption" role="heading"><span class="caption-text">P4 Programs</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apps/ipsec-offload.html">IPsec Offload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apps/lnw/lnw-index.html">Linux Networking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apps/packet-io.html">Packet I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/es2k/enabling-comm-channel.html">Enabling the Communication Channel</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
@@ -81,25 +80,28 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Updates</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
-<li class="toctree-l1"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Update 22.44</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-name">Project Name</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-s-changed">What’s Changed</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#highlights">Highlights</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tdi-variants">TDI variants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dpdk-support">DPDK support</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dpdk-port-attributes">DPDK port attributes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ovs-update">OvS Update</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#gnmi-ctl">gnmi-ctl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#coming-attractions">Coming Attractions</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Development Update 22.44</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-name">Project Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-s-changed">What’s Changed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#highlights">Highlights</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tdi-variants">TDI variants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dpdk-support">DPDK support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dpdk-port-attributes">DPDK port attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ovs-update">OvS Update</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gnmi-ctl">gnmi-ctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coming-attractions">Coming Attractions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -117,6 +119,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="updates-index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
       <li class="breadcrumb-item active">Development Update 22.44</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/updates/development-update-22.44.md.txt" rel="nofollow"> View page source</a>
@@ -268,7 +271,6 @@ state machine.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="development-update-22.50.html" class="btn btn-neutral float-left" title="Development Update 22.50" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="changes-from-p4-ovs.html" class="btn btn-neutral float-right" title="Changes from P4-OVS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
