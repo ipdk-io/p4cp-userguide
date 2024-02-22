@@ -10,5 +10,5 @@ Do not modify its contents.
 If you wish to **read** the user guide, its URL is
 <https://ipdk.io/p4cp-userguide/>.
 
-If you're interested in the **source files**, they may be found at
-<https://github.com/ipdk-io/networking-recipe/tree/main/docs>.
+If you're interested in the **source files**, they may be found in the
+`main` branch of this repository.
