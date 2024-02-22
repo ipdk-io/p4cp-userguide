@@ -9,7 +9,4 @@ outside the context of the finished document.
 
 We recommend that you access the User Guide through the link above.
 
-There are also links to the User Guide on the main page of the
-[networking-recipe repository](https://github.com/ipdk-io/networking-recipe)
-(upper right-hand corner, in the **About** section), and under _Documentation_
-in the [README file](https://github.com/ipdk-io/networking-recipe#readme).
+There's also a link in the **About** section of the current page.
