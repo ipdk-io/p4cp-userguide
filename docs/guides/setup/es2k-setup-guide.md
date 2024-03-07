@@ -241,7 +241,7 @@ touch tofino.bin
 ```bash
 $P4CP_INSTALL/bin/tdi_pipeline_builder \
     --p4c_conf_file=$OUTPUT_DIR/simple_l3_l4_pna.conf \
-    --bf_pipeline_config_binary_file=$OUTPUT_DIR/simple_l3_l4_pna.pb.bin
+    --tdi_pipeline_config_binary_file=$OUTPUT_DIR/simple_l3_l4_pna.pb.bin
 ```
 
 ### Set forwarding pipeline

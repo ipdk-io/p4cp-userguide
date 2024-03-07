@@ -1,5 +1,5 @@
 ..
-      Copyright 2021-2023 Intel Corporation
+      Copyright 2021-2024 Intel Corporation
       SPDX-License-Identifier: Apache-2.0
 
 ========
@@ -59,14 +59,14 @@ To generate pb.bin:
 .. code-block:: bash
 
    tdi_pipeline_builder --p4c_conf_file="<path-to-input-sample-file.conf>" \
-       --bf_pipeline_config_binary_file="<path-to-output-file.pb.bin>"
+       --tdi_pipeline_config_binary_file="<path-to-output-file.pb.bin>"
 
 For example,
 
 .. code-block:: bash
 
    tdi_pipeline_builder --p4c_conf_file=/home/mydir/sample.conf \
-       --bf_pipeline_config_binary_file=/home/mydir/sample.pb.bin
+       --tdi_pipeline_config_binary_file=/home/mydir/sample.pb.bin
 
 .. important::
 

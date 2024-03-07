@@ -1,6 +1,6 @@
 <!--
 /*
- * Copyright 2022-2023 Intel Corporation.
+ * Copyright 2022-2024 Intel Corporation.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -70,7 +70,7 @@ VxLAN.  Note the limitations below before setting up the topology.
 - Generate binary file using the following tdi-pipeline builder command:
 
   ```bash
-  tdi_pipeline_builder --p4c_conf_file=lnw.conf --bf_pipeline_config_binary_file=lnw.pb.bin
+  tdi_pipeline_builder --p4c_conf_file=lnw.conf --tdi_pipeline_config_binary_file=lnw.pb.bin
   ```
 
 ## Creating the topology
