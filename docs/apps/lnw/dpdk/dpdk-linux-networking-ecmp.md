@@ -63,9 +63,9 @@ repository and follow the readme for procedure.
   p4c-dpdk --arch pna --target dpdk \
       --p4runtime-files $OUTPUT_DIR/p4Info.txt \
       --bf-rt-schema $OUTPUT_DIR/bf-rt.json \
-	  --context $OUTPUT_DIR/context.json \
-	  -o $OUTPUT_DIR/linux_networking.spec \
-	  linux_networking.p4
+      --context $OUTPUT_DIR/context.json \
+      -o $OUTPUT_DIR/linux_networking.spec \
+      linux_networking.p4
   ```
 
 - Modify sample lnw.conf file available in $IPDK_RECIPE/p4src/linux_networking/
@@ -220,7 +220,7 @@ Using one of the TAP ports for tunnel termination.
 ```bash
 sudo $P4CP_INSTALL/bin/ovs-vsctl add-port br-int vxlan1 -- \
     set interface vxlan1 type=vxlan options:local_ip=40.1.1.1 \
-	options:remote_ip=30.1.1.1 options:dst_port=4789
+    options:remote_ip=30.1.1.1 options:dst_port=4789
 ```
 
 Note:
