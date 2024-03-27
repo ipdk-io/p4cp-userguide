@@ -165,5 +165,5 @@ cd $SDE_INSTALL
 LD_LIBRARY_PATH=$P4CP_RECIPE/install/lib/:$SDE_INSTALL/lib \
     $P4CP_RECIPE/install/bin/tdi_pipeline_builder \
     -p4c_conf_file=$SDE_INSTALL/share/p4/targets/tofino/tna_exact_match.conf \
-    -bf_pipeline_config_binary_file=$P4CP_RECIPE/tna_exact_match.pb.bin
+    -tdi_pipeline_config_binary_file=$P4CP_RECIPE/tna_exact_match.pb.bin
 ```

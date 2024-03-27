@@ -198,7 +198,7 @@ forwarding pipeline binary.
 ```bash
 $P4CP_INSTALL/bin/tdi_pipeline_builder \
     --p4c_conf_file=/usr/share/stratum/es2k/es2k_skip_p4.conf \
-    --bf_pipeline_config_binary_file=$OUTPUT_DIR/l3-fwd_sem.pb.bin
+    --tdi_pipeline_config_binary_file=$OUTPUT_DIR/l3-fwd_sem.pb.bin
 ```
 
 ## 5. Start Infrap4d

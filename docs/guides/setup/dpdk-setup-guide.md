@@ -214,7 +214,7 @@ and context.json).
 ```bash
 $P4CP_INSTALL/bin/tdi_pipeline_builder \
     --p4c_conf_file=$OUTPUT_DIR/simple_l3.conf \
-    --bf_pipeline_config_binary_file=$OUTPUT_DIR/simple_l3.pb.bin
+    --tdi_pipeline_config_binary_file=$OUTPUT_DIR/simple_l3.pb.bin
 ```
 
 #### Set forwarding pipeline
