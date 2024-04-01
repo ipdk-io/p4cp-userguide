@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
 
       - id: changed
-        uses: tj-actions/changed-files@v43
+        uses: tj-actions/changed-files@v44
         with:
           files: |
             **.md
@@ -58,7 +58,7 @@ jobs:
           pip3 install doc8
 
       - id: changed
-        uses: tj-actions/changed-files@v43
+        uses: tj-actions/changed-files@v44
         with:
           files: |
             **.rst
@@ -86,7 +86,7 @@ jobs:
 
       - name: Get new and changed restructured text files
         id: changed
-        uses: tj-actions/changed-files@v43
+        uses: tj-actions/changed-files@v44
         with:
           files: |
             **.rst
