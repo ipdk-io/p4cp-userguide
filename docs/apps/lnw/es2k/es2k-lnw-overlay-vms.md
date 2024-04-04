@@ -31,8 +31,8 @@ for more details on this feature.
 
 Prerequisites:
 
-- For Linux Networking V2
-  - Download `hw-p4-programs` TAR file specific to the build and extract it to get `fxp-net_linux-networking-v2` P4 artifacts. Go through `Limitations` specified in `README` and bring up the config accordingly.
+- For Linux Networking v2
+  - Download `hw-p4-programs` TAR file compliant with the CI build image and extract it to get `fxp-net_linux-networking-v2` P4 artifacts. Check `README` for bringup guide, and be sure to check `Limitations` for known issues.
   - Follow steps mentioned in [Deploying P4 Programs for E2100](/guides/es2k/deploying-p4-programs) for bringing up IPU with a custom P4 package.
 Modify `load_custom_pkg.sh` with following parameters for linux_networking package:
 
@@ -42,8 +42,8 @@ Modify `load_custom_pkg.sh` with following parameters for linux_networking packa
        sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
     ```
 
-- For Linux Networking V3
-  - Download `hw-p4-programs` TAR file specific to the build and extract it to get `fxp-net_linux-networking-v3` P4 artifacts. Go through `Limitations` specified in `README` and bring up the config accordingly.
+- For Linux Networking v3
+  - Download `hw-p4-programs` TAR file compliant with the CI build image and extract it to get `fxp-net_linux-networking-v3` P4 artifacts. Check `README` for bringup guide, and be sure to check `Limitations` for known issues.
   - Follow steps mentioned in [Deploying P4 Programs for E2100](/guides/es2k/deploying-p4-programs) for bringing up IPU with a custom P4 package.
 Modify `load_custom_pkg.sh` with following parameters for linux_networking package:
 
@@ -54,7 +54,7 @@ Modify `load_custom_pkg.sh` with following parameters for linux_networking packa
         sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
      ```
 
-- Download `IPU_Documentation` TAR file specific to the build and refer to `Getting Started Guide` on how to install compatible `IDPF driver` on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the `sriov_numvfs` file present under one of the IDPF network devices. Example as below
+- Download `IPU_Documentation` TAR file compliant with the CI build image and refer to `Getting Started Guide` on how to install compatible `IDPF driver` on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the `sriov_numvfs` file present under one of the IDPF network devices. Example as below
 
   ```bash
   echo 8 > /sys/class/net/ens802f0/device/sriov_numvfs
@@ -79,10 +79,10 @@ System under test will have above topology running the networking recipe. Link P
 
 ## Creating the topology
 
-- For Linux Networking V2
+- For Linux Networking v2
   Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v2` P4 program.
 
-- For Linux Networking V3
+- For Linux Networking v3
   Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v3` P4 program.
 
 ### Port Mapping
@@ -122,14 +122,14 @@ These VSI values can be checked with `/usr/bin/cli_client -q -c` command on IMC.
 Once the application is started, set the forwarding pipeline config using
 P4Runtime Client `p4rt-ctl` set-pipe command
 
-- For Linux Networking V2
+- For Linux Networking v2
 
   ```bash
      $P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking-v2.pb.bin \
      $OUTPUT_DIR/p4info.txt
   ```
 
-- For Linux Networking V3
+- For Linux Networking v3
 
   ```bash
      $P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking-v3.pb.bin \
@@ -230,7 +230,7 @@ Example:
 - Corresponding port representor VSI value 9
 - If a VSI is used as an action, add an offset of 16 to the VSI value
 
-- For Linux Networking V2
+- For Linux Networking v2
 
   ```bash
      # Create a source port for an overlay VF (VSI-27). Source port value should be VSI ID + 16.
@@ -238,7 +238,7 @@ Example:
       "vmeta.common.vsi=27,zero_padding=0,action=linux_networking_control.set_source_port(43)"
    ```
 
-- For Linux Networking V3
+- For Linux Networking v3
 
   ```bash
      # Create a source port for an overlay VF (VSI-27). Source port value should be VSI ID + 16.
@@ -306,7 +306,7 @@ Example:
 - Corresponding port representor VSI value 18
 - If a VSI is used as an action, add an offset of 16 to the VSI value
 
-- For Linux Networking V2
+- For Linux Networking v2
 
   ```bash
      # Create a source port for an APF netdev (VSI-24). Source port value should be VSI ID + 16.
@@ -314,7 +314,7 @@ Example:
       "vmeta.common.vsi=24,zero_padding=0,action=linux_networking_control.set_source_port(40)"
    ```
 
-- For Linux Networking V3
+- For Linux Networking v3
 
   ```bash
      # Create a source port for an APF netdev (VSI-24). Source port value should be VSI ID + 16.
@@ -351,7 +351,7 @@ For TCAM entry configure LPM LUT table
 
 Create a dummy LAG bypass table for all 8 hash indexes
 
-- For Linux Networking V2
+- For Linux Networking v2
 
   ```bash
      p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
@@ -379,7 +379,7 @@ Create a dummy LAG bypass table for all 8 hash indexes
       "user_meta.cmeta.lag_group_id=0,hash=7,action=linux_networking_control.bypass"
    ```
 
-- For Linux Networking V3
+- For Linux Networking v3
 
   ```bash
      p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
