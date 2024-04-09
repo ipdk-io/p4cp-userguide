@@ -290,9 +290,20 @@ Current Linux Networking support for the networking recipe has the following lim
 - Only OvS bridges are supported.
 - Configure p4rt-ctl runtime rules before OvS configuration.
 - Double vlan tag is NOT supported.
+- Source port value used in P4RT rules should be VSI ID + 16
+- Delete the route if added manually using `ip route` command
+- Bring the port down or remove the IP address before removing the port from OVS bridge or deleting the bridge.
 - Add all ACC PR's to VSI group 1.
 - On ACC, firewall needs to be disabled. Otherwise, this service will block encapsulated packets.
   - systemctl stop firewalld
 - LAG and ECMP are mutually exclusive. Both can't co-exist in the system configuration at the same time.
 - LAG configuration done via bonding driver is supported.
 - The supported modes are active-backup and active-active with 802.3ad (LACP).
+
+## Additional limitations for Linux Networking v3
+
+- After teardown, it's possible that entries continue to exist in `vm_src_ip4_mac_map_table` and
+  `vm_dst_ip4_mac_map_table` since entries in these tables are learnt from OVS flows in MAC learning phase
+  and OVS might not issue a callback to delete these unless aging happens. Delete these enties using
+  `p4rt-ctl del-entry` command
+- IPv6 is not supported
