@@ -159,7 +159,7 @@ ovs-vsctl set Open_vSwitch . other_config:n-handler-threads=1
 ovs-vsctl  show
 ```
 
-Note: If using a P4Runtime gRPC server address other than localhost, then specify the gRPC server address when starting ovs-vswitchd using `--grpc-addr` option.
+Note: If you are using a P4Runtime gRPC server address other than localhost, specify the gRPC server address when starting ovs-vswitchd using the `--grpc-addr` option.
 This address will be used by ovs-p4rt client for communication with P4Runtime gRPC server.
 
 Example:
