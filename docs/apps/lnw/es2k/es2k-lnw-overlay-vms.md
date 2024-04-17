@@ -344,9 +344,18 @@ Example:
 
 For TCAM entry configure LPM LUT table
 
+- For Linux Networking v2
+
 ```bash
  p4rt-ctl add-entry br0 linux_networking_control.ipv4_lpm_root_lut \
      "user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=65535,action=linux_networking_control.ipv4_lpm_root_lut_action(0)"
+```
+
+- For Linux Networking v3
+
+```bash
+ p4rt-ctl add-entry br0 linux_networking_control.ipv4_lpm_root_lut \
+     "user_meta.cmeta.bit16_zeros=4/65535,priority=2048,action=linux_networking_control.ipv4_lpm_root_lut_action(0)"
 ```
 
 Create a dummy LAG bypass table for all 8 hash indexes
