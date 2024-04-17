@@ -185,6 +185,17 @@ ovs-vsctl set Open_vSwitch . other_config:n-handler-threads=1
 ovs-vsctl  show
 ```
 
+Note: If using a P4Runtime gRPC server address other than localhost, then specify the gRPC server address when starting ovs-vswitchd using `--grpc-addr` option.
+This address will be used by ovs-p4rt client for communication with P4Runtime gRPC server.
+
+Example:
+If infrap4d server is started on address 5.5.5.5 using `$P4CP_INSTALL/sbin/infrap4d --nodetach --local_stratum_url="5.5.5.5:9559" --external_stratum_urls="5.5.5.5:9339,5.5.5.5:9559"`, then start ovs-vswitchd as follows:
+
+```bash
+ovs-vswitchd --pidfile --detach --mlockall \
+        --log-file=/tmp/logs/ovs-vswitchd.log --grpc-addr="5.5.5.5"
+```
+
 ### Create Overlay network
 
 Option 1: Create VFs on HOST and spawn VMs on top of those VFs.
