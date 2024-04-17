@@ -191,6 +191,17 @@ ovs-vsctl set Open_vSwitch . other_config:n-handler-threads=1
 ovs-vsctl  show
 ```
 
+Note: If you are using a P4Runtime gRPC server address other than localhost, specify the gRPC server address when starting ovs-vswitchd using the `--grpc-addr` option.
+This address will be used by ovs-p4rt client for communication with P4Runtime gRPC server.
+
+Example:
+If infrap4d server is started on address 5.5.5.5 using `$P4CP_INSTALL/sbin/infrap4d --nodetach --local_stratum_url="5.5.5.5:9559" --external_stratum_urls="5.5.5.5:9339,5.5.5.5:9559"`, then start ovs-vswitchd as follows:
+
+```bash
+ovs-vswitchd --pidfile --detach --mlockall \
+        --log-file=/tmp/logs/ovs-vswitchd.log --grpc-addr="5.5.5.5"
+```
+
 ### Create Overlay network
 
 Option 1: Create VFs on HOST and spawn VMs on top of those VFs.
@@ -344,9 +355,18 @@ Example:
 
 For TCAM entry configure LPM LUT table
 
+- For Linux Networking v2
+
 ```bash
  p4rt-ctl add-entry br0 linux_networking_control.ipv4_lpm_root_lut \
      "user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=65535,action=linux_networking_control.ipv4_lpm_root_lut_action(0)"
+```
+
+- For Linux Networking v3
+
+```bash
+ p4rt-ctl add-entry br0 linux_networking_control.ipv4_lpm_root_lut \
+     "user_meta.cmeta.bit16_zeros=4/65535,priority=2048,action=linux_networking_control.ipv4_lpm_root_lut_action(0)"
 ```
 
 Create a dummy LAG bypass table for all 8 hash indexes
