@@ -21,17 +21,20 @@ Syntax
 .. code-block:: text
 
   ./make-all.sh \
-      [--help|-h]  [--dry-run|-n] \
+      [--help|-h]  \
+      [--dry-run|-n] \
       [--deps=DEPS | -D DEPS] \
       [--host=HOSTDEPS | -H HOSTDEPS] \
       [--ovs=OVS | -O OVS] \
       [--prefix=PREFIX | -P PREFIX] \
       [--sde=SDE | -S SDE] \
       [--toolchain=TOOLFILE | -T TOOLFILE ] \
-      [--coverage] [--cxx=STD] \
+      [--coverage] \
+      [--cxx=STD] \
       [--jobs=NJOBS | -j NJOBS] \
       [--no-build] \
-      [--no-krnlmon] [--no-ovs] \
+      [--no-krnlmon] \
+      [--no-ovs] \
       [--target=dpdk|es2k|tofino] \
       [--debug|--minsize|--reldeb|--release]
 
@@ -41,11 +44,11 @@ Command-line parameters
 General
 -------
 
-``--dry-run``, ``-n``
-  Displays the parameters that will be passed to CMake, and exits.
-
 ``--help``, ``-h``
   Displays usage information and exits.
+
+``--dry-run``, ``-n``
+  Displays the parameters that will be passed to CMake, and exits.
 
 Paths
 -----
