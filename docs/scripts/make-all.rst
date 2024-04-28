@@ -32,6 +32,7 @@ Syntax
       [--coverage] \
       [--cxx=STD] \
       [--jobs=NJOBS | -j NJOBS] \
+      [--lnw-version=VERSION] \
       [--no-build] \
       [--no-krnlmon] \
       [--no-ovs] \
@@ -120,6 +121,13 @@ Options
   Number of build threads.
   Specifies the value of the ``-j`` CMake option.
   Defaults to 8 threads.
+
+``--lnw_version=VERSION``
+  Version of the Linux Networking P4 program to support (2, 3).
+  Affects krnlmon and ovs-p4rt.
+  Only applies to the ``ES2K`` target.
+  Sets the ``LNW_VERSION`` listfile variable.
+  Defaults to version 3.
 
 ``--no-build``
   Configures CMake but does not build the dependencies.
