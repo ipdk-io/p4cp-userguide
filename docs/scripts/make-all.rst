@@ -21,17 +21,21 @@ Syntax
 .. code-block:: text
 
   ./make-all.sh \
-      [--help|-h]  [--dry-run|-n] \
+      [--help|-h]  \
+      [--dry-run|-n] \
       [--deps=DEPS | -D DEPS] \
       [--host=HOSTDEPS | -H HOSTDEPS] \
       [--ovs=OVS | -O OVS] \
       [--prefix=PREFIX | -P PREFIX] \
       [--sde=SDE | -S SDE] \
       [--toolchain=TOOLFILE | -T TOOLFILE ] \
-      [--coverage] [--cxx=STD] \
+      [--coverage] \
+      [--cxx=STD] \
       [--jobs=NJOBS | -j NJOBS] \
+      [--lnw-version=VERSION] \
       [--no-build] \
-      [--no-krnlmon] [--no-ovs] \
+      [--no-krnlmon] \
+      [--no-ovs] \
       [--target=dpdk|es2k|tofino] \
       [--debug|--minsize|--reldeb|--release]
 
@@ -41,11 +45,11 @@ Command-line parameters
 General
 -------
 
-``--dry-run``, ``-n``
-  Displays the parameters that will be passed to CMake, and exits.
-
 ``--help``, ``-h``
   Displays usage information and exits.
+
+``--dry-run``, ``-n``
+  Displays the parameters that will be passed to CMake, and exits.
 
 Paths
 -----
@@ -117,6 +121,13 @@ Options
   Number of build threads.
   Specifies the value of the ``-j`` CMake option.
   Defaults to 8 threads.
+
+``--lnw_version=VERSION``
+  Version of the Linux Networking P4 program to support (2, 3).
+  Affects krnlmon and ovs-p4rt.
+  Only applies to the ``ES2K`` target.
+  Sets the ``LNW_VERSION`` listfile variable.
+  Defaults to version 3.
 
 ``--no-build``
   Configures CMake but does not build the dependencies.
