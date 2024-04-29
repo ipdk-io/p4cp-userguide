@@ -253,7 +253,7 @@ Example:
 
   ```bash
      # Create a source port for an overlay VF (VSI-27). Source port value should be VSI ID + 16.
-      p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v4
+      p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v4 \
       "vmeta.common.vsi=27/2047,priority=1,action=linux_networking_control.set_source_port(43)"
    ```
 
