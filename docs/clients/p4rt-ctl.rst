@@ -20,9 +20,7 @@ P4 build artifacts for sample.p4:
 * sample.conf
 * p4info.txt
 * tdi.json
-* pipe/context.json
-* pipe/sample.spec
-
+* context.json
 
 The P4 compiler (P4C) backend supports both PSA and PNA architectures. The
 compiler emits the pipeline name based on the architecture used in the P4
@@ -35,7 +33,7 @@ program:
 
 The pipeline name is referenced as:
 
-* p4_pipeline_name in /usr/share/stratum/target_skip_p4_no_bsp.conf
+* p4_pipeline_name in /usr/share/stratum/<target>/<target>_skip_p4.conf
 * p4_pipeline_name in the sample.conf file
 
 Networking recipe assumes pipeline name is defaulted to "pipe".
@@ -156,7 +154,7 @@ Example:
 
 .. code-block:: bash
 
-   p4rt-ctl set-pipe br0
+   p4rt-ctl get-pipe br0
 
 Add table entry (rule) to forwarding pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
