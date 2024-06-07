@@ -31,17 +31,19 @@ for more details on this feature.
 
 Prerequisites:
 
-- Download `hw-p4-programs` TAR file specific to the build and extract it to get `fxp-net_linux-networking-v2` p4 artifacts. Go through `Limitations` specified in `README` and bring up the setup accordingly.
-- Follow steps mentioned in [Deploying P4 Programs for E2100](/guides/es2k/deploying-p4-programs) for bringing up IPU with a custom P4 package.
+- For Linux Networking v3
+  - Download `hw-p4-programs` TAR file compliant with the CI build image and extract it to get `fxp-net_linux-networking-v3` P4 artifacts. Check readme for bring up guide, and be sure to check limitation for known issues.
+
+  - Follow steps mentioned in [Deploying P4 Programs for E2100](/guides/es2k/deploying-p4-programs) for bringing up IPU with a custom P4 package.
 Modify `load_custom_pkg.sh` with following parameters for linux_networking package:
 
-```text
-    sed -i 's/sem_num_pages = 1;/sem_num_pages = 25;/g' $CP_INIT_CFG
-    sed -i 's/lem_num_pages = 1;/lem_num_pages = 10;/g' $CP_INIT_CFG
-    sed -i 's/acc_apf = 4;/acc_apf = 8;/g' $CP_INIT_CFG
-```
+     ```text
+        sed -i 's/sem_num_pages = 1;/sem_num_pages = 28;/g' $CP_INIT_CFG
+        sed -i 's/lem_num_pages = 1;/lem_num_pages = 10;/g' $CP_INIT_CFG
+        sed -i 's/allow_change_mac_address = false;/allow_change_mac_address = true;/g' $CP_INIT_CFG
+        sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
 
-- Download `IPU_Documentation` TAR file specific to the build and refer to `Getting Started Guide` on how to install compatible `IDPF driver` on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the `sriov_numvfs` file present under one of the IDPF network devices. Example as below
+- Download `IPU_Documentation` TAR file compliant with the CI build image and refer to `Getting Started Guide` on how to install compatible `IDPF driver` on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the `sriov_numvfs` file present under one of the IDPF network devices. Example as below
 
   ```bash
   echo 1 > /sys/class/net/ens802f0/device/sriov_numvfs
@@ -68,7 +70,8 @@ System under test will have above topology running the networking recipe. Link P
 
 ## Creating the topology
 
-Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v2` p4 program.
+- For Linux Networking v3
+  Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v3` P4 program.
 
 ### Port mapping
 
@@ -100,12 +103,14 @@ These VSI values can be checked with `/usr/bin/cli_client -q -c` command on IMC.
 Once the application is started, set the forwarding pipeline config using
 P4Runtime Client `p4rt-ctl` set-pipe command
 
-```bash
-$P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking-v2.pb.bin \
-    $OUTPUT_DIR/p4info.txt
-```
+- For Linux Networking v3
 
-Note: Assumes that `fxp-net_linux-networking-v2.pb.bin`, `p4info.txt` and other P4 artifacts, are created by following the steps in the previous section.
+  ```bash
+     $P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking-v3.pb.bin \
+     $OUTPUT_DIR/p4info.txt
+  ```
+
+Note: Assumes that `fxp-net_linux-networking-v3.pb.bin`, `p4info.txt` and other P4 artifacts, are created by following the steps in the previous section.
 
 ### Configure VSI Group and add a netdev
 

@@ -31,17 +31,6 @@ for more details on this feature.
 
 Prerequisites:
 
-- For Linux Networking v2
-  - Download `hw-p4-programs` TAR file compliant with the CI build image and extract it to get `fxp-net_linux-networking-v2` P4 artifacts. Check `README` for bringup guide, and be sure to check `Limitations` for known issues.
-  - Follow steps mentioned in [Deploying P4 Programs for E2100](/guides/es2k/deploying-p4-programs) for bringing up IPU with a custom P4 package.
-Modify `load_custom_pkg.sh` with following parameters for linux_networking package:
-
-    ```text
-       sed -i 's/sem_num_pages = 1;/sem_num_pages = 25;/g' $CP_INIT_CFG
-       sed -i 's/lem_num_pages = 1;/lem_num_pages = 10;/g' $CP_INIT_CFG
-       sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
-    ```
-
 - For Linux Networking v3
   - Download `hw-p4-programs` TAR file compliant with the CI build image and extract it to get `fxp-net_linux-networking-v3` P4 artifacts. Check `README` for bringup guide, and be sure to check `Limitations` for known issues.
 
@@ -82,9 +71,6 @@ System under test will have above topology running the networking recipe. Link P
 
 ## Creating the topology
 
-- For Linux Networking v2
-  Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v2` P4 program.
-
 - For Linux Networking v3
   Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking-v3` P4 program.
 
@@ -118,13 +104,6 @@ These VSI values can be checked with `/usr/bin/cli_client -q -c` command on IMC.
 
 Once the application is started, set the forwarding pipeline config using
 P4Runtime Client `p4rt-ctl` set-pipe command
-
-- For Linux Networking v2
-
-  ```bash
-     $P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking-v2.pb.bin \
-     $OUTPUT_DIR/p4info.txt
-  ```
 
 - For Linux Networking v3
 
@@ -236,14 +215,6 @@ Example:
 - Overlay VF1 has a VSI value 27, its corresponding port representor has VSI value 9
 - If a VSI is used as an action, add an offset of 16 to the VSI value
 
-- For Linux Networking v2
-
-  ```bash
-     # Create a source port for an overlay VF (VSI-27). Source port value should be VSI ID + 16.
-      p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v4 \
-      "vmeta.common.vsi=27,zero_padding=0,action=linux_networking_control.set_source_port(43)"
-   ```
-
 - For Linux Networking v3
 
   ```bash
@@ -311,14 +282,6 @@ Example:
 - APF netdev 1 on HOST has a VSI value 24, its corresponding port representor has VSI value 18
 - If a VSI is used as an action, add an offset of 16 to the VSI value
 
-- For Linux Networking v2
-
-  ```bash
-     # Create a source port for an APF netdev (VSI-24). Source port value should be VSI ID + 16.
-      p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v4 \
-      "vmeta.common.vsi=24,zero_padding=0,action=linux_networking_control.set_source_port(40)"
-   ```
-
 - For Linux Networking v3
 
   ```bash
@@ -350,13 +313,6 @@ Example:
 
 For TCAM entry configure LPM LUT table
 
-- For Linux Networking v2
-
-```bash
- p4rt-ctl add-entry br0 linux_networking_control.ipv4_lpm_root_lut \
-     "user_meta.cmeta.bit32_zeros=4/255.255.255.255,priority=65535,action=linux_networking_control.ipv4_lpm_root_lut_action(0)"
-```
-
 - For Linux Networking v3
 
 ```bash
@@ -365,34 +321,6 @@ For TCAM entry configure LPM LUT table
 ```
 
 Create a dummy LAG bypass table for all 8 hash indexes
-
-- For Linux Networking v2
-
-  ```bash
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=0,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=1,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=2,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=3,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=4,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=5,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=6,action=linux_networking_control.bypass"
-
-     p4rt-ctl add-entry br0  linux_networking_control.tx_lag_table \
-      "user_meta.cmeta.lag_group_id=0,hash=7,action=linux_networking_control.bypass"
-   ```
 
 - For Linux Networking v3
 
