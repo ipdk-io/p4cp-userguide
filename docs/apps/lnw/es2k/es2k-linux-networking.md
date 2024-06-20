@@ -306,4 +306,4 @@ Current Linux Networking support for the networking recipe has the following lim
   `vm_dst_ip4_mac_map_table` since entries in these tables are learnt from OVS flows in MAC learning phase
   and OVS might not issue a callback to delete these unless aging happens. Delete these enties using
   `p4rt-ctl del-entry` command
-- IPv6 is not supported
+- IPv6 as part of IPsec tunnel configuration is not supported
