@@ -38,7 +38,6 @@ Syntax
       [--prefix=PREFIX | -P PREFIX] \
       [--sde=SDE | -S SDE] \
       [--toolchain=TOOLFILE | -T TOOLFILE ] \
-      [--lnw-version=VERSION] \
       [--no-krnlmon] \
       [--no-ovs]
 
@@ -131,13 +130,6 @@ Target paths
 
 Options
 -------
-
-``--lnw_version=VERSION``
-  Version of the Linux Networking P4 program to support (2, 3).
-  Affects krnlmon and ovs-p4rt.
-  Only applies to the ``ES2K`` target.
-  Sets the ``LNW_VERSION`` listfile variable.
-  Defaults to version 3.
 
 ``--no-krnlmon``
   Excludes the Kernel Monitor from the build.
