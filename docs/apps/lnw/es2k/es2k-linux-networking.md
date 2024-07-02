@@ -299,9 +299,6 @@ Current Linux Networking support for the networking recipe has the following lim
 - LAG and ECMP are mutually exclusive. Both can't co-exist in the system configuration at the same time.
 - LAG configuration done via bonding driver is supported.
 - The supported modes are active-backup and active-active with 802.3ad (LACP).
-
-## Additional limitations for Linux Networking v3
-
 - After teardown, it's possible that entries continue to exist in `vm_src_ip4_mac_map_table` and
   `vm_dst_ip4_mac_map_table` since entries in these tables are learnt from OVS flows in MAC learning phase
   and OVS might not issue a callback to delete these unless aging happens. Delete these enties using
