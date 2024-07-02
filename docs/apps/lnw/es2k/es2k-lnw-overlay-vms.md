@@ -68,7 +68,7 @@ System under test will have above topology running the networking recipe. Link P
 
 ## Creating the topology
 
-  Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking` P4 program.
+Follow steps mentioned in [Running Infrap4d on Intel E2100](/guides/es2k/running-infrap4d.md) for starting `infrap4d` process and creating protobuf binary for `fxp-net_linux-networking` P4 program.
 
 ### Port Mapping
 

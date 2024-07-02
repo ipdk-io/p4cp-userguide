@@ -104,9 +104,9 @@ These VSI values can be checked with `/usr/bin/cli_client -q -c` command on IMC.
 Once the application is started, set the forwarding pipeline config using
 P4Runtime Client `p4rt-ctl` set-pipe command
 
-    ```bash
-    $P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking.pb.bin $OUTPUT_DIR/p4info.txt
-    ```
+```bash
+$P4CP_INSTALL/bin/p4rt-ctl set-pipe br0 $OUTPUT_DIR/fxp-net_linux-networking.pb.bin $OUTPUT_DIR/p4info.txt
+```
 
 Note: Assumes that `fxp-net_linux-networking.pb.bin`, `p4info.txt` and other P4 artifacts, are created by following the steps in the previous section.
 
