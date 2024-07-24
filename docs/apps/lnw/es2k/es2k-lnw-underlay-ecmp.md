@@ -39,7 +39,7 @@ Modify `load_custom_pkg.sh` with following parameters for linux_networking packa
 
      ```bash
         sed -i 's/sem_num_pages = .*;/sem_num_pages = 28;/g' $CP_INIT_CFG
-        sed -i 's/lem_num_pages = .*;/lem_num_pages = 10;/g' $CP_INIT_CFG
+        sed -i 's/lem_num_pages = .*;/lem_num_pages = 32;/g' $CP_INIT_CFG
         sed -i 's/mod_num_pages = .*;/mod_num_pages = 2;/g' $CP_INIT_CFG
         sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
      ```
