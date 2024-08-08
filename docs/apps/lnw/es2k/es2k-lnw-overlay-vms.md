@@ -40,6 +40,8 @@ Modify `load_custom_pkg.sh` with following parameters for linux_networking packa
         sed -i 's/sem_num_pages = .*;/sem_num_pages = 28;/g' $CP_INIT_CFG
         sed -i 's/lem_num_pages = .*;/lem_num_pages = 32;/g' $CP_INIT_CFG
         sed -i 's/mod_num_pages = .*;/mod_num_pages = 2;/g' $CP_INIT_CFG
+        sed -i 's/cxp_num_pages = .*;/cxp_num_pages = 5;/g' $CP_INIT_CFG # for IPsec use-case
+        sed -i 's/allow_change_mac_address = false;/allow_change_mac_address = true;/g' $CP_INIT_CFG # for LAG use-case
         sed -i 's/acc_apf = 4;/acc_apf = 16;/g' $CP_INIT_CFG
      ```
 
