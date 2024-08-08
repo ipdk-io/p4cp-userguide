@@ -363,7 +363,7 @@ The following configuration assumes that:
 #     ip link add bond0 type bond miimon 100 mode 802.3ad
 
 # Note: Some Linux environments have experienced issues in LAG/LACP configuring and rule programming.
-# Adding a 5s delay between each command resolves this timing issue.
+# Adding a 5s delay between commands resolves this timing issue.
 
 ip link set <IDPF netdev for VSI 10> down
 sleep 5
@@ -375,7 +375,7 @@ ip link set <IDPF netdev for VSI 11> master bond0
 sleep 5
 ip link set bond0 up
 
-# Assign IP address to bonf interface and add route to reach remote IP
+# Assign IP address to bond interface and add route to reach remote IP
 ifconfig bond0 40.1.1.1/24 up
 ip route change 40.1.1.0/24 via 40.1.1.2 dev bond0
 ```
