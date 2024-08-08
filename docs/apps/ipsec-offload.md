@@ -48,7 +48,7 @@ to load the hardware FXP pipeline with the IPsec package.
 Follow the instructions in
 [Running infrap4d](/guides/es2k/running-infrap4d.md)
 and prepare the system with generated TDI.json and context.json file references.
-In order to  offload IPsec, fixed function support must be enabled in infrap4d. 
+In order to  offload IPsec, fixed function support must be enabled in infrap4d.
 
 The /usr/share/stratum/es2k/es2k_skip_p4.conf file must include the fixed
 function configuration reference.
@@ -78,4 +78,3 @@ With the strongSwan application configured, starting IPsec
 initiate the pipeline, program the SPD rules as per the P4 program, and
 configure/re-configure SAD entries based on negotiated encryption parameters
 between local and peer system.
-
