@@ -36,18 +36,18 @@ This topology breakdown and configuration assumes all VMs are spawned on HOST VF
 
 To enable slow path mode:
 
-- Start the infrap4d process with the Kernel Monitor disabled. Command: `infrap4d -disable-krnlmon`
+- Start the infrap4d process with the Kernel Monitor disabled. Command: `infrap4d -disable_krnlmon`
 - Set environment variable `OVS_P4_OFFLOAD=false` before starting the `ovs-vswitchd` process.
 
 In this mode, VMs are spawned on top of VFs and associated with their port representors. Also, physical ports are associated with their port representors. Configure the following tables to map these in IPU:
 
 ```text
 - rx_source_port
-- tx_source_port_v4/tx_source_port_v6
+- rx_phy_port_to_pr_map
+- tx_source_port
 - tx_acc_vsi
 - vsi_to_vsi_loopback
 - source_port_to_pr_map
-- rx_phy_port_to_pr_map
 ```
 
 All port representors (PRs) in ACC should be associated with an OvS bridge. Configure table below to program the mapping between PRs and bridges in IPU:
@@ -154,11 +154,11 @@ Configure tables:
 
 ```text
 - rx_source_port
-- tx_source_port_v4/tx_source_port_v6
+- rx_phy_port_to_pr_map
+- tx_source_port
 - tx_acc_vsi
 - vsi_to_vsi_loopback
 - source_port_to_pr_map
-- rx_phy_port_to_pr_map
 - tx_lag_table     ## This is a dummy LAG entry when we have underlay as Non LAG case.
 ```
 
