@@ -215,7 +215,7 @@ Example:
 ```bash
 # Create a source port for an overlay VF (VSI-27). Source port action can be any value.
 # For simplicity add 16 to VSI ID.
- p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v6 \
+ p4rt-ctl add-entry br0 linux_networking_control.tx_source_port \
      "vmeta.common.vsi=27,zero_padding=0,action=linux_networking_control.set_source_port(43)"
 
 # Create a mapping between overlay VF (VSI-27/source port-43) and ACC port representor (VSI-9)
@@ -276,7 +276,7 @@ Example:
 ```bash
 # Create a source port for an overlay VF (VSI-24). Source port action can be any value.
 # For simplicity add 16 to VSI ID.
- p4rt-ctl add-entry br0 linux_networking_control.tx_source_port_v6 \
+ p4rt-ctl add-entry br0 linux_networking_control.tx_source_port \
      "vmeta.common.vsi=24,zero_padding=0,action=linux_networking_control.set_source_port(40)"
 
 # Create a mapping between overlay VF (VSI-24/source port-40) and ACC port representor (VSI-18)
