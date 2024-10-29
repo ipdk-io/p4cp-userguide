@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'P4 Control Plane'
-copyright = '2022-2023, Intel Corporation'
+copyright = '2022-2024 Intel Corporation'
 author = 'Intel Corporation'
 
 # -- General configuration ---------------------------------------------------
@@ -29,4 +29,5 @@ myst_heading_anchors = 3
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-#html_static_path = ['_static']
+html_static_path = ['_static']
+html_css_files = ['custom.css']

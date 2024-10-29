@@ -2,11 +2,13 @@
    SPDX-License-Identifier: Apache-2.0
 
 =======
-Updates
+General
 =======
 
 .. toctree::
    :maxdepth: 1
 
-   changes-from-p4-ovs
-   dev-updates-index
+   Overview <overview/overview>
+   guides/setup/setup-guides
+
+   

@@ -1,8 +1,9 @@
-.. Copyright 2023 Intel Corporation
-   SPDX-License-Identifier: Apache-2.0
+============
+Applications
+============
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
   
    ipsec-offload
    lnw/lnw-index
