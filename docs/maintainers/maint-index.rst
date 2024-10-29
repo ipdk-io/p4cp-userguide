@@ -3,6 +3,7 @@ Maintainers
 ===========
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   p4cpconfig
+   scripts
+   unit-tests

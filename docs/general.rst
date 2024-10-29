@@ -7,5 +7,3 @@ General
 
    Overview <overview/overview>
    guides/setup/setup-guides
-
-
