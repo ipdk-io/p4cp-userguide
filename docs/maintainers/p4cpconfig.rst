@@ -314,4 +314,3 @@ With the following results:
   3/4 Test #3: switchlink_neighbor_test .........   Passed    0.00 sec
       Start 4: switchlink_route_test
   4/4 Test #4: switchlink_route_test ............   Passed    0.00 sec
-  
