@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-.. Copyright 2023-2024 Intel Corporation
-   SPDX-License-Identifier: Apache-2.0
-
-=======
->>>>>>> Stashed changes
 ========
 Security
 ========
