@@ -299,7 +299,7 @@ To run a test suite excluding flaky tests:
 
 .. code-block:: bash
 
-xargs -a dpdk-tests.txt bazel test --define target=dpdk --test_tag_filters=-flaky
+   xargs -a dpdk-tests.txt bazel test --define target=dpdk --test_tag_filters=-flaky
 
 Test results
 ------------

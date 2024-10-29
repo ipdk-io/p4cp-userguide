@@ -12,8 +12,6 @@ Plane for DPDK or ES2K:
 
    ./make-all.sh --target=es2k
 
-.. _run-unit-tests-1:
-
 Run unit tests
 --------------
 
@@ -29,7 +27,7 @@ the unit tests.
 
 For example:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe$ (cd build; ctest)
    Test project /home/milady/recipe/build
@@ -43,7 +41,7 @@ The build summary will be displayed on the console.
 
 Details of the run are stored in a log file:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe$ more build/Testing/Temporary/LastTest.log
    Start testing: Apr 25 16:30 PDT
@@ -84,12 +82,8 @@ Details of the run are stored in a log file:
 
    End testing: Apr 25 16:30 PDT
 
-.. _measure-code-coverage-2:
-
 Measure code coverage
 ---------------------
-
-.. _enable-measurement-1:
 
 Enable measurement
 ~~~~~~~~~~~~~~~~~~
@@ -107,8 +101,6 @@ Or as a CMake command-line parameter:
 
    -DTEST_COVERAGE=ON
 
-.. _run-and-measure-tests-2:
-
 Run and measure tests
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -125,7 +117,7 @@ command:
 
 The results are displayed on the console:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe$ (cd build; ctest -T test -T coverage)
    Site: dewinter Build name: Linux-c++
@@ -148,15 +140,13 @@ The results are displayed on the console:
            Total LOC: 283
            Percentage Coverage: 97.53%
 
-.. _generate-coverage-report-2:
-
 Generate coverage report
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 To generate detailed coverage report, you must first consolidate the
 measurement data:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe$ lcov --capture --directory build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ --output-file krnlmon.info
    Capturing coverage data from build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
@@ -170,7 +160,7 @@ measurement data:
 
 Now generate the HTML report:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe$ genhtml krnlmon.info --output-directory coverage
    Reading data file krnlmon.info
@@ -207,8 +197,6 @@ Now generate the HTML report:
      lines......: 69.8% (351 of 503 lines)
      functions..: 53.2% (42 of 79 functions)
 
-.. _view-report-3:
-
 View report
 ~~~~~~~~~~~
 
@@ -244,7 +232,7 @@ krnlmon-test
 To perform a minimal build and run the Kernel Monitor unit tests for
 DPDK:
 
-.. code-block:: bash
+.. code-block:: text
 
    peabody@wabac:~/recipe$ cmake -B build -DTDI_TARGET=dpdk -DWITH_OVSP4RT=off
    -- The C compiler identification is GNU 9.4.0
@@ -294,7 +282,7 @@ krnlmon-coverage
 To perform a minimal build, run the unit tests, and measure coverage for
 ES2K:
 
-.. code-block:: bash
+.. code-block:: text
 
    peabody@wabac:~/recipe$ cmake -B build -DTDI_TARGET=es2k -DWITH_OVSP4RT=off -DTEST_COVERAGE=on
    -- The C compiler identification is GNU 9.4.0
