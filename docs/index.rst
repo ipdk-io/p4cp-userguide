@@ -17,8 +17,8 @@ P4 Control Plane User Guide
    apps/apps-index
    building
    clients/clients-index
-   developer/develop-index
    features
+   maintainers/maint-index
    p4_programs
    security
    updates/updates-index

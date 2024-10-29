@@ -1,6 +1,6 @@
-==========
-Developers
-==========
+===========
+Maintainers
+===========
 
 .. toctree::
    :maxdepth: 1

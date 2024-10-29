@@ -1,6 +1,3 @@
-.. Copyright 2023-2024 Intel Corporation
-   SPDX-License-Identifier: Apache-2.0
-
 =======
 General
 =======
@@ -11,4 +8,4 @@ General
    Overview <overview/overview>
    guides/setup/setup-guides
 
-   
+
