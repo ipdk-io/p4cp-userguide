@@ -99,7 +99,7 @@ target test you wish to run:
 
 For example:
 
-.. code-block:: bash
+.. code-block:: text
 
    nemo@nautilus:~/recipe/stratum/stratum$ bazel test //stratum/hal/lib/p4:p4_table_mapper_test
    INFO: Analyzed target //stratum/hal/lib/p4:p4_table_mapper_test (2 packages loaded, 4105 targets configured).
@@ -125,7 +125,7 @@ You can run all the tests in a directory by specifying the target name **all**:
 
 For example:
 
-.. code-block:: bash
+.. code-block:: text
 
    bilbo@bag_end:~/recipe/stratum/stratum$ bazel test //stratum/hal/lib/p4:all
    INFO: Analyzed 30 targets (0 packages loaded, 26 targets configured).
@@ -152,7 +152,7 @@ All tests in or below a directory
 You can select a directory and its subdirectories by using an ellipsis
 (**...**):
 
-.. code-block:: bash
+.. code-block:: text
 
    bilbo@bag_end:~/stratum$ bazel test //stratum/glue/...
    INFO: Analyzed 21 targets (0 packages loaded, 33 targets configured).
@@ -188,7 +188,7 @@ directories, you will need to specify the target to use:
 
 You do this by appending the following to the end of the command line:
 
-.. code-block:: bash
+.. code-block:: text
 
    --define target=<target>
 
@@ -196,7 +196,7 @@ where <target> is one of "dpdk", "es2k", or "tofino".
 
 For example:
 
-.. code-block:: bash
+.. code-block:: text
 
    bazel test //stratum/hal/lib/tdi/dpdk:dpdk_chassis_test --define target=dpdk
 
@@ -220,7 +220,7 @@ And run them using the command:
 
 For example:
 
-.. code-block:: bash
+.. code-block:: text
 
    homer@springfield:~/stratum$ xargs -a tofino-tests.txt bazel test --define target=tofino
    INFO: Build option --define has changed, discarding analysis cache.
@@ -310,18 +310,16 @@ on the test command line.
 
 I have not found a way to do this through the bazel test command.
 
-.. _measure-code-coverage-1:
-
 Measure code coverage
 ---------------------
 
-Run and measure test
-~~~~~~~~~~~~~~~~~~~~
+Measure coverage for a single test
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Unit test code coverage can be measured by means of the **bazel coverage**
 command:
 
-.. code-block:: bash
+.. code-block:: text
 
    bilbo@bag_end:~/recipe/stratum/stratum$ bazel coverage \
       --combined_report=lcov \
@@ -335,12 +333,12 @@ command:
 
    INFO: Build completed successfully, 71 total actions
 
-Generate coverage report
-~~~~~~~~~~~~~~~~~~~~~~~~
+Generate single-test report
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To generate an HTML coverage report:
 
-.. code-block:: bash
+.. code-block:: text
 
    bilbo@bag_end:~/recipe/stratum/stratum$ genhtml \
       --output coverage \
@@ -352,10 +350,8 @@ To generate an HTML coverage report:
      lines......: 62.3% (938 of 1505 lines)
      functions..: 64.0% (174 of 272 functions)
 
-.. _view-report-1:
-
-View report
-~~~~~~~~~~~
+View single-test report
+~~~~~~~~~~~~~~~~~~~~~~~
 
 To view the coverage report, open **coverage/index.html** in a browser:
 
@@ -366,16 +362,14 @@ Click the directory name to see the files page:
 |image2|
 
 Measure multiple tests
----------------------------
+----------------------
 
-.. _run-and-measure-tests-1:
-
-Run and measure tests
-~~~~~~~~~~~~~~~~~~~~~
+Measure coverage for multiple tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To run and measure coverage for all the tests in a directory:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe/stratum/stratum$ bazel coverage \
       --combined_report=lcov \
@@ -396,14 +390,12 @@ To run and measure coverage for all the tests in a directory:
 
    INFO: Build completed successfully, 119 total actions
 
-.. _generate-coverage-report-1:
-
-Generate coverage report
-~~~~~~~~~~~~~~~~~~~~~~~~
+Generate multiple-test report
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To generate an HTML coverage report:
 
-.. code-block:: bash
+.. code-block:: text
 
    milady@dewinter:~/recipe/stratum/stratum$ rm -fr coverage/
    milady@dewinter:~/recipe/stratum/stratum$ genhtml \
@@ -416,10 +408,8 @@ To generate an HTML coverage report:
      lines......: 86.7% (1393 of 1607 lines)
      functions..: 82.2% (267 of 325 functions)
 
-.. _view-report-2:
-
-View report
-~~~~~~~~~~~
+View multiple-test report
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To view the coverage report, use a browser to open **coverage/index.html**:
 

@@ -135,7 +135,7 @@ Run and measure tests
 
 Then run the test suite using the check-lcov Makefile target.
 
-.. code-block:: bash
+.. code-block:: text
 
    make check-lcov TESTSUITEFLAGS=-j8
 
