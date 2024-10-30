@@ -1,9 +1,15 @@
+.. Copyright 2024 Intel Corporation
+   SPDX-License-Identifier: Apache 2.0
+
 ==========================
 Running Krnlmon Unit Tests
 ==========================
 
-Build P4 control plane
-----------------------
+.. contents::
+   :depth: 3
+
+Building the unit tests
+-----------------------
 
 To run the Kernel Monitor unit tests, you must first build P4 Control
 Plane for DPDK or ES2K:
@@ -12,15 +18,15 @@ Plane for DPDK or ES2K:
 
    ./make-all.sh --target=es2k
 
-Run unit tests
---------------
+Running the unit tests
+----------------------
 
 To run the unit tests, change to the **build** directory and issue the
 **ctest** command:
 
 .. code-block:: bash
 
-   (cd build; ctest)
+   (cd build; ctest -L krnlmon --output-on-failure)
 
 When specified without any arguments, the **ctest** command runs all
 the unit tests.
@@ -29,7 +35,7 @@ For example:
 
 .. code-block:: text
 
-   milady@dewinter:~/recipe$ (cd build; ctest)
+   milady@dewinter:~/recipe$ (cd build; ctest -L krnlmon --output-on-failure)
    Test project /home/milady/recipe/build
    Start 1: switchlink_link_test
    1/1 Test #1: switchlink_link_test ............. Passed 0.00 sec
@@ -82,11 +88,11 @@ Details of the run are stored in a log file:
 
    End testing: Apr 25 16:30 PDT
 
-Measure code coverage
----------------------
+Measuring code coverage
+-----------------------
 
-Enable measurement
-~~~~~~~~~~~~~~~~~~
+Enabling measurement
+~~~~~~~~~~~~~~~~~~~~
 
 To measure unit test code coverage, you must enable the feature when you
 build the P4 Control Plane.
@@ -99,23 +105,29 @@ You can do this via the make-all script:
 
 Or as a CMake command-line parameter:
 
+.. code-block:: text
+
    -DTEST_COVERAGE=ON
 
-Run and measure tests
-~~~~~~~~~~~~~~~~~~~~~
+Measuring coverage
+~~~~~~~~~~~~~~~~~~
 
 Coverage data is collected when the unit tests are run.
 
 You can obtain the results by running CTest on a specific target:
 
-   (cd build; ctest -T coverage)
+.. code-block:: bash
+
+   (cd build; ctest -L krnlmon -T coverage)
 
 You can also run the tests and request the coverage report in a single
 command:
 
-   (cd build; ctest -T test -T coverage)
+.. code-block:: bash
 
-The results are displayed on the console:
+   (cd build; ctest -L krnlmon -T test -T coverage)
+
+Console output:
 
 .. code-block:: text
 
@@ -140,15 +152,22 @@ The results are displayed on the console:
            Total LOC: 283
            Percentage Coverage: 97.53%
 
-Generate coverage report
-~~~~~~~~~~~~~~~~~~~~~~~~
+Consolidating the data
+~~~~~~~~~~~~~~~~~~~~~~
 
-To generate detailed coverage report, you must first consolidate the
+To generate the detailed coverage report, you must first consolidate the
 measurement data:
+
+.. code-block:: bash
+
+   lcov --capture \
+       --directory build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ \
+       --output-file krnlmon.info
+
+Console output:
 
 .. code-block:: text
 
-   milady@dewinter:~/recipe$ lcov --capture --directory build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ --output-file krnlmon.info
    Capturing coverage data from build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
    Found gcov version: 9.4.0
    Using intermediate gcov format
@@ -158,11 +177,19 @@ measurement data:
    Processing switchlink_link_test.dir/switchlink_link_test.cc.gcda
    Finished .info-file creation
 
+Generating the report
+~~~~~~~~~~~~~~~~~~~~~
+
 Now generate the HTML report:
+
+.. code-block:: bash
+
+   genhtml krnlmon.info --output-directory coverage
+
+Console output:
 
 .. code-block:: text
 
-   milady@dewinter:~/recipe$ genhtml krnlmon.info --output-directory coverage
    Reading data file krnlmon.info
    Found 24 entries.
    Found common filename prefix "/usr/include/c++"
@@ -197,8 +224,8 @@ Now generate the HTML report:
      lines......: 69.8% (351 of 503 lines)
      functions..: 53.2% (42 of 79 functions)
 
-View report
-~~~~~~~~~~~
+Viewing the report
+~~~~~~~~~~~~~~~~~~
 
 To view the coverage report, use a browser to open
 **coverage/index.html**.
@@ -232,9 +259,14 @@ krnlmon-test
 To perform a minimal build and run the Kernel Monitor unit tests for
 DPDK:
 
+.. code-block:: bash
+
+   cmake -B build -DTDI_TARGET=dpdk -DWITH_OVSP4RT=off
+
+Console output:
+
 .. code-block:: text
 
-   peabody@wabac:~/recipe$ cmake -B build -DTDI_TARGET=dpdk -DWITH_OVSP4RT=off
    -- The C compiler identification is GNU 9.4.0
    -- The CXX compiler identification is GNU 9.4.0
      .
@@ -282,9 +314,17 @@ krnlmon-coverage
 To perform a minimal build, run the unit tests, and measure coverage for
 ES2K:
 
+Configure the build
+^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   cmake -B build -DTDI_TARGET=es2k -DWITH_OVSP4RT=off -DTEST_COVERAGE=on
+
+Console output:
+
 .. code-block:: text
 
-   peabody@wabac:~/recipe$ cmake -B build -DTDI_TARGET=es2k -DWITH_OVSP4RT=off -DTEST_COVERAGE=on
    -- The C compiler identification is GNU 9.4.0
    -- The CXX compiler identification is GNU 9.4.0
      .
@@ -298,7 +338,17 @@ ES2K:
    -- Generating done
    -- Build files have been written to: /home/peabody/recipe/build
 
-   peabody@wabac:~/recipe$ cmake --build build -j4 --target krnlmon-test krnlmon-coverage
+Run tests and generate report
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   cmake --build build -j4 --target krnlmon-test krnlmon-coverage
+
+Console output:
+
+.. code-block:: text
+
    Scanning dependencies of target switchlink_link_test
    Scanning dependencies of target switchlink_neighbor_test
    Scanning dependencies of target switchlink_address_test
@@ -341,7 +391,6 @@ ES2K:
    Built target krnlmon-coverage
 
 The coverage report is generated in the **build/Testing/coverage** directory.
-
 
 .. |image5| image:: images/krnlmon-coverage-report.png
 .. |image6| image:: images/krnlmon-switchlink-page.png

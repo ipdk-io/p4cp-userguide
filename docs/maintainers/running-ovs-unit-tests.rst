@@ -1,10 +1,14 @@
+.. Copyright 2024 Intel Corporation
+   SPDX-License-Identifier: Apache 2.0
+
 ======================
 Running OVS Unit Tests
 ======================
 
 OVS comes with its own unit test suite. The instructions for running it
-may be found in the
-`OVS Testing document <https://github.com/ipdk-io/ovs/blob/ipdk-latest/Documentation/topics/testing.rst>`__.
+may be found in the OVS
+`Testing <https://github.com/ipdk-io/ovs/blob/ipdk-latest/Documentation/topics/testing.rst>`__
+document.
 
 Bootstrap OVS build
 -------------------

@@ -1,9 +1,18 @@
+.. Copyright 2024 Intel Corporation
+   SPDX-License-Identifier: Apache 2.0
+
 ==========================
 Running Stratum Unit Tests
 ==========================
 
-Install Bazel
+.. contents::
+   :depth: 3
+
+Prerequisites
 -------------
+
+Install Bazel
+~~~~~~~~~~~~~
 
 The Stratum unit tests run under control of the Bazel build system. You
 will need to install the correct version of Bazel in order to run them.
@@ -18,14 +27,14 @@ multiple threads and a large Bazel cache, or a build farm with a large
 remote cache.
 
 Install SDE(s)
---------------
+~~~~~~~~~~~~~~
 
 Build and install the SDEs for the targets you wish to test. You will
 need to install all three SDEs (Tofino, DPDK, ES2K) in order to run the
 full suite of tests.
 
 You will need to make the following modification to the ES2K SDE after
-you install it.
+you install it:
 
 .. code-block:: bash
 
@@ -35,7 +44,7 @@ The Bazel build uses this file to verify that the SDE pointed to by the
 environment variable is for ES2K.
 
 Define environment variable(s)
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You will need to define an environment variable that provides the path
 to the install directory for the SDE.
@@ -51,22 +60,21 @@ ES2K       ES2K_INSTALL=path-to-es2k-sde (*or*)
            SDE_INSTALL=path-to-es2k-sde
 ========== =====================================================
 
-Source code
------------
+Getting source code
+-------------------
 
 P4 Control Plane (networking-recipe)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are running unit tests on the full P4 Control Plane, you will
+If you are working with a copy of the full P4 Control Plane, you will
 need to change to the Stratum root directory.
 
 .. code-block:: bash
 
-   git clone --recursive https://github.com/ipdk-io/networking-recipe.git recipe
-   cd recipe/stratum/stratum
+   cd stratum/stratum
 
-You can confirm that you are in the correct directory by checking for a
-file named WORKSPACE.
+To confirm that you are in the right directory, check for a file named
+WORKSPACE.
 
 .. code-block:: bash
 
@@ -84,24 +92,27 @@ repository.
    git clone https://github.com/ipdk-io/stratum-dev.git stratum
    cd stratum
 
-Run tests (no target specified)
--------------------------------
+Running tests
+-------------
+
+Test selection
+~~~~~~~~~~~~~~
 
 Single test
-~~~~~~~~~~~
+^^^^^^^^^^^
 
-To execute a single test, issue a **bazel test** command specifying the
+To run a single test, issue a **bazel test** command specifying the
 target test you wish to run:
 
 .. code-block:: bash
 
    bazel test //stratum/hal/lib/p4:p4_table_mapper_test
 
-For example:
+Bazel will build the test and its dependencies if they are out of date.
+It will then run the test.
 
 .. code-block:: text
 
-   nemo@nautilus:~/recipe/stratum/stratum$ bazel test //stratum/hal/lib/p4:p4_table_mapper_test
    INFO: Analyzed target //stratum/hal/lib/p4:p4_table_mapper_test (2 packages loaded, 4105 targets configured).
    INFO: Found 1 test target...
    Target //stratum/hal/lib/p4:p4_table_mapper_test up-to-date:
@@ -115,7 +126,7 @@ For example:
    INFO: Build completed successfully, 5 total actions
 
 All tests in a directory
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can run all the tests in a directory by specifying the target name **all**:
 
@@ -123,19 +134,10 @@ You can run all the tests in a directory by specifying the target name **all**:
 
    bazel test //stratum/hal/lib/p4:all
 
-For example:
+Abbreviated output:
 
 .. code-block:: text
 
-   bilbo@bag_end:~/recipe/stratum/stratum$ bazel test //stratum/hal/lib/p4:all
-   INFO: Analyzed 30 targets (0 packages loaded, 26 targets configured).
-   INFO: Found 22 targets and 8 test targets...
-
-   (progress messages)
-
-   INFO: Elapsed time: 13.132s, Critical Path: 12.08s
-   INFO: 56 processes: 8 internal, 48 linux-sandbox.
-   INFO: Build completed successfully, 56 total actions
    //stratum/hal/lib/p4:p4_table_mapper_test (cached)            PASSED in 0.5s
    //stratum/hal/lib/p4:p4_action_mapper_test                    PASSED in 0.2s
    //stratum/hal/lib/p4:p4_config_verifier_test                  PASSED in 0.4s
@@ -144,38 +146,30 @@ For example:
    //stratum/hal/lib/p4:p4_static_entry_mapper_test              PASSED in 0.2s
    //stratum/hal/lib/p4:p4_write_request_differ_test             PASSED in 0.3s
    //stratum/hal/lib/p4:utils_test                               PASSED in 0.3s
-   INFO: Build completed successfully, 56 total actions
 
 All tests in or below a directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can select a directory and its subdirectories by using an ellipsis
+You can select a directory and its subdirectories by specifying an ellipsis
 (**...**):
+
+.. code-block:: bash
+
+   bazel test //stratum/glue/...
+
+Abbreviated output:
 
 .. code-block:: text
 
-   bilbo@bag_end:~/stratum$ bazel test //stratum/glue/...
-   INFO: Analyzed 21 targets (0 packages loaded, 33 targets configured).
-   INFO: Found 15 targets and 6 test targets...
-
-   (progress messages)
-
-   INFO: Elapsed time: 9.293s, Critical Path: 8.81s
-   INFO: 36 processes: 7 internal, 29 linux-sandbox.
-   INFO: Build completed successfully, 36 total actions
    //stratum/glue/gtl:cleanup_test                                PASSED in 0.0s
    //stratum/glue/gtl:map_util_test                               PASSED in 0.0s
    //stratum/glue/net_util:absl_test                              PASSED in 0.1s
    //stratum/glue/net_util:bits_test                              PASSED in 0.9s
    //stratum/glue/net_util:ipaddress_test                         PASSED in 0.1s
    //stratum/glue/status:status_test                              PASSED in 0.0s
-   INFO: Build completed successfully, 36 total actions
-
-Run tests
----------
 
 Target-specific tests
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 If any of the tests you wish to run is in one of the following
 directories, you will need to specify the target to use:
@@ -186,26 +180,27 @@ directories, you will need to specify the target to use:
 -  //stratum/hal/lib/tdi/es2k
 -  //stratum/hal/lib/tdi/tofino
 
-You do this by appending the following to the end of the command line:
+You do this by including the following on the command line. It can go
+before or after the target name.
 
 .. code-block:: text
 
    --define target=<target>
 
-where <target> is one of "dpdk", "es2k", or "tofino".
+where <target> is one of ``dpdk``, ``es2k``, or ``tofino``.
 
 For example:
 
-.. code-block:: text
+.. code-block:: bash
 
-   bazel test //stratum/hal/lib/tdi/dpdk:dpdk_chassis_test --define target=dpdk
+   bazel test --define target=dpdk //stratum/hal/lib/tdi/dpdk:dpdk_chassis_test
 
 All tests in a file
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 You can put a list of targets in a text file:
 
-**tofino-tests.txt**
+**tofino-tests.txt:**
 
 .. code-block:: text
 
@@ -218,25 +213,15 @@ And run them using the command:
 
    xargs -a tofino-tests.txt bazel test --define target=tofino
 
-For example:
+Abbreviated output:
 
 .. code-block:: text
 
-   homer@springfield:~/stratum$ xargs -a tofino-tests.txt bazel test --define target=tofino
-   INFO: Build option --define has changed, discarding analysis cache.
-   DEBUG: /home/homer/recipe/stratum/stratum/stratum/hal/lib/tdi/tofino/tofino.bzl:29:10:
-   Detected SDE version: 9.11.0.
-   INFO: Analyzed 4 targets (1 packages loaded, 12274 targets configured).
-   INFO: Found 2 targets and 2 test targets...
-     (progress messages omitted)
-   INFO: Build completed successfully, 49 total actions
    //stratum/hal/lib/tdi/tofino:tofino_hal_test (cached)          PASSED in 0.4s
    //stratum/hal/lib/tdi/tofino:tofino_switch_test (cached)       PASSED in 0.4s
 
-   INFO: Build completed successfully, 49 total actions
-
 ES2K Tests
-~~~~~~~~~~
+^^^^^^^^^^
 
 The following is a suggested set of unit tests for ES2K:
 
@@ -260,7 +245,7 @@ These tests should be run against the ES2K SDE:
    xargs -a es2k-tests.txt bazel test --define target=es2k
 
 DPDK Tests
-~~~~~~~~~~
+^^^^^^^^^^
 
 The following is a suggested set of unit tests for DPDK:
 
@@ -292,8 +277,8 @@ Flaky Tests
 ~~~~~~~~~~~
 
 Some of the unit tests are known to be flaky (they fail intermittently).
-These tests have been flagged as flaky by specifying tags = ["flaky"] to
-the stratum_cc_test rule.
+These tests have been flagged as flaky by specifying ``tags = ["flaky"]``
+in the ``stratum_cc_test`` rule.
 
 To run a test suite excluding flaky tests:
 
@@ -302,56 +287,65 @@ To run a test suite excluding flaky tests:
    xargs -a dpdk-tests.txt bazel test --define target=dpdk --test_tag_filters=-flaky
 
 Test results
-------------
+~~~~~~~~~~~~
 
 Stratum unit tests use the Google Test framework, so it is possible to
-generate XML or JSON output by specifying the --gtest_output parameter
+generate XML or JSON output by specifying the ``--gtest_output`` parameter
 on the test command line.
 
-I have not found a way to do this through the bazel test command.
+I have not found a way to do this through the ``bazel test`` command.
 
-Measure code coverage
----------------------
+Measuring test coverage
+-----------------------
 
-Measure coverage for a single test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Single-test coverage
+~~~~~~~~~~~~~~~~~~~~
+
+.. _measuring-coverage-1:
+
+Measuring coverage
+^^^^^^^^^^^^^^^^^^
 
 Unit test code coverage can be measured by means of the **bazel coverage**
 command:
 
-.. code-block:: text
+.. code-block:: bash
 
-   bilbo@bag_end:~/recipe/stratum/stratum$ bazel coverage \
+   bazel coverage \
       --combined_report=lcov \
       --javabase=@bazel_tools//tools/jdk:remote_jdk11 \
       //stratum/hal/lib/p4:p4_table_mapper_test
-   INFO: Using default value for --instrumentation_filter: "^//stratum/hal/lib/p4[/:]".
-     (progress messages omitted)
-   INFO: Build completed successfully, 71 total actions
-     (results abbreviated)
-   //stratum/hal/lib/p4:p4_table_mapper_test                      PASSED in 1.9s
 
-   INFO: Build completed successfully, 71 total actions
-
-Generate single-test report
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To generate an HTML coverage report:
+Abbreviated output:
 
 .. code-block:: text
 
-   bilbo@bag_end:~/recipe/stratum/stratum$ genhtml \
-      --output coverage \
+   //stratum/hal/lib/p4:p4_table_mapper_test                      PASSED in 1.9s
+
+.. _generating-report-1:
+
+Generating the report
+^^^^^^^^^^^^^^^^^^^^^
+
+To generate an HTML coverage report:
+
+.. code-block:: bash
+
+   genhtml --output coverage \
       "$(bazel info output_path)/_coverage/_coverage_report.dat"
-   Reading data file ...
-     (progress messages omitted)
-   Writing directory view page.
+
+Abbreviated output:
+
+.. code-block:: text
+
    Overall coverage rate:
      lines......: 62.3% (938 of 1505 lines)
      functions..: 64.0% (174 of 272 functions)
 
-View single-test report
-~~~~~~~~~~~~~~~~~~~~~~~
+.. _viewing-report_1:
+
+Viewing the report
+^^^^^^^^^^^^^^^^^^
 
 To view the coverage report, open **coverage/index.html** in a browser:
 
@@ -361,24 +355,27 @@ Click the directory name to see the files page:
 
 |image2|
 
-Measure multiple tests
-----------------------
+Multiple-test coverage
+~~~~~~~~~~~~~~~~~~~~~~
 
-Measure coverage for multiple tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _measuring-coverage-2:
+
+Measuring coverage
+^^^^^^^^^^^^^^^^^^
 
 To run and measure coverage for all the tests in a directory:
 
-.. code-block:: text
+.. code-block:: bash
 
-   milady@dewinter:~/recipe/stratum/stratum$ bazel coverage \
+   bazel coverage \
       --combined_report=lcov \
       --javabase=@bazel_tools//tools/jdk:remote_jdk11 \
       //stratum/hal/lib/p4:all
-   INFO: Using default value for --instrumentation_filter: "^//stratum/hal/lib/p4[/:]".
-     (progress messages omitted)
-   INFO: Build completed successfully, 119 total actions
-     (results abbreviated)
+
+Abbreviated output:
+
+.. code-block:: text
+
    //stratum/hal/lib/p4:p4_table_mapper_test (cached)             PASSED in 1.9s
    //stratum/hal/lib/p4:p4_action_mapper_test                     PASSED in 1.9s
    //stratum/hal/lib/p4:p4_config_verifier_test                   PASSED in 2.6s
@@ -388,28 +385,31 @@ To run and measure coverage for all the tests in a directory:
    //stratum/hal/lib/p4:p4_write_request_differ_test              PASSED in 1.7s
    //stratum/hal/lib/p4:utils_test                                PASSED in 1.9s
 
-   INFO: Build completed successfully, 119 total actions
+.. _generating-report-2:
 
-Generate multiple-test report
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generating the report
+^^^^^^^^^^^^^^^^^^^^^
 
 To generate an HTML coverage report:
 
+.. code-block:: bash
+
+   rm -fr coverage/
+   genhtml --output coverage \
+      "$(bazel info output_path)/_coverage/_coverage_report.dat"
+
+Abbreviated output:
+
 .. code-block:: text
 
-   milady@dewinter:~/recipe/stratum/stratum$ rm -fr coverage/
-   milady@dewinter:~/recipe/stratum/stratum$ genhtml \
-      --output coverage \
-      "$(bazel info output_path)/_coverage/_coverage_report.dat"
-   Reading data file...
-     (progress messages omitted)
-   Writing directory view page.
    Overall coverage rate:
      lines......: 86.7% (1393 of 1607 lines)
      functions..: 82.2% (267 of 325 functions)
 
-View multiple-test report
-~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _viewing-report-2:
+
+Viewing the report
+^^^^^^^^^^^^^^^^^^
 
 To view the coverage report, use a browser to open **coverage/index.html**:
 
