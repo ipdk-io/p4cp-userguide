@@ -5,5 +5,6 @@ Build Guides
 .. toctree::
    :maxdepth: 1
 
-   krnlmon-build-guide
+   building-krnlmon-with-cmake
+   building-krnlmon-with-bazel
 
