@@ -1,3 +1,4 @@
-guide/
-userguide/
-.vscode/
+/guide
+/userguide
+/.vscode
+/.vslick
