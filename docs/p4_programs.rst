@@ -1,6 +1,6 @@
-===========
-P4 Programs
-===========
+========================
+Working with P4 Programs
+========================
 
 .. toctree::
    :maxdepth: 1

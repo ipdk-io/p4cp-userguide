@@ -14,11 +14,11 @@ P4 Control Plane User Guide
    :maxdepth: 1
 
    general
-   apps/apps-index
+   apps/applications
    building
-   clients/clients-index
+   clients/clients
    features
    maintainers/maintainers
    p4_programs
    security
-   updates/updates-index
+   changes/changes
