@@ -6,7 +6,8 @@ P4 Role Configuration
 =====================
 
 The Stratum component of P4 Control Plane supports the P4 Role
-Configuration feature. The `P4Runtime Specification <https://p4.org/p4-spec/p4runtime/main/P4Runtime-Spec.html#sec-arbitration-role-config>`_
+Configuration feature. The
+`P4Runtime Specification <https://p4.org/p4-spec/p4runtime/main/P4Runtime-Spec.html#sec-arbitration-role-config>`_
 allows multiple P4 clients simultaneous access to the various parts of the P4
 pipeline, and defines the client arbitration rules. The partitioning of the
 control planes is controlled via the concept of 'roles'. A role defines a
@@ -33,12 +34,14 @@ partitioning the pipeline into non-overlapping sections giving each client
 exclusive access to specified P4 tables. Clients chosen for this example are
 Linux Networking and IPsec.
 
-* Compile P4 program
+Compile P4 program
+^^^^^^^^^^^^^^^^^^
 
 Compile the application program according to the instructions in the Compiling
 P4 Programs guide to generate P4 artifacts for programming the pipeline.
 
-* Extract table IDs
+Extract table IDs
+^^^^^^^^^^^^^^^^^
 
 From the P4 artifact ``p4info.txt``, extract P4 table IDs. A helper script is
 provided to assist in extracting all table IDs from the provided input file.
@@ -46,7 +49,7 @@ provided to assist in extracting all table IDs from the provided input file.
 Each P4 client will need its own role configuration, so run the script for
 each of them.
 
-.. code-block:: text
+.. code-block:: bash
 
    python $P4CP_RECIPE/install/sbin/extract_table_ids_from_p4info.py \
          -i p4info.txt -o /usr/share/stratum/ovs_p4rt_role_config.pb.txt
@@ -54,13 +57,19 @@ each of them.
    python $P4CP_RECIPE/install/sbin/extract_table_ids_from_p4info.py \
          -i p4info.txt -o /usr/share/stratum/ipsec_role_config.pb.txt
 
-* Edit role config files to partition the roles
+Edit files to partition the roles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You will need to compare the table IDs from input file ``p4info.txt`` and the
-extracted list in the output role configuration file. For each table ID, define
+extracted list in the output role configuration file. For each table ID,
+specify
 whether a table gets exclusive access or shared access between controllers.
 
-Following shows table IDs with comments added showing table name for clarity.
+The following show table IDs with comments added showing the table name,
+for clarity.
+
+ovs_p4rt_role_config.pb.txt
+...........................
 
 .. code-block:: text
 
@@ -75,6 +84,9 @@ Following shows table IDs with comments added showing table name for clarity.
    receives_packet_ins: false
    can_push_pipeline: true
 
+ipsec_role_config.pb.txt
+........................
+
 .. code-block:: text
 
    $ cat /usr/share/stratum/ipsec_role_config.pb.txt
@@ -88,7 +100,8 @@ Following shows table IDs with comments added showing table name for clarity.
    can_push_pipeline: false
 
 
-* Connect P4 client to infrap4d
+Connect P4 client to infrap4d
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once the configuration is complete, the P4 clients will push a role name and
 the role configuration file to infrap4d with a ``MasterArbitrationUpdate``
@@ -99,5 +112,7 @@ Your P4 Client
 
 If using your own P4 client, you can set role name and pack ``Any`` protobuf
 message with the role configuration. Details of how to perform this are
-available in this document:
-https://github.com/ipdk-io/stratum-dev/blob/split-arch/stratum/public/proto/p4_role_config.md.
+available in this in the
+`Stratum P4 Role Configuration
+<https://github.com/ipdk-io/stratum-dev/blob/split-arch/stratum/public/proto/p4_role_config.md>`_
+document.
