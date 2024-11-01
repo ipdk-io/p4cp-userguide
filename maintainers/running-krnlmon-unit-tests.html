@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running Krnlmon Unit Tests &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running OVS Unit Tests" href="running-ovs-unit-tests.html" />
+    <link rel="prev" title="Unit Tests" href="unit-tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/applications.html">Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clients/clients.html">Clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maintainers.html">Maintainers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build-guides.html">Build Guides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts.html">Scripts</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="unit-tests.html">Unit Tests</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Running Krnlmon Unit Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-the-unit-tests">Building the unit tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-unit-tests">Running the unit tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#measuring-code-coverage">Measuring code coverage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minimal-builds">Minimal Builds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="running-ovs-unit-tests.html">Running OVS Unit Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running-stratum-unit-tests.html">Running Stratum Unit Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="maintainers.html">Maintainers</a></li>
+          <li class="breadcrumb-item"><a href="unit-tests.html">Unit Tests</a></li>
+      <li class="breadcrumb-item active">Running Krnlmon Unit Tests</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/maintainers/running-krnlmon-unit-tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-krnlmon-unit-tests">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Running Krnlmon Unit Tests</a><a class="headerlink" href="#running-krnlmon-unit-tests" title="Link to this heading"></a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#running-krnlmon-unit-tests" id="id1">Running Krnlmon Unit Tests</a></p>
+<ul>
+<li><p><a class="reference internal" href="#building-the-unit-tests" id="id2">Building the unit tests</a></p></li>
+<li><p><a class="reference internal" href="#running-the-unit-tests" id="id3">Running the unit tests</a></p></li>
+<li><p><a class="reference internal" href="#measuring-code-coverage" id="id4">Measuring code coverage</a></p>
+<ul>
+<li><p><a class="reference internal" href="#enabling-measurement" id="id5">Enabling measurement</a></p></li>
+<li><p><a class="reference internal" href="#measuring-coverage" id="id6">Measuring coverage</a></p></li>
+<li><p><a class="reference internal" href="#consolidating-the-data" id="id7">Consolidating the data</a></p></li>
+<li><p><a class="reference internal" href="#generating-the-report" id="id8">Generating the report</a></p></li>
+<li><p><a class="reference internal" href="#viewing-the-report" id="id9">Viewing the report</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#minimal-builds" id="id10">Minimal Builds</a></p>
+<ul>
+<li><p><a class="reference internal" href="#krnlmon-test" id="id11">krnlmon-test</a></p></li>
+<li><p><a class="reference internal" href="#krnlmon-coverage" id="id12">krnlmon-coverage</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="building-the-unit-tests">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Building the unit tests</a><a class="headerlink" href="#building-the-unit-tests" title="Link to this heading"></a></h2>
+<p>To run the Kernel Monitor unit tests, you must first build P4 Control
+Plane for DPDK or ES2K:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-all.sh<span class="w"> </span>--target<span class="o">=</span>es2k
+</pre></div>
+</div>
+</section>
+<section id="running-the-unit-tests">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Running the unit tests</a><a class="headerlink" href="#running-the-unit-tests" title="Link to this heading"></a></h2>
+<p>To run the unit tests, change to the <strong>build</strong> directory and issue the
+<strong>ctest</strong> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>build<span class="p">;</span><span class="w"> </span>ctest<span class="w"> </span>-L<span class="w"> </span>krnlmon<span class="w"> </span>--output-on-failure<span class="o">)</span>
+</pre></div>
+</div>
+<p>When specified without any arguments, the <strong>ctest</strong> command runs all
+the unit tests.</p>
+<p>For example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>milady@dewinter:~/recipe$ (cd build; ctest -L krnlmon --output-on-failure)
+Test project /home/milady/recipe/build
+Start 1: switchlink_link_test
+1/1 Test #1: switchlink_link_test ............. Passed 0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+Total Test time (real) = 0.01 sec
+</pre></div>
+</div>
+<p>The build summary will be displayed on the console.</p>
+<p>Details of the run are stored in a log file:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>milady@dewinter:~/recipe$ more build/Testing/Temporary/LastTest.log
+Start testing: Apr 25 16:30 PDT
+----------------------------------------------------------
+1/1 Testing: switchlink_link_test
+1/1 Test: switchlink_link_test
+Command: &quot;/home/milady/recipe/build/krnlmon/krnlmon/switchlink/switchlink_link_test&quot;
+Directory: /home/milady/recipe/build/krnlmon/krnlmon/switchlink
+&quot;switchlink_link_test&quot; start time: Apr 25 16:30 PDT
+Output:
+----------------------------------------------------------
+Running main() from /home/milady/new.recipe/setup/gtest/googletest/src/gtest_main.cc
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from SwitchlinkTest
+[ RUN      ] SwitchlinkTest.can_add_generic_link
+[ OK       ] SwitchlinkTest.can_add_generic_link (0 ms)
+[ RUN      ] SwitchlinkTest.can_add_vxlan_link
+[ OK       ] SwitchlinkTest.can_add_vxlan_link (0 ms)
+[ RUN      ] SwitchlinkTest.cannot_delete_generic_link
+[ OK       ] SwitchlinkTest.cannot_delete_generic_link (0 ms)
+[ RUN      ] SwitchlinkTest.can_delete_vxlan_link
+[ OK       ] SwitchlinkTest.can_delete_vxlan_link (0 ms)
+[ RUN      ] SwitchlinkTest.can_delete_tunnel_link
+[ OK       ] SwitchlinkTest.can_delete_tunnel_link (0 ms)
+[----------] 5 tests from SwitchlinkTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (0 ms total)
+[ PASSED   ] 5 tests.
+&lt;end of output&gt;
+Test time = 0.01 sec
+----------------------------------------------------------
+Test Passed.
+&quot;switchlink_link_test&quot; end time: Apr 25 16:30 PDT
+&quot;switchlink_link_test&quot; time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Apr 25 16:30 PDT
+</pre></div>
+</div>
+</section>
+<section id="measuring-code-coverage">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Measuring code coverage</a><a class="headerlink" href="#measuring-code-coverage" title="Link to this heading"></a></h2>
+<section id="enabling-measurement">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Enabling measurement</a><a class="headerlink" href="#enabling-measurement" title="Link to this heading"></a></h3>
+<p>To measure unit test code coverage, you must enable the feature when you
+build the P4 Control Plane.</p>
+<p>You can do this via the make-all script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-all.sh<span class="w"> </span>--target<span class="o">=</span>es2k<span class="w"> </span>--coverage
+</pre></div>
+</div>
+<p>Or as a CMake command-line parameter:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-DTEST_COVERAGE=ON
+</pre></div>
+</div>
+</section>
+<section id="measuring-coverage">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Measuring coverage</a><a class="headerlink" href="#measuring-coverage" title="Link to this heading"></a></h3>
+<p>Coverage data is collected when the unit tests are run.</p>
+<p>You can obtain the results by running CTest on a specific target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>build<span class="p">;</span><span class="w"> </span>ctest<span class="w"> </span>-L<span class="w"> </span>krnlmon<span class="w"> </span>-T<span class="w"> </span>coverage<span class="o">)</span>
+</pre></div>
+</div>
+<p>You can also run the tests and request the coverage report in a single
+command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>build<span class="p">;</span><span class="w"> </span>ctest<span class="w"> </span>-L<span class="w"> </span>krnlmon<span class="w"> </span>-T<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-T<span class="w"> </span>coverage<span class="o">)</span>
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>milady@dewinter:~/recipe$ (cd build; ctest -T test -T coverage)
+Site: dewinter Build name: Linux-c++
+Create new tag: 20230509-2238 - Experimental
+Test project /home/milady/recipe/build
+Start 1: switchlink_link_test
+1/1 Test #1: switchlink_link_test ............. Passed 0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) = 0.01 sec
+
+Performing coverage
+   Processing coverage (each . represents one file):
+    ..
+   Accumulating results (each . represents one file):
+    ..
+        Covered LOC: 276
+        Not covered LOC: 7
+        Total LOC: 283
+        Percentage Coverage: 97.53%
+</pre></div>
+</div>
+</section>
+<section id="consolidating-the-data">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Consolidating the data</a><a class="headerlink" href="#consolidating-the-data" title="Link to this heading"></a></h3>
+<p>To generate the detailed coverage report, you must first consolidate the
+measurement data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lcov<span class="w"> </span>--capture<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--directory<span class="w"> </span>build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-file<span class="w"> </span>krnlmon.info
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Capturing coverage data from build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
+Found gcov version: 9.4.0
+Using intermediate gcov format
+Scanning build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ for .gcda files ...
+Found 2 data files in build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
+Processing switchlink_link_test.dir/switchlink_link.c.gcda
+Processing switchlink_link_test.dir/switchlink_link_test.cc.gcda
+Finished .info-file creation
+</pre></div>
+</div>
+</section>
+<section id="generating-the-report">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Generating the report</a><a class="headerlink" href="#generating-the-report" title="Link to this heading"></a></h3>
+<p>Now generate the HTML report:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genhtml<span class="w"> </span>krnlmon.info<span class="w"> </span>--output-directory<span class="w"> </span>coverage
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Reading data file krnlmon.info
+Found 24 entries.
+Found common filename prefix &quot;/usr/include/c++&quot;
+Writing .css and .png files.
+Generating output.
+Processing file /home/milady/recipe/krnlmon/krnlmon/switchlink/switchlink_link_test.cc
+Processing file /home/milady/recipe/krnlmon/krnlmon/switchlink/switchlink_link.c
+Processing file /opt/deps/include/gtest/gtest-message.h
+Processing file /opt/deps/include/gtest/gtest.h
+Processing file /opt/deps/include/gtest/gtest-printers.h
+Processing file /opt/deps/include/gtest/internal/gtest-internal.h
+Processing file /opt/deps/include/gtest/internal/gtest-port.h
+Processing file 9/sstream
+Processing file 9/tuple
+Processing file 9/ostream
+Processing file 9/bits/ptr_traits.h
+Processing file 9/bits/char_traits.h
+Processing file 9/bits/allocator.h
+Processing file 9/bits/move.h
+Processing file 9/bits/unique_ptr.h
+Processing file 9/bits/stl_iterator_base_funcs.h
+Processing file 9/bits/alloc_traits.h
+Processing file 9/bits/basic_string.h
+Processing file 9/bits/basic_string.tcc
+Processing file 9/ext/new_allocator.h
+Processing file 9/ext/type_traits.h
+Processing file /usr/include/x86_64-linux-gnu/bits/stdio2.h
+Processing file /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+Processing file /usr/include/x86_64-linux-gnu/bits/byteswap.h
+Writing directory view page.
+Overall coverage rate:
+  lines......: 69.8% (351 of 503 lines)
+  functions..: 53.2% (42 of 79 functions)
+</pre></div>
+</div>
+</section>
+<section id="viewing-the-report">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Viewing the report</a><a class="headerlink" href="#viewing-the-report" title="Link to this heading"></a></h3>
+<p>To view the coverage report, use a browser to open
+<strong>coverage/index.html</strong>.</p>
+<p><img alt="image5" src="../_images/krnlmon-coverage-report.png" /></p>
+<p>To see the summary report for the <strong>krnlmon/switchlink</strong> directory,
+click on its link:</p>
+<p><img alt="image6" src="../_images/krnlmon-switchlink-page.png" /></p>
+<p>To see the detailed report for <strong>switchlink_link.c</strong>, click on its
+link:</p>
+<p><img alt="image7" src="../_images/krnlmon-switchlink-link-page-top.png" /></p>
+<p>Scroll down the file page to see which parts of the file are covered by
+the unit test (in blue), and which parts are not covered (in orange)</p>
+<p><img alt="image8" src="../_images/krnlmon-switchlink-link-page-code.png" /></p>
+</section>
+</section>
+<section id="minimal-builds">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Minimal Builds</a><a class="headerlink" href="#minimal-builds" title="Link to this heading"></a></h2>
+<p>The CMake build system provides targets that allow unit tests to be
+built and run without needing to build all of P4 Control Plane.</p>
+<section id="krnlmon-test">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">krnlmon-test</a><a class="headerlink" href="#krnlmon-test" title="Link to this heading"></a></h3>
+<p>To perform a minimal build and run the Kernel Monitor unit tests for
+DPDK:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DTDI_TARGET<span class="o">=</span>dpdk<span class="w"> </span>-DWITH_OVSP4RT<span class="o">=</span>off
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+  .
+  .
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/peabody/recipe/build
+
+peabody@wabac:~/recipe$ cmake --build build -j4 --target krnlmon-test
+Scanning dependencies of target switchlink_link_test
+Scanning dependencies of target switchlink_address_test
+Scanning dependencies of target switchlink_neighbor_test
+[ 16%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_globals.c.o
+[ 16%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_address_test.cc.o
+[ 33%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_link_test.cc.o
+[ 50%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_neigh_test.cc.o
+[ 50%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_globals.c.o
+[ 66%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_link.c.o
+[ 83%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_neigh.c.o
+[ 83%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_address.c.o
+[100%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_globals.c.o
+[100%] Linking CXX executable switchlink_address_test
+[100%] Linking CXX executable switchlink_link_test
+[100%] Built target switchlink_address_test
+[100%] Linking CXX executable switchlink_neighbor_test
+[100%] Built target switchlink_link_test
+[100%] Built target switchlink_neighbor_test
+Scanning dependencies of target krnlmon-test
+Test project /home/milady/recipe/build
+    Start 1: switchlink_link_test
+1/3 Test #1: switchlink_link_test ............. Passed 0.01 sec
+    Start 2: switchlink_address_test
+2/3 Test #2: switchlink_address_test .......... Passed 0.00 sec
+    Start 3: switchlink_neighbor_test
+3/3 Test #3: switchlink_neighbor_test ......... Passed 0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) = 0.02 sec
+[100%] Built target krnlmon-test
+</pre></div>
+</div>
+</section>
+<section id="krnlmon-coverage">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">krnlmon-coverage</a><a class="headerlink" href="#krnlmon-coverage" title="Link to this heading"></a></h3>
+<p>To perform a minimal build, run the unit tests, and measure coverage for
+ES2K:</p>
+<section id="configure-the-build">
+<h4>Configure the build<a class="headerlink" href="#configure-the-build" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DTDI_TARGET<span class="o">=</span>es2k<span class="w"> </span>-DWITH_OVSP4RT<span class="o">=</span>off<span class="w"> </span>-DTEST_COVERAGE<span class="o">=</span>on
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+  .
+  .
+Building ES2K_TARGET
+-- WITH_KRNLMON=&quot;ON&quot;
+-- WITH_OVSP4RT=&quot;off&quot;
+  .
+  .
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/peabody/recipe/build
+</pre></div>
+</div>
+</section>
+<section id="run-tests-and-generate-report">
+<h4>Run tests and generate report<a class="headerlink" href="#run-tests-and-generate-report" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j4<span class="w"> </span>--target<span class="w"> </span>krnlmon-test<span class="w"> </span>krnlmon-coverage
+</pre></div>
+</div>
+<p>Console output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Scanning dependencies of target switchlink_link_test
+Scanning dependencies of target switchlink_neighbor_test
+Scanning dependencies of target switchlink_address_test
+  .
+  .
+Test project /home/peabody/recipe/build
+    Start 1: switchlink_link_test
+1/3 Test #1: switchlink_link_test ............. Passed 0.00 sec
+    Start 2: switchlink_address_test
+2/3 Test #2: switchlink_address_test .......... Passed 0.00 sec
+    Start 3: switchlink_neighbor_test
+3/3 Test #3: switchlink_neighbor_test ......... Passed 0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) = 0.01 sec
+
+Performing coverage
+   Processing coverage (each . represents one file):
+    ......
+   Accumulating results (each . represents one file):
+    ......
+         Covered LOC: 709
+         Not covered LOC: 9
+         Total LOC: 718
+         Percentage Coverage: 98.75%
+[100%] Built target krnlmon-test
+Scanning dependencies of target krnlmon-coverage
+Capturing coverage data from /home/peabody/recipe/build
+Found gcov version: 9.4.0
+Using intermediate gcov format
+Scanning /home/peabody/recipe/build for .gcda files ...
+Found 6 data files in /home/peabody/recipe/build
+  .
+  .
+Writing directory view page.
+Overall coverage rate:
+  lines......: 81.1% (872 of 1075 lines)
+  functions..: 65.0% (104 of 160 functions)
+Built target krnlmon-coverage
+</pre></div>
+</div>
+<p>The coverage report is generated in the <strong>build/Testing/coverage</strong> directory.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="unit-tests.html" class="btn btn-neutral float-left" title="Unit Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running-ovs-unit-tests.html" class="btn btn-neutral float-right" title="Running OVS Unit Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
