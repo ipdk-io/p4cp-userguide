@@ -136,7 +136,7 @@ Options
 
 ``--p4ovs=MODE``
   Specifies the mode in which to build OvS. See
-  :ref:`P4OVS Modes <p4ovs-modes>` for a list of values.
+  :ref:`p4ovs-modes` for a list of values.
 
 ``--target=TARGET``
   Specifies the target (``dpdk``, ``es2k``, or ``tofino``) for which
