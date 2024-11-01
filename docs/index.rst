@@ -18,7 +18,7 @@ P4 Control Plane User Guide
    building
    clients/clients-index
    features
-   maintainers/maint-index
+   maintainers/maintainers
    p4_programs
    security
    updates/updates-index
