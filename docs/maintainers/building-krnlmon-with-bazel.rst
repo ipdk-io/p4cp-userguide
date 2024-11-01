@@ -55,7 +55,7 @@ Useful Targets
   Krnlmon library (``libkrnlmon.so``).
 
 ``:dummy_krnlmon``
-  Dummy application. Used to check for link errors.  
+  Dummy application. Used to check for link errors.
 
 Examples
 --------

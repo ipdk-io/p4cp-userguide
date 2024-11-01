@@ -26,7 +26,7 @@ symbols:
   installed.
 
 ``OVS_INSTALL``
-  Directory in which Open vSwitch (OvS) is installed. 
+  Directory in which Open vSwitch (OvS) is installed.
 
 ``SDE_INSTALL``
   Directory in which the P4 SDE for the target is installed.
