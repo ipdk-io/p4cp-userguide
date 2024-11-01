@@ -35,6 +35,7 @@ Syntax
       [--no-build] \
       [--no-krnlmon] \
       [--no-ovs] \
+      [--p4ovs=MODE] \
       [--target=dpdk|es2k|tofino] \
       [--debug|--minsize|--reldeb|--release]
 
@@ -110,7 +111,7 @@ Options
 
 ``--coverage``
   Instrument build to measure unit test code coverage.
-  Sets the ``TEST_COVERAGE`` listfile option to FALSE.
+  Sets the ``TEST_COVERAGE`` listfile option to TRUE.
 
 ``--cxx=STD``
   C++ standard to be used by the compiler (11, 14, 17).
@@ -122,7 +123,8 @@ Options
   Defaults to 8 threads.
 
 ``--no-build``
-  Configures CMake but does not build the dependencies.
+  Configures CMake to build P4 Control Plane, but does not build it.
+  May still build OVS.
 
 ``--no-krnlmon``
   Excludes the Kernel Monitor from the build.
@@ -132,6 +134,10 @@ Options
   Excludes OVS from the build.
   Sets the ``WITH_OVSP4RT`` listfile option to FALSE.
 
+``--p4ovs=MODE``
+  Specifies the mode in which to build OvS. See
+  :ref:`P4OVS Modes <p4ovs-modes>` for a list of values.
+
 ``--target=TARGET``
   Specifies the target (``dpdk``, ``es2k``, or ``tofino``) for which
   P4 Control Plane will be built.
@@ -139,8 +145,8 @@ Options
   Sets the ``TDI_TARGET`` listfile variable.
   Defaults to ``DPDK`` if unspecified.
 
-Configurations
---------------
+Build Types
+-----------
 
 ``--debug``
   Build with ``-DCMAKE_BUILD_TYPE=Debug``.
@@ -160,6 +166,28 @@ Configurations
 
 If no configuration is specified, the CMake listfile currently defaults to
 ``RelWithDebInfo``.
+
+.. _p4ovs-modes:
+
+P4OVS Modes
+-----------
+
+``none``
+  Build OVS in non-P4 mode.
+
+``ovsp4rt``
+  Build OVS with the ovsp4rt library.
+  OVS is built *after* P4 Control Plane.
+
+``p4ovs``
+  Build OVS in legacy P4 mode.
+  OVS is built *before* P4 Control Plane.
+  (default)
+
+``stubs``
+  Build OVS with the ovsp4rt stubs library.
+  OVS is built *after* P4 Control Plane.
+  Use this mode when building to run the OVS test suite.
 
 Environment variables
 =====================
@@ -186,7 +214,7 @@ Environment variables
   Supplies the default value of the ``--ovs`` option.
 
 ``SDE_INSTALL``
-  Directory in which the SDK for the E2100 IPU is installed.
+  Directory in which the P4SDE for the target is installed.
   Supplies the default value of the ``--sde`` option.
 
 ``SDKTARGETSYSROOT``
