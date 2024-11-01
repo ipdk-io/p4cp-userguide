@@ -1,6 +1,6 @@
-=======
-General
-=======
+===================
+General Information
+===================
 
 .. toctree::
    :maxdepth: 1
