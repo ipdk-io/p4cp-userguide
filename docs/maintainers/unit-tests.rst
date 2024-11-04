@@ -7,4 +7,5 @@ Unit Tests
 
    running-krnlmon-unit-tests
    running-ovs-unit-tests
+   running-ovsp4rt-unit-tests
    running-stratum-unit-tests
