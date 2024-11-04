@@ -11,29 +11,35 @@ Running OVSP4RT Unit Tests
 Building the Unit Tests
 =======================
 
+This guide explains how to build and run the ovsp4rt unit tests, and
+how generate a code coverage report for them.
+
+.. note::
+
+   To keep things simple, the examples in this guide assume that you are
+   using presets to configure cmake. You may substitute any of the other
+   methods, if you wish.
+
 Full build
 ----------
 
 The ovsp4rt unit tests are included when you do a full build.
-No additional steps are necessary.
 
 Targeted build
 --------------
 
-If you're actively working on ovsp4rt or its tests, you probably don't want
-to keep doing full builds. This section shows how to build just the ovsp4rt
-tests and their dependencies.
+If you're actively working on ovsp4rt or its tests, you may not want
+to do full builds every time. This section shows how to build just the
+ovsp4rt tests and their dependencies.
 
 Configure cmake
 ~~~~~~~~~~~~~~~
 
-The first step is to configure the build. This example uses a combination
-of environment variables (SDE_INSTALL, DEPEND_INSTALL) and command-line
-parameters.
+The first step is to configure the build.
 
 .. code-block:: bash
 
-   cmake -B build -DTDI_TARGET=dpdk -DOVS_INSTALL_DIR=ovs/install
+   cmake --preset dpdk
 
 Build the tests
 ~~~~~~~~~~~~~~~
@@ -68,7 +74,10 @@ The options use here here are:
   Normally, ctest lists the tests that were run, with an indication of
   whether each test passed or failed. If a test fails, you will have to
   check the logfile to determine what the failure was. This option tells
-  ctest to write the output of the failing test to the console.
+  ctest to write the output of failing tests to the console.
+
+Unit test logs are written to the ``build/Testing/Temporary`` folder.
+The most recent log is in ``LastTest.log``.
 
 Measuring Test Coverage
 =======================
@@ -76,13 +85,12 @@ Measuring Test Coverage
 Build with coverage enabled
 ---------------------------
 
-To measure unit test code coverage, you must first enable TEST_COVERAGE
+To measure unit test code coverage, you must enable the TEST_COVERAGE
 option when you configure the build.
 
 .. code-block:: bash
 
-   cmake -B build -DTDI_TARGET=dpdk -DOVS_INSTALL_DIR=ovs/install \
-       -DTEST_COVERAGE=ON
+   cmake --preset dpdk -DTEST_COVERAGE=ON
    cmake --build build -j5 --target ovsp4rt-unit-tests
 
 Measure coverage and generate report
