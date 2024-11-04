@@ -29,11 +29,8 @@ Targeted build
 --------------
 
 If you're actively working on ovsp4rt or its tests, you may not want
-to do full builds every time. This section shows how to build just the
-ovsp4rt tests and their dependencies.
-
-Configure cmake
-~~~~~~~~~~~~~~~
+to do full builds all the time. This section shows how to build just
+the ovsp4rt tests and their dependencies.
 
 The first step is to configure the build.
 
@@ -41,10 +38,7 @@ The first step is to configure the build.
 
    cmake --preset dpdk
 
-Build the tests
-~~~~~~~~~~~~~~~
-
-The second step is to build the ovsp4rt unit tests.
+Then build the unit tests.
 
 .. code-block:: bash
 
