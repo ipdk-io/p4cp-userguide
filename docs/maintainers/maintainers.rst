@@ -6,5 +6,4 @@ Maintainers
    :maxdepth: 2
 
    build-guides
-   scripts
    unit-tests
