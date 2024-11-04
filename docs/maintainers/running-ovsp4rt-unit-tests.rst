@@ -14,23 +14,20 @@ Building the Unit Tests
 Full build
 ----------
 
-The ovsp4rt unit tests are automatically built along with the rest of P4
-Control Plane. If you're doing a full build, no other steps are necessary.
+The ovsp4rt unit tests are included when you do a full build.
+No additional steps are necessary.
 
-Directed build
+Targeted build
 --------------
 
-If you're working on ovsp4rt or its tests, you probably don't want to
-do a full build every time you make a change. In this case, you can build
-just ovsp4rt and its dependencies.
+If you're actively working on ovsp4rt or its tests, you probably don't want
+to keep doing full builds. This section shows how to build just the ovsp4rt
+tests and their dependencies.
 
-Configuring cmake
-~~~~~~~~~~~~~~~~~
+Configure cmake
+~~~~~~~~~~~~~~~
 
-The first step is to configure the build. If you've already done this step,
-there's generally no need to repeat it.
-
-There are a number of ways to configure cmake. We're using a combination
+The first step is to configure the build. This example uses a combination
 of environment variables (SDE_INSTALL, DEPEND_INSTALL) and command-line
 parameters.
 
@@ -38,11 +35,8 @@ parameters.
 
    cmake -B build -DTDI_TARGET=dpdk -DOVS_INSTALL_DIR=ovs/install
 
-cmake can also be configured using a preload file, a preset, or a helper
-script such as ``make-all.sh``.
-
-Building the tests
-~~~~~~~~~~~~~~~~~~
+Build the tests
+~~~~~~~~~~~~~~~
 
 The second step is to build the ovsp4rt unit tests.
 
@@ -50,35 +44,113 @@ The second step is to build the ovsp4rt unit tests.
 
    cmake --build build -j5 --target ovsp4rt-unit-tests
 
-Note the use of the ``ovsp4rt-unit-tests`` build target.
-
-CMake will build the ovsp4rt unit tests, with their dependencies.
+The ``ovsp4rt-unit-tests`` target builds the ovsp4rt unit tests plus
+their dependencies.
 
 Running the Unit Tests
 ======================
 
-Tests are executed via the ``ctest`` command, which must be run from the
-build directory. We're going to do this in a nested subshell.
+Tests are executed via the ``ctest`` command. This must be done in the
+build directory. One way to do this is with a nested subshell.
 
 .. code-block:: bash
 
    (cd build; ctest -L ovsp4rt --output-on-failure)
 
-The options we're using here are:
+The options use here here are:
 
 ``-L ovsp4rt``
-  By default, ctest runs all the tests defined within the project,
-  which in this case would include the krnlmon tests. We use the
-  ``-L`` option to specify a *test label* (``ovsp4rt``), instructing
-  ctest to run only those tests that have that label.
+  By default, ctest runs all the tests defined by the project, including
+  the krnlmon tests. The ``-L`` option specifies a *test label*
+  (``ovsp4rt``) that limits the selection to the ovsp4rt tests.
 
 ``--output-on-failure``
-  Normally, ctest writes a summary of the tests run, with an indication
-  of whether each test passed or failed. If a test fails, you will have
-  to locate the logfile to obtain any details. This option tells ctest
-  to dump the log of the failing test to the console.
+  Normally, ctest lists the tests that were run, with an indication of
+  whether each test passed or failed. If a test fails, you will have to
+  check the logfile to determine what the failure was. This option tells
+  ctest to write the output of the failing test to the console.
 
 Measuring Test Coverage
 =======================
 
-TBD
+Build with coverage enabled
+---------------------------
+
+To measure unit test code coverage, you must first enable TEST_COVERAGE
+option when you configure the build.
+
+.. code-block:: bash
+
+   cmake -B build -DTDI_TARGET=dpdk -DOVS_INSTALL_DIR=ovs/install \
+       -DTEST_COVERAGE=ON
+   cmake --build build -j5 --target ovsp4rt-unit-tests
+
+Measure coverage and generate report
+------------------------------------
+
+The ``scripts`` directory contains a set of bash scripts to run the tests,
+analyze the coverage measurements, and generate an HTML report for each
+(target, test label) combination:
+
+- scripts/es2k/report-ovsp4rt-coverage.sh
+- scripts/es2k/report-krnlmon-coverage.sh
+- scripts/dpdk/report-ovsp4rt-coverage.sh
+- scripts/dpdk/report-krnlmon-coverage.sh
+
+To generate the report:
+
+.. code-block:: bash
+
+   ./scripts/dpdk/report-ovsp4rt-coverage.sh
+
+Sample output:
+
+.. code-block:: text
+
+      Site: baggins
+      Build name: Linux-c++
+   Create new tag: 20241104-1018 - Experimental
+   Test project /home/bilbo/work/latest/build
+       Start  6: encode_host_port_value_test
+   1/6 Test  #6: encode_host_port_value_test ......   Passed    0.02 sec
+       Start  7: dpdk_fdb_rx_vlan_test
+   2/6 Test  #7: dpdk_fdb_rx_vlan_test ............   Passed    0.03 sec
+       Start  8: dpdk_fdb_tx_vlan_test
+   3/6 Test  #8: dpdk_fdb_tx_vlan_test ............   Passed    0.03 sec
+       Start  9: dpdk_fdb_tx_vxlan_test
+   4/6 Test  #9: dpdk_fdb_tx_vxlan_test ...........   Passed    0.03 sec
+       Start 10: dpdk_tunnel_term_test
+   5/6 Test #10: dpdk_tunnel_term_test ............   Passed    0.03 sec
+       Start 11: dpdk_vxlan_encap_test
+   6/6 Test #11: dpdk_vxlan_encap_test ............   Passed    0.03 sec
+
+   100% tests passed, 0 tests failed out of 6
+       .
+       .
+   Overall coverage rate:
+     lines......: 61.1% (802 of 1312 lines)
+     functions..: 62.6% (97 of 155 functions)
+   Coverage report is in build/Coverage/ovsp4rt/dpdk.
+
+View the coverage report
+------------------------
+
+Use a browser to open **build/Coverage/ovsp4rt/dpdk/index.html**.
+
+|image1|
+
+To see the summary report for the **ovs-p4rt/sidecar** folder, click on
+its link.
+
+|image2|
+
+To see the detailed report for **ovsp4rt.cc**, click on its link.
+
+|image3|
+
+Scroll down the file page to see which parts of the file are covered by
+the unit test (in blue), and which parts are not covered (in orange).
+
+.. |image1| image:: images/ovsp4rt-coverage-report.png
+.. |image2| image:: images/ovsp4rt-sidecar-page.png
+.. |image3| image:: images/ovsp4rt-file-page.png
