@@ -57,21 +57,23 @@ build directory. One way to do this is with a nested subshell.
 
    (cd build; ctest -L ovsp4rt --output-on-failure)
 
-The options use here here are:
+The options used here are:
 
 ``-L ovsp4rt``
-  By default, ctest runs all the tests defined by the project, including
+  By default, ctest runs all the tests in the project, including
   the krnlmon tests. The ``-L`` option specifies a *test label*
-  (``ovsp4rt``) that limits the selection to the ovsp4rt tests.
+  that limits the selection to the ovsp4rt tests.
 
 ``--output-on-failure``
-  Normally, ctest lists the tests that were run, with an indication of
-  whether each test passed or failed. If a test fails, you will have to
-  check the logfile to determine what the failure was. This option tells
-  ctest to write the output of failing tests to the console.
+  Normally, ctest displays a summary of the tests that were run, with an
+  indication of which passed and which failed. If a test fails, you will
+  need to check the logfile to determine what the failure was.
 
-Unit test logs are written to the ``build/Testing/Temporary`` folder.
-The most recent log is in ``LastTest.log``.
+  This option instructs ctest to write the output of failing tests
+  to the console.
+
+Unit test logs are written to the **build/Testing/Temporary** folder.
+The most recent log is in **LastTest.log**.
 
 Measuring Test Coverage
 =======================
