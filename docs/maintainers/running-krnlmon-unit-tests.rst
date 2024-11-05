@@ -8,391 +8,170 @@ Running Krnlmon Unit Tests
 .. contents::
    :depth: 3
 
-Building the unit tests
------------------------
+Building the Unit Tests
+=======================
 
-To run the Kernel Monitor unit tests, you must first build P4 Control
-Plane for DPDK or ES2K:
+This guide explains how to build and run the krnlmon unit tests, and
+how generate a code coverage report for them.
+
+.. note::
+
+   To keep things simple, the examples in this guide assume that you are
+   using presets to configure cmake. You may substitute any of the other
+   methods, if you wish.
+
+Full build
+----------
+
+The krnlmon unit tests are included in a full build. There is no need to
+build anything else.
+
+Targeted build
+--------------
+
+It is not necessary to do a full build. You can limit the build to the
+unit tests and their dependencies.
+
+The first step is to configure the build.
 
 .. code-block:: bash
 
-   ./make-all.sh --target=es2k
+   cmake --preset es2k
 
-Running the unit tests
-----------------------
+Then build the unit tests, specifying the ``krnlmon-unit-tests`` target.
+
+.. code-block:: bash
+
+   cmake --build build -j4 --target krnlmon-unit-tests
+
+Running the Unit Tests
+======================
 
 To run the unit tests, change to the **build** directory and issue the
-**ctest** command:
+**ctest** command
 
 .. code-block:: bash
 
    (cd build; ctest -L krnlmon --output-on-failure)
 
-When specified without any arguments, the **ctest** command runs all
-the unit tests.
+The options are:
 
-For example:
+``-L krnlmon``
+  Specifies that only the krnlmon unit tests should be run.
 
-.. code-block:: text
+``--output-on-failure``
+  Instructs ctest to write the output of failing tests to the console.
+  Normally it goes only to the test log.
 
-   milady@dewinter:~/recipe$ (cd build; ctest -L krnlmon --output-on-failure)
-   Test project /home/milady/recipe/build
-   Start 1: switchlink_link_test
-   1/1 Test #1: switchlink_link_test ............. Passed 0.00 sec
-
-   100% tests passed, 0 tests failed out of 1
-   Total Test time (real) = 0.01 sec
-
-The build summary will be displayed on the console.
-
-Details of the run are stored in a log file:
+Sample output:
 
 .. code-block:: text
 
-   milady@dewinter:~/recipe$ more build/Testing/Temporary/LastTest.log
-   Start testing: Apr 25 16:30 PDT
-   ----------------------------------------------------------
-   1/1 Testing: switchlink_link_test
-   1/1 Test: switchlink_link_test
-   Command: "/home/milady/recipe/build/krnlmon/krnlmon/switchlink/switchlink_link_test"
-   Directory: /home/milady/recipe/build/krnlmon/krnlmon/switchlink
-   "switchlink_link_test" start time: Apr 25 16:30 PDT
-   Output:
-   ----------------------------------------------------------
-   Running main() from /home/milady/new.recipe/setup/gtest/googletest/src/gtest_main.cc
-   [==========] Running 5 tests from 1 test suite.
-   [----------] Global test environment set-up.
-   [----------] 5 tests from SwitchlinkTest
-   [ RUN      ] SwitchlinkTest.can_add_generic_link
-   [ OK       ] SwitchlinkTest.can_add_generic_link (0 ms)
-   [ RUN      ] SwitchlinkTest.can_add_vxlan_link
-   [ OK       ] SwitchlinkTest.can_add_vxlan_link (0 ms)
-   [ RUN      ] SwitchlinkTest.cannot_delete_generic_link
-   [ OK       ] SwitchlinkTest.cannot_delete_generic_link (0 ms)
-   [ RUN      ] SwitchlinkTest.can_delete_vxlan_link
-   [ OK       ] SwitchlinkTest.can_delete_vxlan_link (0 ms)
-   [ RUN      ] SwitchlinkTest.can_delete_tunnel_link
-   [ OK       ] SwitchlinkTest.can_delete_tunnel_link (0 ms)
-   [----------] 5 tests from SwitchlinkTest (0 ms total)
-
-   [----------] Global test environment tear-down
-   [==========] 5 tests from 1 test suite ran. (0 ms total)
-   [ PASSED   ] 5 tests.
-   <end of output>
-   Test time = 0.01 sec
-   ----------------------------------------------------------
-   Test Passed.
-   "switchlink_link_test" end time: Apr 25 16:30 PDT
-   "switchlink_link_test" time elapsed: 00:00:00
-   ----------------------------------------------------------
-
-   End testing: Apr 25 16:30 PDT
-
-Measuring code coverage
------------------------
-
-Enabling measurement
-~~~~~~~~~~~~~~~~~~~~
-
-To measure unit test code coverage, you must enable the feature when you
-build the P4 Control Plane.
-
-You can do this via the make-all script:
-
-.. code-block:: bash
-
-   ./make-all.sh --target=es2k --coverage
-
-Or as a CMake command-line parameter:
-
-.. code-block:: text
-
-   -DTEST_COVERAGE=ON
-
-Measuring coverage
-~~~~~~~~~~~~~~~~~~
-
-Coverage data is collected when the unit tests are run.
-
-You can obtain the results by running CTest on a specific target:
-
-.. code-block:: bash
-
-   (cd build; ctest -L krnlmon -T coverage)
-
-You can also run the tests and request the coverage report in a single
-command:
-
-.. code-block:: bash
-
-   (cd build; ctest -L krnlmon -T test -T coverage)
-
-Console output:
-
-.. code-block:: text
-
-   milady@dewinter:~/recipe$ (cd build; ctest -T test -T coverage)
-   Site: dewinter Build name: Linux-c++
-   Create new tag: 20230509-2238 - Experimental
-   Test project /home/milady/recipe/build
-   Start 1: switchlink_link_test
-   1/1 Test #1: switchlink_link_test ............. Passed 0.00 sec
-
-   100% tests passed, 0 tests failed out of 1
-
-   Total Test time (real) = 0.01 sec
-
-   Performing coverage
-      Processing coverage (each . represents one file):
-       ..
-      Accumulating results (each . represents one file):
-       ..
-           Covered LOC: 276
-           Not covered LOC: 7
-           Total LOC: 283
-           Percentage Coverage: 97.53%
-
-Consolidating the data
-~~~~~~~~~~~~~~~~~~~~~~
-
-To generate the detailed coverage report, you must first consolidate the
-measurement data:
-
-.. code-block:: bash
-
-   lcov --capture \
-       --directory build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ \
-       --output-file krnlmon.info
-
-Console output:
-
-.. code-block:: text
-
-   Capturing coverage data from build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
-   Found gcov version: 9.4.0
-   Using intermediate gcov format
-   Scanning build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/ for .gcda files ...
-   Found 2 data files in build/krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/
-   Processing switchlink_link_test.dir/switchlink_link.c.gcda
-   Processing switchlink_link_test.dir/switchlink_link_test.cc.gcda
-   Finished .info-file creation
-
-Generating the report
-~~~~~~~~~~~~~~~~~~~~~
-
-Now generate the HTML report:
-
-.. code-block:: bash
-
-   genhtml krnlmon.info --output-directory coverage
-
-Console output:
-
-.. code-block:: text
-
-   Reading data file krnlmon.info
-   Found 24 entries.
-   Found common filename prefix "/usr/include/c++"
-   Writing .css and .png files.
-   Generating output.
-   Processing file /home/milady/recipe/krnlmon/krnlmon/switchlink/switchlink_link_test.cc
-   Processing file /home/milady/recipe/krnlmon/krnlmon/switchlink/switchlink_link.c
-   Processing file /opt/deps/include/gtest/gtest-message.h
-   Processing file /opt/deps/include/gtest/gtest.h
-   Processing file /opt/deps/include/gtest/gtest-printers.h
-   Processing file /opt/deps/include/gtest/internal/gtest-internal.h
-   Processing file /opt/deps/include/gtest/internal/gtest-port.h
-   Processing file 9/sstream
-   Processing file 9/tuple
-   Processing file 9/ostream
-   Processing file 9/bits/ptr_traits.h
-   Processing file 9/bits/char_traits.h
-   Processing file 9/bits/allocator.h
-   Processing file 9/bits/move.h
-   Processing file 9/bits/unique_ptr.h
-   Processing file 9/bits/stl_iterator_base_funcs.h
-   Processing file 9/bits/alloc_traits.h
-   Processing file 9/bits/basic_string.h
-   Processing file 9/bits/basic_string.tcc
-   Processing file 9/ext/new_allocator.h
-   Processing file 9/ext/type_traits.h
-   Processing file /usr/include/x86_64-linux-gnu/bits/stdio2.h
-   Processing file /usr/include/x86_64-linux-gnu/bits/string_fortified.h
-   Processing file /usr/include/x86_64-linux-gnu/bits/byteswap.h
-   Writing directory view page.
-   Overall coverage rate:
-     lines......: 69.8% (351 of 503 lines)
-     functions..: 53.2% (42 of 79 functions)
-
-Viewing the report
-~~~~~~~~~~~~~~~~~~
-
-To view the coverage report, use a browser to open
-**coverage/index.html**.
-
-|image5|
-
-To see the summary report for the **krnlmon/switchlink** directory,
-click on its link:
-
-|image6|
-
-To see the detailed report for **switchlink_link.c**, click on its
-link:
-
-|image7|
-
-Scroll down the file page to see which parts of the file are covered by
-the unit test (in blue), and which parts are not covered (in orange)
-
-|image8|
-
-Minimal Builds
---------------
-
-The CMake build system provides targets that allow unit tests to be
-built and run without needing to build all of P4 Control Plane.
-
-krnlmon-test
-~~~~~~~~~~~~
-
-To perform a minimal build and run the Kernel Monitor unit tests for
-DPDK:
-
-.. code-block:: bash
-
-   cmake -B build -DTDI_TARGET=dpdk -DWITH_OVSP4RT=off
-
-Console output:
-
-.. code-block:: text
-
-   -- The C compiler identification is GNU 9.4.0
-   -- The CXX compiler identification is GNU 9.4.0
-     .
-     .
-   -- Configuring done
-   -- Generating done
-   -- Build files have been written to: /home/peabody/recipe/build
-
-   peabody@wabac:~/recipe$ cmake --build build -j4 --target krnlmon-test
-   Scanning dependencies of target switchlink_link_test
-   Scanning dependencies of target switchlink_address_test
-   Scanning dependencies of target switchlink_neighbor_test
-   [ 16%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_globals.c.o
-   [ 16%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_address_test.cc.o
-   [ 33%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_link_test.cc.o
-   [ 50%] Building CXX object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_neigh_test.cc.o
-   [ 50%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_globals.c.o
-   [ 66%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_link_test.dir/switchlink_link.c.o
-   [ 83%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_neighbor_test.dir/switchlink_neigh.c.o
-   [ 83%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_address.c.o
-   [100%] Building C object krnlmon/krnlmon/switchlink/CMakeFiles/switchlink_address_test.dir/switchlink_globals.c.o
-   [100%] Linking CXX executable switchlink_address_test
-   [100%] Linking CXX executable switchlink_link_test
-   [100%] Built target switchlink_address_test
-   [100%] Linking CXX executable switchlink_neighbor_test
-   [100%] Built target switchlink_link_test
-   [100%] Built target switchlink_neighbor_test
-   Scanning dependencies of target krnlmon-test
-   Test project /home/milady/recipe/build
+   Test project /home/elrond/palantir/build
        Start 1: switchlink_link_test
-   1/3 Test #1: switchlink_link_test ............. Passed 0.01 sec
+   1/5 Test #1: switchlink_link_test .............   Passed    0.01 sec
        Start 2: switchlink_address_test
-   2/3 Test #2: switchlink_address_test .......... Passed 0.00 sec
+   2/5 Test #2: switchlink_address_test ..........   Passed    0.00 sec
        Start 3: switchlink_neighbor_test
-   3/3 Test #3: switchlink_neighbor_test ......... Passed 0.01 sec
+   3/5 Test #3: switchlink_neighbor_test .........   Passed    0.00 sec
+       Start 4: switchlink_route_test
+   4/5 Test #4: switchlink_route_test ............   Passed    0.00 sec
+       Start 5: switchsde_es2k_test
+   5/5 Test #5: switchsde_es2k_test ..............   Passed    0.00 sec
 
-   100% tests passed, 0 tests failed out of 3
+   100% tests passed, 0 tests failed out of 5
 
-   Total Test time (real) = 0.02 sec
-   [100%] Built target krnlmon-test
+   Label Time Summary:
+   krnlmon    =   0.02 sec*proc (5 tests)
 
-krnlmon-coverage
-~~~~~~~~~~~~~~~~
+   Total Test time (real) =   0.03 sec
 
-To perform a minimal build, run the unit tests, and measure coverage for
-ES2K:
+Details of the run are stored in **LastTest.log** in the
+**build/Testing/Temporary** folder.
 
-Configure the build
-^^^^^^^^^^^^^^^^^^^
+Measuring Code Coverage
+=======================
+
+Build with coverage enabled
+---------------------------
+
+To measure unit test code coverage, you must enable the TEST_COVERAGE
+option when you configure the build.
 
 .. code-block:: bash
 
-   cmake -B build -DTDI_TARGET=es2k -DWITH_OVSP4RT=off -DTEST_COVERAGE=on
-
-Console output:
-
-.. code-block:: text
-
-   -- The C compiler identification is GNU 9.4.0
-   -- The CXX compiler identification is GNU 9.4.0
-     .
-     .
-   Building ES2K_TARGET
-   -- WITH_KRNLMON="ON"
-   -- WITH_OVSP4RT="off"
-     .
-     .
-   -- Configuring done
-   -- Generating done
-   -- Build files have been written to: /home/peabody/recipe/build
+   cmake --preset es2k -DTEST_COVERAGE=ON
+   cmake --build build -j4 --target krnlmon-unit-tests
 
 Run tests and generate report
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
+
+The ``scripts`` directory contains a set of bash scripts to run the tests,
+analyze the coverage measurements, and generate an HTML report for each
+(target, test label) combination:
+
+- scripts/es2k/report-ovsp4rt-coverage.sh
+- scripts/es2k/report-krnlmon-coverage.sh
+- scripts/dpdk/report-ovsp4rt-coverage.sh
+- scripts/dpdk/report-krnlmon-coverage.sh
+
+To generate the report:
 
 .. code-block:: bash
 
-   cmake --build build -j4 --target krnlmon-test krnlmon-coverage
+   ./scripts/es2k/report-krnlmon-coverage.sh
 
-Console output:
+Sample output:
 
 .. code-block:: text
 
-   Scanning dependencies of target switchlink_link_test
-   Scanning dependencies of target switchlink_neighbor_test
-   Scanning dependencies of target switchlink_address_test
-     .
-     .
-   Test project /home/peabody/recipe/build
-       Start 1: switchlink_link_test
-   1/3 Test #1: switchlink_link_test ............. Passed 0.00 sec
-       Start 2: switchlink_address_test
-   2/3 Test #2: switchlink_address_test .......... Passed 0.00 sec
-       Start 3: switchlink_neighbor_test
-   3/3 Test #3: switchlink_neighbor_test ......... Passed 0.01 sec
 
-   100% tests passed, 0 tests failed out of 3
-
-   Total Test time (real) = 0.01 sec
+   (test summary omitted)
 
    Performing coverage
       Processing coverage (each . represents one file):
-       ......
+       .........
       Accumulating results (each . represents one file):
-       ......
-            Covered LOC: 709
-            Not covered LOC: 9
-            Total LOC: 718
-            Percentage Coverage: 98.75%
-   [100%] Built target krnlmon-test
-   Scanning dependencies of target krnlmon-coverage
-   Capturing coverage data from /home/peabody/recipe/build
+       .........
+	Covered LOC:         1136
+	Not covered LOC:     101
+	Total LOC:           1237
+	Percentage Coverage: 91.84%
+   Capturing coverage data from build/krnlmon/krnlmon/
    Found gcov version: 9.4.0
    Using intermediate gcov format
-   Scanning /home/peabody/recipe/build for .gcda files ...
-   Found 6 data files in /home/peabody/recipe/build
-     .
-     .
-   Writing directory view page.
+   Scanning build/krnlmon/krnlmon/ for .gcda files ...
+   Found 9 data files in build/krnlmon/krnlmon/
+
+   (progress messages omitted)
+
    Overall coverage rate:
-     lines......: 81.1% (872 of 1075 lines)
-     functions..: 65.0% (104 of 160 functions)
-   Built target krnlmon-coverage
+     lines......: 91.8% (1136 of 1237 lines)
+     functions..: 70.8% (97 of 137 functions)
+   Coverage report is in build/Coverage/krnlmon/es2k.
 
-The coverage report is generated in the **build/Testing/coverage** directory.
+View the coverage report
+------------------------
 
-.. |image5| image:: images/krnlmon-coverage-report.png
-.. |image6| image:: images/krnlmon-switchlink-page.png
-.. |image7| image:: images/krnlmon-switchlink-link-page-top.png
-.. |image8| image:: images/krnlmon-switchlink-link-page-code.png
+Use a browser to open **build/Coverage/krnlmon/es2k/index.html**.
+
+|image1|
+
+To see the summary report for the **switchlink** directory,
+click on its link.
+
+|image2|
+
+To see the report for **switchlink_link.c**, click on its link.
+
+|image3|
+
+Scroll down the page to see which parts of the file are covered by
+the unit test (in blue), and which parts are not covered (in orange)
+
+|image4|
+
+.. |image1| image:: images/krnlmon-coverage-report.png
+.. |image2| image:: images/krnlmon-files-page.png
+.. |image3| image:: images/krnlmon-switchlink-page-top.png
+.. |image4| image:: images/krnlmon-switchlink-page-detail.png
