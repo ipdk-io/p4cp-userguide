@@ -133,10 +133,10 @@ Sample output:
        .........
       Accumulating results (each . represents one file):
        .........
-	Covered LOC:         1136
-	Not covered LOC:     101
-	Total LOC:           1237
-	Percentage Coverage: 91.84%
+        Covered LOC:         1136
+        Not covered LOC:     101
+        Total LOC:           1237
+        Percentage Coverage: 91.84%
    Capturing coverage data from build/krnlmon/krnlmon/
    Found gcov version: 9.4.0
    Using intermediate gcov format
