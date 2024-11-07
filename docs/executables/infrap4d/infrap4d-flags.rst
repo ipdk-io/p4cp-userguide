@@ -4,12 +4,14 @@
 
 .. _infrap4d_flags:
 
-==============
-Infrap4d Flags
-==============
+========================
+Infrap4d Flags Reference
+========================
 
 .. contents::
    :depth: 3
+
+This section contains a list of the command-line flags that infrap4d accepts.
 
 Common Flags
 ============

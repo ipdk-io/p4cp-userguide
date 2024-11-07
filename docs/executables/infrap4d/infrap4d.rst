@@ -1,9 +1,9 @@
 .. Copyright 2024 Intel Corporation
    SPDX-License-Identifier: Apache 2.0
 
-========
-Infrap4d
-========
+===================
+Infrap4d User Guide
+===================
 
 .. contents::
    :depth: 3
