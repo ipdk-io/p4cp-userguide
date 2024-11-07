@@ -46,7 +46,7 @@ Flags from config_monitoring_service
    empty and it is expected to be explicitly given by flags. type: string.
    default: "/usr/share/stratum/es2k/es2k_port_config.pb.txt" for ES2K,
    or "/usr/share/stratum/dpdk/dpdk_port_config.pb.txt" for DPDK.
-   
+
 
 ``--gnmi_capabilities_file``
    Path to the file containing the gNMI capabilities
