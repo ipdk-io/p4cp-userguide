@@ -16,7 +16,7 @@ P4 Control Plane User Guide
    general
    building
    p4_programs
-   executables
+   executables/executables
    features
    maintainers/maintainers
    security

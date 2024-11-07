@@ -8,6 +8,6 @@ Clients
 .. toctree::
    :maxdepth: 1
 
-   gnmi-ctl
-   p4rt-ctl
-   sgnmi_cli
+   /clients/gnmi-ctl
+   /clients/p4rt-ctl
+   /clients/sgnmi_cli

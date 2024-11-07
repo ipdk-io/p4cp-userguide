@@ -8,5 +8,5 @@ Executables
 .. toctree::
    :maxdepth: 1
 
-   /clients/clients
+   clients
    utilities
