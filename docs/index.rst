@@ -15,9 +15,9 @@ P4 Control Plane User Guide
 
    general
    building
-   clients/clients
-   features/features
-   maintainers/maintainers
    p4_programs
+   executables
+   features
+   maintainers/maintainers
    security
    changes/changes
