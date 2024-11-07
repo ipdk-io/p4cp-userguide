@@ -5,4 +5,7 @@ Features
 .. toctree::
    :maxdepth: 1
 
-   guides/p4-role-configuration.rst
+   /apps/ipsec-offload
+   /apps/lnw/lnw-index
+   /apps/packet-io
+   /guides/p4-role-configuration.rst

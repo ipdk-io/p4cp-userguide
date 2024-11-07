@@ -14,11 +14,10 @@ P4 Control Plane User Guide
    :maxdepth: 1
 
    general
-   apps/applications
    building
+   p4_programs
    executables
    features
    maintainers/maintainers
-   p4_programs
    security
    changes/changes
