@@ -1,3 +1,6 @@
+.. Copyright 2023-2024 Intel Corporation
+   SPDX-License-Identifier: Apache-2.0
+
 =======
 Clients
 =======
@@ -7,5 +10,4 @@ Clients
 
    gnmi-ctl
    p4rt-ctl
-   p4rt_perf_test
    sgnmi_cli

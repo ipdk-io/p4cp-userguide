@@ -16,7 +16,7 @@ P4 Control Plane User Guide
    general
    apps/applications
    building
-   clients/clients
+   executables
    features
    maintainers/maintainers
    p4_programs
