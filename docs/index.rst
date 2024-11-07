@@ -14,10 +14,9 @@ P4 Control Plane User Guide
    :maxdepth: 1
 
    general
-   apps/applications
    building
    clients/clients
-   features
+   features/features
    maintainers/maintainers
    p4_programs
    security
