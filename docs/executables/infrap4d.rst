@@ -1,13 +1,13 @@
 .. Copyright 2024 Intel Corporation
    SPDX-License-Identifier: Apache-2.0
 
-===========
-Executables
-===========
+========
+Infrap4d
+========
 
 .. toctree::
    :maxdepth: 1
 
-   clients
-   infrap4d
-   utilities
+   infrap4d/infrap4d
+   infrap4d/infrap4d-flags
+
