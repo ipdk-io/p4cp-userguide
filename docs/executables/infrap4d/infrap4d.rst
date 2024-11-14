@@ -22,7 +22,9 @@ Syntax
 
    infrap4d \
        [--help | --helpshort | --helpon MODULE] \
-       [options]
+       [--[no]detach] \
+       [--disable-krnlmon] \
+       [other options]
 
 infrap4d is located in the ``sbin`` directory of the install tree.
 
@@ -30,29 +32,41 @@ infrap4d is located in the ``sbin`` directory of the install tree.
 Command-Line Flags
 ==================
 
+Flag prefix
+-----------
+
 A flag may be prefixed with either one or two hyphens.
-``-help`` is equivalent to ``--help``.
+``-help`` and ``--help`` are equivalent.
+
+Underscores vs. hyphens
+-----------------------
 
 Underscores and hyphens may be used interchangeably within the name
-of a flag. ``--disable_krnlmon`` is equivalent to ``--disable-krnlmon``.
+of a flag. ``--disable_krnlmon`` and ``--disable-krnlmon`` are equivalent.
 
-A Boolean value of *true* may be expressed as ``true``, ``yes``, ``on``,
+Boolean values
+--------------
+
+A Boolean value of **true** may be expressed as ``true``, ``yes``, ``on``,
 or ``1``, or by writing the flag name with no value. For example:
 
-.. code-block text
+.. code-block:: text
 
    -detach
    -detach=true
    -detach yes
 
-A Boolean value of *false* may be expressed as ``false``, ``no``, ``off``,
+A Boolean value of **false** may be expressed as ``false``, ``no``, ``off``,
 or ``0``, or by prefixing the flag name with ``no``. For example:
 
-.. code-block text
+.. code-block:: text
 
    -nodetach
    -detach=no
    -detach 0
+
+Documentation
+-------------
 
 Infrap4d uses the Google ``gflags`` library to process command-line flags.
 Technical documentation is available in
@@ -70,8 +84,11 @@ The most useful of these are:
   Displays just the flags that are specific to the main module
   (``infrap4d_main``).
 
-``helpon MODULE``
+``--helpon MODULE``
   Displays just the flags that are defined by the named module.
+
+  MODULE is the name of the source file in which the flags are defined,
+  without ``.cc`` suffix, e.g. ``logging`` or ``tdi_hal_flags``.
 
 ``--help``
   Displays the flags for all modules. The list is long.
@@ -88,7 +105,7 @@ Infrap4d Options
 These flags influence the way infrap4d starts up.
 They are defined by the ``infrap4d_main`` module.
 
-``--detached``
+``--detach``
   Run infrap4d in detached mode. type: Boolean. default: true.
 
   In detached mode, infrap4d runs as a separate process, as a daemon.
@@ -104,7 +121,7 @@ Other Options
 See :ref:`infrap4d_flags` for a complete list of flags supported by
 infrap4d.
 
-Verifying settings
+Verifying Settings
 ==================
 
 gflags processes all the flags on the command line before it displays
@@ -121,5 +138,5 @@ flags that have been set, as the following example demonstrates.
      -disable_krnlmon (Run infrap4d without krnlmon support) type: bool
       default: false currently: true
 
-gflags doesn't always do what you expect. This is a way to check for
-anomalies.
+gflags doesn't always do what you expect. This is a way to see the effect
+of the flags on the command line.
