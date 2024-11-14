@@ -43,7 +43,7 @@ Integrated builds are usually done using the helper script ``make-all.sh``
 You will typically want to start by removing artifacts from previous
 builds:
 
-.. code:: text
+.. code-block:: text
 
    rm -fr build install
 
@@ -55,7 +55,7 @@ Full build
 
 To build all of P4 Control Plane, including krnlmon:
 
-.. code:: bash
+.. code-block:: bash
 
    ./make-all.sh --target=TARGET --rpath
 
@@ -64,7 +64,7 @@ where TARGET is ``dpdk`` or ``es2k``.
 Full build (no OVS)
 ~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: bash
 
    ./make-all.sh --target=TARGET --rpath --no-ovs
 
@@ -76,7 +76,7 @@ Krnlmon only
 
 To build just krnlmon:
 
-.. code:: bash
+.. code-block:: bash
 
    ./make-all.sh --target-TARGET --rpath --no-build
    cmake --build build -j4 --target krnlmon
@@ -97,7 +97,7 @@ Preparation
 You will generally want to begin by removing artifacts from previous
 builds:
 
-.. code:: bash
+.. code-block:: bash
 
    rm -fr build install
 
@@ -107,7 +107,7 @@ no effect on integrated builds.
 DPDK build
 ~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: bash
 
    cmake -B build -C dpdk.cmake [options]
    cmake --build build -j4 --target install
@@ -128,7 +128,7 @@ You can also create your own configuration file and use it in place of
 ES2K build
 ^^^^^^^^^^
 
-.. code:: bash
+.. code-block:: bash
 
    cmake -B build -C es2k.cmake [options]
    cmake --build build -j4 --target install
