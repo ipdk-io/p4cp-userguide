@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infrap4d Flags Reference &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Utilities" href="../utilities.html" />
+    <link rel="prev" title="Infrap4d User Guide" href="infrap4d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../executables.html">Executables</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../clients.html">Clients</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../infrap4d.html">Infrap4d</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="infrap4d.html">Infrap4d User Guide</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Infrap4d Flags Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#common-flags">Common Flags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dpdk-flags">DPDK Flags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#es2k-flags">ES2K Flags</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../executables.html">Executables</a></li>
+          <li class="breadcrumb-item"><a href="../infrap4d.html">Infrap4d</a></li>
+      <li class="breadcrumb-item active">Infrap4d Flags Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/executables/infrap4d/infrap4d-flags.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="infrap4d-flags-reference">
+<span id="infrap4d-flags"></span><h1><a class="toc-backref" href="#id1" role="doc-backlink">Infrap4d Flags Reference</a><a class="headerlink" href="#infrap4d-flags-reference" title="Link to this heading"></a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#infrap4d-flags-reference" id="id1">Infrap4d Flags Reference</a></p>
+<ul>
+<li><p><a class="reference internal" href="#common-flags" id="id2">Common Flags</a></p>
+<ul>
+<li><p><a class="reference internal" href="#flags-from-auth-policy-checker" id="id3">Flags from auth_policy_checker</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-config-monitoring-service" id="id4">Flags from config_monitoring_service</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-credentials-manager" id="id5">Flags from credentials_manager</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-error-buffer" id="id6">Flags from error_buffer</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-gflags" id="id7">Flags from gflags</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-gflags-completions" id="id8">Flags from gflags_completions</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-gflags-reporting" id="id9">Flags from gflags_reporting</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-logging" id="id10">Flags from logging</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-infrap4d-main" id="id11">Flags from infrap4d_main</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-status-macros" id="id12">Flags from status_macros</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-p4-info-manager" id="id13">Flags from p4_info_manager</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-p4-service" id="id14">Flags from p4_service</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-tdi-hal-flags" id="id15">Flags from tdi_hal_flags</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-tdi-sde-flags" id="id16">Flags from tdi_sde_flags</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-tdi-sde-wrapper" id="id17">Flags from tdi_sde_wrapper</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-tdi-table-manager" id="id18">Flags from tdi_table_manager</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-utilities" id="id19">Flags from utilities</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-vlog-is-on" id="id20">Flags from vlog_is_on</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#dpdk-flags" id="id21">DPDK Flags</a></p>
+<ul>
+<li><p><a class="reference internal" href="#flags-from-dpdk-main" id="id22">Flags from dpdk_main</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#es2k-flags" id="id23">ES2K Flags</a></p>
+<ul>
+<li><p><a class="reference internal" href="#flags-from-es2k-main" id="id24">Flags from es2k_main</a></p></li>
+<li><p><a class="reference internal" href="#flags-from-es2k-node" id="id25">Flags from es2k_node</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>This section contains a list of the command-line flags that infrap4d accepts.</p>
+<section id="common-flags">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Common Flags</a><a class="headerlink" href="#common-flags" title="Link to this heading"></a></h2>
+<section id="flags-from-auth-policy-checker">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Flags from auth_policy_checker</a><a class="headerlink" href="#flags-from-auth-policy-checker" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--auth_policy_file_path</span></code></dt><dd><p>Path to AuthorizationPolicy proto. Used only if
+<code class="docutils literal notranslate"><span class="pre">--enable_authorization</span></code> is true. type: string,
+default: “/mnt/region_config/switchstack/keys/authorization_policy.proto.txt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--enable_authorization</span></code></dt><dd><p>Whether to enable per service per RPC authorization
+checking. The default must be true. Set to false only for testing
+purposes. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--file_change_poll_timeout_ms</span></code></dt><dd><p>Time in ms used as the timeout for file event
+polling. type: int32, default: 100.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--membership_info_file_path</span></code></dt><dd><p>Path to MembershipInfo proto. Used only if
+<code class="docutils literal notranslate"><span class="pre">--enable_authorization</span></code> is true. type: string,
+default: “/mnt/region_config/switchstack/keys/membership_info.proto.txt”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-config-monitoring-service">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Flags from config_monitoring_service</a><a class="headerlink" href="#flags-from-config-monitoring-service" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--chassis_config_file</span></code></dt><dd><p>The latest verified ChassisConfig proto pushed to the
+switch. This proto is Re-.generated based on the pushed YANG proto and
+includes the overall running config at any point of time. Default is
+empty and it is expected to be explicitly given by flags. type: string,
+default: “/usr/share/stratum/es2k/es2k_port_config.pb.txt” for ES2K,
+or “/usr/share/stratum/dpdk/dpdk_port_config.pb.txt” for DPDK.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--gnmi_capabilities_file</span></code></dt><dd><p>Path to the file containing the gNMI capabilities
+proto. type: string, default: “/etc/stratum/gnmi_caps.pb.txt”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-credentials-manager">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Flags from credentials_manager</a><a class="headerlink" href="#flags-from-credentials-manager" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--ca_cert_file</span></code></dt><dd><p>Path to CA certificate file. type: string,
+default: “/usr/share/stratum/certs/ca.crt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--client_cert_file</span></code></dt><dd><p>Path to gRPC client certificate file. type: string,
+default: “/usr/share/stratum/certs/client.crt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--client_cert_req_type</span></code></dt><dd><p>Client certificate request type. type: string,
+default: “no_request”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--client_key_file</span></code></dt><dd><p>Path to gRPC client key file. type: string,
+default: “/usr/share/stratum/certs/client.key”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--server_cert_file</span></code></dt><dd><p>Path to gRPC server certificate file. type: string,
+default: “/usr/share/stratum/certs/stratum.crt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--server_key_file</span></code></dt><dd><p>Path to gRPC server private key file. type: string,
+default: “/usr/share/stratum/certs/stratum.key”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-error-buffer">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Flags from error_buffer</a><a class="headerlink" href="#flags-from-error-buffer" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--max_num_errors_to_track</span></code></dt><dd><p>Max number of error statuses to track/save in the
+buffer. type: int32, default: 10.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-gflags">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Flags from gflags</a><a class="headerlink" href="#flags-from-gflags" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--flagfile</span></code></dt><dd><p>Load flags from file. type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--fromenv</span></code></dt><dd><p>Set flags from the environment [use ‘export FLAGS_flag1=value’].
+type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--tryfromenv</span></code></dt><dd><p>Set flags from the environment if present. type: string,
+default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--undefok</span></code></dt><dd><p>Comma-separated list of flag names that it is okay to specify on
+the command line even if the program does not define a flag with that
+name.  IMPORTANT: flags in this list that have arguments MUST use the
+flag=value format. type: string, default: “”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-gflags-completions">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Flags from gflags_completions</a><a class="headerlink" href="#flags-from-gflags-completions" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--tab_completion_columns</span></code></dt><dd><p>Number of columns to use in output for tab
+completion. type: int32, default: 80.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--tab_completion_word</span></code></dt><dd><p>If non-empty, HandleCommandLineCompletions() will
+hijack the process and attempt to do bash-style command line flag
+completion on this value. type: string, default: “”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-gflags-reporting">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Flags from gflags_reporting</a><a class="headerlink" href="#flags-from-gflags-reporting" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--help</span></code></dt><dd><p>Show help on all flags [tip: all flags can have two dashes].
+type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helpfull</span></code></dt><dd><p>Show help on all flags – same as -help. type: bool,
+default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helpmatch</span></code></dt><dd><p>Show help on modules whose name contains the specified substr.
+type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helpon</span></code></dt><dd><p>Show help on the modules named by this flag value. type: string,
+default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helppackage</span></code></dt><dd><p>Show help on all modules in the main package. type: bool,
+default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helpshort</span></code></dt><dd><p>Show help on only the main module for this program. type: bool,
+default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--helpxml</span></code></dt><dd><p>Produce an xml version of help. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--version</span></code></dt><dd><p>Show version and build info and exit. type: bool, default: false.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-logging">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Flags from logging</a><a class="headerlink" href="#flags-from-logging" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--alsologtoemail</span></code></dt><dd><p>Log messages go to these email addresses in addition to
+logfiles. type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--alsologtostderr</span></code></dt><dd><p>Log messages go to stderr in addition to logfiles.
+type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--colorlogtostderr</span></code></dt><dd><p>Color messages logged to stderr If supported by
+terminal. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--colorlogtostdout</span></code></dt><dd><p>Color messages logged to stdout If supported by
+terminal. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--drop_log_memory</span></code></dt><dd><p>Drop in-memory buffers of log contents. Logs can grow
+very quickly and they are rarely read before they need to be evicted from
+memory. Instead, drop them from memory as soon as they are flushed to
+disk. type: bool, default: true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_backtrace_at</span></code></dt><dd><p>Emit a backtrace when logging at <a class="reference external" href="file:linenum">file:linenum</a>.
+type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_dir</span></code></dt><dd><p>If specified, logfiles are written into this directory instead of
+the default logging directory. type: string, default: “/var/log/stratum/”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_link</span></code></dt><dd><p>Put additional links to the log files in this directory.
+type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_prefix</span></code></dt><dd><p>Prepend the log prefix to the start of each log line.
+type: bool, default: true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_utc_time</span></code></dt><dd><p>Use UTC time for logging. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--log_year_in_prefix</span></code></dt><dd><p>Include the year in the log prefix. type: bool,
+default: true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logbuflevel</span></code></dt><dd><p>Buffer log messages logged at this level or lower (-1 means
+don’t buffer; 0 means buffer INFO only; … type: int32, default: 0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logbufsecs</span></code></dt><dd><p>Buffer log messages for at most this many seconds. type: int32,
+default: 30.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logcleansecs</span></code></dt><dd><p>Clean overdue logs every this many seconds. type: int32,
+default: 300.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logemaillevel</span></code></dt><dd><p>Email log messages logged at this level or higher (0 means
+email all; 3 means email FATAL only; … type: int32, default: 999.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logfile_mode</span></code></dt><dd><p>Log file mode/permissions. type: int32, default: 436.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logmailer</span></code></dt><dd><p>Mailer used to send logging email. type: string, default: “”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logtostderr</span></code></dt><dd><p>Log messages go to stderr instead of logfiles. type: bool,
+default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logtostdout</span></code></dt><dd><p>Log messages go to stdout instead of logfiles. type: bool,
+default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--logtosyslog</span></code></dt><dd><p>Log messages also go to syslog. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--max_log_size</span></code></dt><dd><p>Approx. maximum log file size In MB. A value of 0 will be
+silently overridden to 1. type: uint32, default: 1800.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--minloglevel</span></code></dt><dd><p>Messages logged at a lower level than this don’t actually get
+logged anywhere. type: int32, default: 0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--stderrthreshold</span></code></dt><dd><p>Log messages at or above this level are copied to stderr
+in addition to logfiles.  This flag obsoletes <code class="docutils literal notranslate"><span class="pre">--alsologtostderr</span></code>.
+type: int32, default: 2.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--stop_logging_if_full_disk</span></code></dt><dd><p>Stop attempting to log to disk if the disk is
+full. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--timestamp_in_logfile_name</span></code></dt><dd><p>Put a timestamp at the end of the log file
+name. type: bool, default: true.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-infrap4d-main">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Flags from infrap4d_main</a><a class="headerlink" href="#flags-from-infrap4d-main" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--detach</span></code></dt><dd><p>Run infrap4d in detached mode. type: bool, default: true.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--disable_krnlmon</span></code></dt><dd><p>Run infrap4d without krnlmon support. type: bool,
+default: false.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-status-macros">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Flags from status_macros</a><a class="headerlink" href="#flags-from-status-macros" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--status_macros_log_stack_trace</span></code></dt><dd><p>If set, all errors generated will log a
+stack trace. type: bool, default: false.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-p4-info-manager">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Flags from p4_info_manager</a><a class="headerlink" href="#flags-from-p4-info-manager" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--skip_p4_min_objects_check</span></code></dt><dd><p>When true, the check for minimum required P4
+objects is not enforced. type: bool, default: false.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-p4-service">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Flags from p4_service</a><a class="headerlink" href="#flags-from-p4-service" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--forwarding_pipeline_configs_file</span></code></dt><dd><p>The latest set of verified
+ForwardingPipelineConfig protos pushed to the switch. This file is
+updated whenever ForwardingPipelineConfig proto for switching node is
+added or modified. type: string,
+default: “/etc/stratum/pipeline_cfg.pb.txt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--max_num_controller_connections</span></code></dt><dd><p>Max number of active/inactive streaming
+connections from outside controllers For all of the nodes combined..
+type: int32, default: 20.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--max_num_controllers_per_node</span></code></dt><dd><p>Max number of controllers that can manage a
+node. type: int32, default: 5.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--read_req_log_file</span></code></dt><dd><p>The log file for all the individual read request and
+the corresponding result. The format for each line is:
+&lt;timestamp&gt;;&lt;node_id&gt;;&lt;request proto&gt;;&lt;status&gt;. type: string,
+default: “/var/log/stratum/p4_reads.pb.txt”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--write_req_log_file</span></code></dt><dd><p>The log file for all the individual write request
+updates and the corresponding result. The format for each line is:
+&lt;timestamp&gt;;&lt;node_id&gt;;&lt;update proto&gt;;&lt;status&gt;. type: string,
+default: “/var/log/stratum/p4_writes.pb.txt”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-tdi-hal-flags">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Flags from tdi_hal_flags</a><a class="headerlink" href="#flags-from-tdi-hal-flags" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--external_stratum_urls</span></code></dt><dd><p>Comma-separated list of URLs for server to listen
+to for external calls from SDN controller, etc. type: string,
+default: “0.0.0.0:9339,0.0.0.0:9559”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_keepalive_min_ping_interval</span></code></dt><dd><p>Grpc keep-alive minimum ping interval.
+type: int32, default: 10000.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_keepalive_permit</span></code></dt><dd><p>Grpc keep-alive permit. type: int32, default: 1.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_keepalive_time_ms</span></code></dt><dd><p>Grpc keep-alive time. type: int32, default: 600000.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_keepalive_timeout_ms</span></code></dt><dd><p>Grpc keep-alive timeout period. type: int32,
+default: 20000.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_max_recv_msg_size</span></code></dt><dd><p>Grpc server max receive message size (0 = gRPC
+default.. type: uint32, default: 268435456.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_max_send_msg_size</span></code></dt><dd><p>Grpc server max send message size (0 = gRPC
+default.. type: uint32, default: 0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--grpc_open_insecure_mode</span></code></dt><dd><p>Open grpc server ports in insecure mode for gNMI,
+gNOI, and P4RT. type: bool, default: false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--local_stratum_url</span></code></dt><dd><p>URL for listening to local calls from stratum stub.
+type: string, default: “localhost:9559”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--persistent_config_dir</span></code></dt><dd><p>The persistent dir where all the config files will
+be stored. type: string, default: “/etc/stratum/”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--warmboot</span></code></dt><dd><p>Determines whether HAL is in warmboot stage. type: bool,
+default: false.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-tdi-sde-flags">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Flags from tdi_sde_flags</a><a class="headerlink" href="#flags-from-tdi-sde-flags" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--incompatible_enable_tdi_legacy_bytestring_responses</span></code></dt><dd><p>Enables the legacy
+padded byte string format in P4Runtime responses for Stratum-tdi. The
+strings are left unchanged from the underlying SDE. type: bool,
+default: true.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-tdi-sde-wrapper">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Flags from tdi_sde_wrapper</a><a class="headerlink" href="#flags-from-tdi-sde-wrapper" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--tdi_sde_config_dir</span></code></dt><dd><p>The dir used by the SDE to load the device
+configuration. type: string, default: “/var/run/stratum/tdi_config”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-tdi-table-manager">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Flags from tdi_table_manager</a><a class="headerlink" href="#flags-from-tdi-table-manager" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--tdi_table_sync_timeout_ms</span></code></dt><dd><p>The timeout for table sync operation like
+counters and registers. type: uint32, default: 1000.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-utilities">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Flags from utilities</a><a class="headerlink" href="#flags-from-utilities" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--symbolize_stacktrace</span></code></dt><dd><p>Symbolize the stack trace in the tombstone.
+type: bool, default: true.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-vlog-is-on">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Flags from vlog_is_on</a><a class="headerlink" href="#flags-from-vlog-is-on" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--v</span></code></dt><dd><p>Show all VLOG messages for m &lt;= this. Overridable by –vmodule.
+type: int32, default: 0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--vmodule</span></code></dt><dd><p>Per-module verbose level. Argument is a comma-separated list of
+&lt;module name&gt;=&lt;log level&gt;. &lt;module name&gt; is a glob pattern, matched
+against the filename base That is, name ignoring .cc/.h./-inl.h. &lt;log
+level&gt; overrides any value given by –v. type: string, default: “”.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="dpdk-flags">
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">DPDK Flags</a><a class="headerlink" href="#dpdk-flags" title="Link to this heading"></a></h2>
+<section id="flags-from-dpdk-main">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Flags from dpdk_main</a><a class="headerlink" href="#flags-from-dpdk-main" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--dpdk_infrap4d_cfg</span></code></dt><dd><p>Path to the infrap4d json config file. type: string,
+default: “/usr/share/stratum/dpdk/dpdk_skip_p4.conf”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--dpdk_sde_install</span></code></dt><dd><p>Absolute path to the directory where the SDE is installed.
+type: string, default: “/usr”.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="es2k-flags">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">ES2K Flags</a><a class="headerlink" href="#es2k-flags" title="Link to this heading"></a></h2>
+<section id="flags-from-es2k-main">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Flags from es2k_main</a><a class="headerlink" href="#flags-from-es2k-main" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--es2k_infrap4d_cfg</span></code></dt><dd><p>Path to the infrap4d json config file. type: string,
+default: “/usr/share/stratum/es2k/es2k_skip_p4.conf”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--es2k_sde_install</span></code></dt><dd><p>Absolute path to the directory where the SDE is
+installed. type: string, default: “/usr”.</p>
+</dd>
+</dl>
+</section>
+<section id="flags-from-es2k-node">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Flags from es2k_node</a><a class="headerlink" href="#flags-from-es2k-node" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--enable_sticky_tdi_session</span></code></dt><dd><p>Use persistent TDI session to write forwarding
+entries. type: bool, default: false.</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="infrap4d.html" class="btn btn-neutral float-left" title="Infrap4d User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

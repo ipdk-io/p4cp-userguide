@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Networking for ES2K &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Linux Networking with Overlay VMs" href="es2k-lnw-overlay-vms.html" />
+    <link rel="prev" title="Linux Networking with ECMP (DPDK)" href="../dpdk/dpdk-linux-networking-ecmp.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../lnw-index.html">Linux Networking</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../lnw-index.html#dpdk">DPDK</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../lnw-index.html#es2k">ES2K</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Linux Networking for ES2K</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-overlay-vms.html">Linux Networking with Overlay VMs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-overlay-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-frr.html">Linux Networking with FRR (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-lag.html">Linux Networking with LAG (ES2K)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../packet-io.html">Packet I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/p4-role-configuration.html">P4 Role Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../features.html">Features</a></li>
+          <li class="breadcrumb-item"><a href="../lnw-index.html">Linux Networking</a></li>
+      <li class="breadcrumb-item active">Linux Networking for ES2K</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/apps/lnw/es2k/es2k-linux-networking.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="linux-networking-for-es2k">
+<h1>Linux Networking for ES2K<a class="headerlink" href="#linux-networking-for-es2k" title="Link to this heading"></a></h1>
+<p>Linux Networking provides support for offloading various networking functions, such as L2 forwarding, L3 forwarding, ECMP, and VxLAN encapsulation and decapsulation intelligence to the IPU. This capability empowers overlay services to establish communication with endpoints through VxLAN tunnels, thereby extending the L2 segment across the underlay network. To achieve Linux networking support, we have enhanced OvS for overlay source MAC learning and VxLAN configurations, while relying on the kernel for underlay neighbor discovery, route management, and next-hop information.</p>
+<section id="feature-overview">
+<h2>Feature Overview<a class="headerlink" href="#feature-overview" title="Link to this heading"></a></h2>
+<p>This feature can run in two modes:</p>
+<ul class="simple">
+<li><p>Slow path: All packets must land on the control plane and only the control plane has the intelligence to forward the traffic.</p></li>
+<li><p>Fast path: Only first unknown traffic (both SMAC and DMAC) will be sent to the control plane and subsequent traffic should be forwarded by IPU E2100.</p></li>
+</ul>
+<p>To enable this feature we have,</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Infrap4d</span></code>: This process includes a p4runtime server. Calls TDI front end to program IPU E2100.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>: This process is integrated with p4runtime intelligence and acts as a gRPC client. Programs IPU E2100 with control plane configuration and forwarding tables by communicating with gRPC server.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code>: This python CLI includes a p4runtime client. Programs IPU E2100 with runtime rules by communicating with gRPC server.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">stack</span></code>: All underlay related configurations are picked by <code class="docutils literal notranslate"><span class="pre">kernel</span> <span class="pre">monitor</span></code> thread via netlink events in <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> and these are programmed in IPU E2100 by calling TDI front end APIs.</p></li>
+</ul>
+</section>
+<section id="topology">
+<h2>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h2>
+<p>This topology breakdown and configuration assumes all VMs are spawned on HOST VFs and the control plane is running on ACC.</p>
+<p><img alt="Linux Networking Topology" src="../../../_images/es2k-lnw-topology.png" /></p>
+<section id="topology-breakdown">
+<h3>Topology breakdown<a class="headerlink" href="#topology-breakdown" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Every VM spawned on top of a VF will have a corresponding port representor in ACC.</p></li>
+<li><p>Every physical port will have a corresponding port representor in ACC.</p></li>
+<li><p>Every physical port will have an uplink (APF netdev) in HOST and this uplink will have a corresponding port representor in ACC.</p></li>
+<li><p>All port representors are associated with an OvS bridge.</p></li>
+<li><p>For VxLAN egress traffic, the underlay port should be associated with a termination bridge. The IP address to reach the underlay network should be configured on this bridge.</p></li>
+</ul>
+</section>
+</section>
+<section id="detailed-design">
+<h2>Detailed Design<a class="headerlink" href="#detailed-design" title="Link to this heading"></a></h2>
+<section id="slow-path">
+<h3>Slow path<a class="headerlink" href="#slow-path" title="Link to this heading"></a></h3>
+<p>To enable slow path mode:</p>
+<ul class="simple">
+<li><p>Start the infrap4d process with the Kernel Monitor disabled. Command: <code class="docutils literal notranslate"><span class="pre">infrap4d</span> <span class="pre">-disable_krnlmon</span></code></p></li>
+<li><p>Set environment variable <code class="docutils literal notranslate"><span class="pre">OVS_P4_OFFLOAD=false</span></code> before starting the <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> process.</p></li>
+</ul>
+<p>In this mode, VMs are spawned on top of VFs and associated with their port representors. Also, physical ports are associated with their port representors. Configure the following tables to map these in IPU:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_source_port
+- rx_phy_port_to_pr_map
+- tx_source_port
+- tx_acc_vsi
+- vsi_to_vsi_loopback
+- source_port_to_pr_map
+</pre></div>
+</div>
+<p>All port representors (PRs) in ACC should be associated with an OvS bridge. Configure table below to program the mapping between PRs and bridges in IPU:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- source_port_to_bridge_map
+</pre></div>
+</div>
+<p>For egress VxLAN traffic, an OvS VxLAN port needs to be created in ACC with associated integration bridge that handles overlay traffic. Configure following tables to map these in IPU:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_ipv4_tunnel_source_port/rx_ipv6_tunnel_source_port
+- source_port_to_bridge_map
+</pre></div>
+</div>
+<p>Once these tables are configured refer to packet flow as mentioned below.</p>
+<section id="for-slow-path-tx-forwarding">
+<h4>For slow path Tx forwarding<a class="headerlink" href="#for-slow-path-tx-forwarding" title="Link to this heading"></a></h4>
+<section id="slow-path-egress-traffic-without-vxlan-encapsulation">
+<h5>Slow path egress traffic without VxLAN encapsulation<a class="headerlink" href="#slow-path-egress-traffic-without-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards the packet to destined PR if MAC is already learnt, else floods the packet in the valid bridge found.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="slow-path-egress-traffic-with-vxlan-encapsulation">
+<h5>Slow path egress traffic with VxLAN encapsulation<a class="headerlink" href="#slow-path-egress-traffic-with-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards the packet to the destined VxLAN port if MAC is already learnt, else flood the packet in the valid bridge found.</p></li>
+<li><p>Once the packet reaches the VxLAN port, here the kernel checks the routing table to reach <code class="docutils literal notranslate"><span class="pre">remote_ip</span></code> that is configured for the OvS VxLAN tunnel.</p></li>
+<li><p>Underlay network to reach <code class="docutils literal notranslate"><span class="pre">remote_ip</span></code> is configured on a TEP termination bridge. The kernel resolves the ARP for underlay network.</p></li>
+<li><p>Once ARP is resolved, the kernel encapsulates the packet. It then forwards the packet to the PR of the physical port if the MAC is already learnt, or floods it to the TEP termination bridge if not.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination
+<span class="c1"># Configure bridge with IP address to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="for-slow-path-rx-forwarding">
+<h4>For slow path Rx forwarding<a class="headerlink" href="#for-slow-path-rx-forwarding" title="Link to this heading"></a></h4>
+<section id="slow-path-ingress-traffic-without-vxlan-encapsulation">
+<h5>Slow path ingress traffic without VxLAN encapsulation<a class="headerlink" href="#slow-path-ingress-traffic-without-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>If the packet coming from a remote machine to the physical port is not VxLAN encapsulated packet:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the bridge and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet and forwards it to destined PR if MAC is already learnt, else floods the packet in the valid bridge found.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="slow-path-ingress-traffic-with-vxlan-encapsulation">
+<h5>Slow path ingress traffic with VxLAN encapsulation<a class="headerlink" href="#slow-path-ingress-traffic-with-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>If the packet coming from a remote machine to the physical port is VxLAN encapsulated packet:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, find the PR associated with the physical port and forward the packet to the PR in ACC.</p></li>
+<li><p>OvS control plane receives the packet on a TEP termination bridge, packet gets decapped and sent to VxLAN port.</p></li>
+<li><p>Since VxLAN port and overlay VMs PR are in the same bridge, if the overlay MAC is already learnt the packet will be forwarded to destined PR else packet will be flooded in the valid bridge found.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="fast-path-when-ipu-forwards-the-packet">
+<h3>Fast path (when IPU forwards the packet)<a class="headerlink" href="#fast-path-when-ipu-forwards-the-packet" title="Link to this heading"></a></h3>
+<p>To enable fast path mode:</p>
+<ul class="simple">
+<li><p>Start the infrap4d process. Command: <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code></p></li>
+<li><p>Remove the environment variable <code class="docutils literal notranslate"><span class="pre">OVS_P4_OFFLOAD=false</span></code> before starting the <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> process.</p></li>
+</ul>
+<p>In this mode, we need to associate VFs with the VMs and its port representors along with physical ports and its port representors.
+Configure tables:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_source_port
+- rx_phy_port_to_pr_map
+- tx_source_port
+- tx_acc_vsi
+- vsi_to_vsi_loopback
+- source_port_to_pr_map
+- tx_lag_table     ## This is a dummy LAG entry when we have underlay as Non LAG case.
+</pre></div>
+</div>
+<p>Once OvS bridge is created and PR’s are added to the OvS bridge, a unique bridge ID for the OvS bridge is created and creates a mapping between ACC PR’s &amp; OvS bridge. This mapping is programed in IPU E2100 with,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- source_port_to_bridge_map
+- vlan_push_mod_table                           ## If ACC PR is part of a VLAN
+- vlan_pop_mod_table                            ## If ACC PR is part of a VLAN
+</pre></div>
+</div>
+<p>Once a VxLAN tunnel is created on a particular OvS bridge, we program IPU E2100 with,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- rx_ipv4_tunnel_source_port/rx_ipv6_tunnel_source_port
+- vxlan_encap_mod_table/vxlan_encap_v6_mod_table
+- vxlan_encap_vlan_pop_mod_table/vxlan_encap_v6_vlan_pop_mod_table        ## If VxLAN is part of a VLAN
+- vxlan_decap_mod_table
+- vxlan_decap_and_push_vlan_mod_table                                     ## If VxLAN is part of a VLAN
+- ipv4_tunnel_term_table/ipv6_tunnel_term_table
+</pre></div>
+</div>
+<p>When the first packet (either Tx or Rx) reaches the IPU, since no rules are programmed, this packet will be sent to respective PR’s. From PR’s OvS learns the MAC address and control plane dynamically programs,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- l2_fwd_smac_table
+- l2_fwd_tx_table
+- l2_fwd_rx_table
+- l2_to_tunnel_v4/l2_to_tunnel_v6
+</pre></div>
+</div>
+<p>When underlay network is configured and underlay neighbor is learnt we dynamically program,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>- ipv4_table/ipv6_table
+- nexthop_table
+- neighbor_mod_table
+</pre></div>
+</div>
+<p>Once these tables are configured refer to packet flow as mentioned below.</p>
+<section id="for-fast-path-tx-forwarding">
+<h4>For fast path Tx forwarding<a class="headerlink" href="#for-fast-path-tx-forwarding" title="Link to this heading"></a></h4>
+<section id="fast-path-egress-traffic-without-vxlan-encapsulation">
+<h5>Fast path egress traffic without VxLAN encapsulation<a class="headerlink" href="#fast-path-egress-traffic-without-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if SMAC of the packet is learnt.</p></li>
+<li><p>Check if DMAC packet is learnt against the bridge derived above. If entry matches, forward the packet to VF corresponding to the physical port.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="fast-path-egress-traffic-with-vxlan-encapsulation">
+<h5>Fast path egress traffic with VxLAN encapsulation<a class="headerlink" href="#fast-path-egress-traffic-with-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>Packets coming from overlay network:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which overlay VSI the packet has landed on.</p></li>
+<li><p>Check if the DMAC of the packet is reachable via the VxLAN tunnel and set the remote_ip of the tunnel.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if SMAC of the packet is learnt.</p></li>
+<li><p>Check if DMAC packet is learnt against the bridge derived above. If yes, populated Src IP, Dest IP, VNI, SRC port and Dest port of outer packet.</p></li>
+<li><p>Based on the above derived remote_ip, retrieve what is the nexthop from ipv4_table.</p></li>
+<li><p>Derive from which physical port this nexthop is learnt and add the nexthop MAC address as DMAC and underlay port MAC as SMAC of the packet.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="for-fast-path-rx-forwarding">
+<h4>For fast path Rx forwarding<a class="headerlink" href="#for-fast-path-rx-forwarding" title="Link to this heading"></a></h4>
+<section id="fast-path-ingress-traffic-without-vxlan-encapsulation">
+<h5>Fast path ingress traffic without VxLAN encapsulation<a class="headerlink" href="#fast-path-ingress-traffic-without-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>If the packet coming from a remote machine to the physical port is not VxLAN encapsulated packet:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed on.</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if the inner SMAC of the packet is learnt.</p></li>
+<li><p>Check if the inner DMAC packet is learnt against the bridge derived above. If entry matches, forward the packet to VF corresponding to the overlay VM.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="fast-path-ingress-traffic-with-vxlan-encapsulation">
+<h5>Fast path ingress traffic with VxLAN encapsulation<a class="headerlink" href="#fast-path-ingress-traffic-with-vxlan-encapsulation" title="Link to this heading"></a></h5>
+<p>If the packet coming from a remote machine to the physical port are VxLAN encapsulated packet:</p>
+<ul>
+<li><p>Determine the source port of the packet based on which physical port the packet has landed</p></li>
+<li><p>Validate if the source port is part of the bridge, else drop the packet.</p></li>
+<li><p>If valid bridge configuration is found, check if the inner SMAC of the packet is learnt.</p></li>
+<li><p>Check if the inner DMAC packet is learnt against the bridge derived above. If entry matches, decap the outer packet and forward the inner packet to the overlay VF where DMAC is learnt.</p></li>
+<li><p>Sample OvS config:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;Overlay<span class="w"> </span>VMs<span class="w"> </span>PR&gt;
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>&lt;VxLAN<span class="w"> </span>port<span class="w"> </span>with<span class="w"> </span>VxLAN<span class="w"> </span>config&gt;
+ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tep-termination<span class="w">             </span><span class="c1">## this bridge has IP to reach remote TEP</span>
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tep-termination<span class="w"> </span>&lt;Physical<span class="w"> </span>port<span class="w"> </span>PR&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Verification of source port and associated L2 Bridge: The P4 Control Plane (P4 CP) must ensure the validation of the source port and its corresponding L2 bridge before initiating any further regulation of datapath packet classification.</p></li>
+<li><p>Exception packet handling for all protocols: The P4 Control Plane (P4 CP) shall incorporate exception packet handling logic, not limited to ARP but applicable to the first packet of any protocol.</p></li>
+<li><p>Offloading of networking functions: The P4 Control Plane (P4 CP) software shall provide support for the offloading of various networking functions as specified in the Linux Networking use case. These networking functions include Layer 2 (L2) and Layer 3 (L3) forwarding, Equal-Cost Multi-Path (ECMP) routing, Link Aggregation Group (LAG), as well as Virtual Extensible LAN (VXLAN) encapsulation and decapsulation. These functions shall support both single and multiple Open vSwitch (OvS) bridges.</p></li>
+</ul>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<p>Current Linux Networking support for the networking recipe has the following limitations:</p>
+<ul class="simple">
+<li><p>VLAN configuration on OvS is supported only for NATIVE-TAG and NATIVE-UNTAG modes.</p></li>
+<li><p>Physical port’s port representor should be added as the first port in tunnel TEP bridge (br-tep-termination).</p></li>
+<li><p>Only OvS bridges are supported.</p></li>
+<li><p>Configure p4rt-ctl runtime rules before OvS configuration.</p></li>
+<li><p>Double vlan tag is NOT supported.</p></li>
+<li><p>Source port value used in P4RT rules should be VSI ID + 16</p></li>
+<li><p>Delete the route if added manually using <code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">route</span></code> command</p></li>
+<li><p>Bring the port down or remove the IP address before removing the port from OVS bridge or deleting the bridge.</p></li>
+<li><p>Add all ACC PR’s to VSI group 1.</p></li>
+<li><p>On ACC, firewall needs to be disabled. Otherwise, this service will block encapsulated packets.</p>
+<ul>
+<li><p>systemctl stop firewalld</p></li>
+</ul>
+</li>
+<li><p>LAG and ECMP are mutually exclusive. Both can’t co-exist in the system configuration at the same time.</p></li>
+<li><p>LAG configuration done via bonding driver is supported.</p></li>
+<li><p>The supported modes are active-backup and active-active with 802.3ad (LACP).</p></li>
+<li><p>After teardown, it’s possible that entries continue to exist in <code class="docutils literal notranslate"><span class="pre">vm_src_ip4_mac_map_table</span></code> and
+<code class="docutils literal notranslate"><span class="pre">vm_dst_ip4_mac_map_table</span></code> since entries in these tables are learnt from OVS flows in MAC learning phase
+and OVS might not issue a callback to delete these unless aging happens. Delete these enties using
+<code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span> <span class="pre">del-entry</span></code> command</p></li>
+<li><p>IPv6 as part of IPsec tunnel configuration is not supported</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../dpdk/dpdk-linux-networking-ecmp.html" class="btn btn-neutral float-left" title="Linux Networking with ECMP (DPDK)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="es2k-lnw-overlay-vms.html" class="btn btn-neutral float-right" title="Linux Networking with Overlay VMs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

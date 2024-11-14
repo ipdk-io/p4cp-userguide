@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Update 23.21 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development Update 22.50" href="development-update-22.50.html" />
+    <link rel="prev" title="Development Updates" href="dev-updates-index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Development Update 23.21</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#breaking-changes">Breaking Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#component-changes">Component Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentation-changes">Documentation Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-fixes">Security Fixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coming-attractions">Coming Attractions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.44.html">Development Update 22.44</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
+      <li class="breadcrumb-item active">Development Update 23.21</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/development-update-23.21.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-update-23-21">
+<h1>Development Update 23.21<a class="headerlink" href="#development-update-23-21" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This is an update (code drop) to incorporate changes made to support
+the Intel IPU E2100.</p>
+</section>
+<section id="breaking-changes">
+<h2>Breaking Changes<a class="headerlink" href="#breaking-changes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> helper script has been rewritten and its options have
+changed. The new script is not backward compatible with the old script.
+See <a class="reference internal" href="#make-all-script">make-all script</a> for details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> now defaults to secure (TLS) mode, which requires that you
+provide a certificate or override secure mode on startup. See
+<a class="reference internal" href="#security-improvements">Security improvements</a> for more information.</p></li>
+<li><p>P4 Control Plane currently uses a modified fork of the <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code> repository.
+See <a class="reference internal" href="#p4runtime-fork">P4runtime fork</a> for more information.</p></li>
+</ul>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<section id="highlights">
+<h3>Highlights<a class="headerlink" href="#highlights" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>New ES2K target</p></li>
+<li><p>Redesigned make-all.sh script</p></li>
+<li><p>P4Runtime fork</p></li>
+<li><p>Default build target</p></li>
+<li><p>Improved security</p></li>
+</ul>
+</section>
+<section id="es2k-target">
+<h3>ES2K Target<a class="headerlink" href="#es2k-target" title="Link to this heading"></a></h3>
+<p>This update adds support for a new target, the Intel IPU E2100.</p>
+<p>The new target is referred to in software as “ES2K”. There are plans to
+change this label to something less ASIC-specific prior to the product’s
+actual release.</p>
+<p>As the third target implemented, the first engineered as an IPU, and the first
+to require cross-compilation, ES2K has had an impact throughout the codebase.</p>
+<p>Component changes:</p>
+<ul class="simple">
+<li><p>Add ES2K TDI target to Stratum</p></li>
+<li><p>Add ES2K support to Kernel Monitor</p></li>
+<li><p>Add ES2K support to ovs-p4rt</p></li>
+</ul>
+<p>Build system changes:</p>
+<ul class="simple">
+<li><p>Support separate host and target dependencies</p></li>
+<li><p>Support SYSROOT and STAGING directories</p></li>
+<li><p>Support cross-compilation with aarch64 toolchain file</p></li>
+<li><p>Move P4 driver definitions to include files</p></li>
+<li><p>Improve RPATH (RUNPATH) support</p></li>
+<li><p>Support variations in system library locations</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">make-cross-ovs.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">config-cross-recipe.sh</span></code> helper scripts
+to assist with cross-compiling P4 Control Plane</p></li>
+<li><p>Add infrastructure for Kernel Monitor unit tests</p></li>
+</ul>
+<p>Setup changes:</p>
+<ul class="simple">
+<li><p>Allow dependencies to be built for the Host system (full or minimal)
+or cross-compiled for the Target system</p></li>
+<li><p>Remove GMOCK_GBL from dependencies</p></li>
+<li><p>Add cmake option to suppress download</p></li>
+<li><p>Add cmake option to specify CXX standard for Abseil and gRPC</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">make-cross-deps.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">make-host-deps.sh</span></code> helper scripts to assist
+with building host and cross-compiled dependencies</p></li>
+</ul>
+</section>
+<section id="make-all-script">
+<h3>make-all script<a class="headerlink" href="#make-all-script" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> helper script has been rewritten to be more consistent
+and provide better control over the underlying build.</p>
+<p>Note that options have changed and the redesigned script is not backward
+compatible with its predecessor.</p>
+<p>The new script displays command-line help (<code class="docutils literal notranslate"><span class="pre">--help</span></code>, <code class="docutils literal notranslate"><span class="pre">-h</span></code>) and cmake parameters
+(<code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>, <code class="docutils literal notranslate"><span class="pre">-n</span></code>), allows paths to be specified via environment variables
+or command-line parameters, controls commonly-used build options, and supports
+cross compilation.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>doctor@tardis:~/recipe$ ./make-all.sh -h
+
+Configure and build P4 Control Plane software
+
+Paths:
+  --deps=DIR       -D  Target dependencies directory []
+  --host=DIR       -H  Host dependencies directory []
+  --ovs=DIR        -O  OVS install directory [ovs/install]
+  --prefix=DIR     -P  Install directory prefix [install]
+  --sde=DIR        -S  SDE install directory []
+  --toolchain=FILE -T  CMake toolchain file []
+
+Options:
+  --coverage           Measure unit test code coverage
+  --dry-run        -n  Display cmake parameter values and exit
+  --help           -h  Display this help text
+  --jobs=NJOBS     -j  Number of build threads (Default: 8)
+  --no-krnlmon         Exclude Kernel Monitor
+  --no-ovs             Exclude OVS support
+  --target=TARGET      Target to build (dpdk|es2k|tofino) [DPDK]
+
+Configurations:
+  --debug              Debug configuration
+  --minsize            MinSizeRel configuration
+  --reldeb             RelWithDebInfo configuration (default)
+  --release            Release configuration
+
+  Default config is RelWithDebInfo (--reldeb)
+
+Environment variables:
+  CMAKE_TOOLCHAIN_FILE - Default toolchain file
+  DEPEND_INSTALL - Default target dependencies directory
+  HOST_INSTALL - Default host dependencies directory
+  OVS_INSTALL - Default OVS install directory
+  SDE_INSTALL - Default SDE install directory
+</pre></div>
+</div>
+</section>
+<section id="p4runtime-fork">
+<h3>P4Runtime fork<a class="headerlink" href="#p4runtime-fork" title="Link to this heading"></a></h3>
+<p>P4 Control Plane currently uses a fork of the <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code> repository to
+support mirroring for ES2K. The development team is working on a replacement
+methodology. We will revert to using the standard <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code> repository once
+the revision is in place.</p>
+<p>A corresponding version of the P4Runtime python module is available in the
+<code class="docutils literal notranslate"><span class="pre">setup</span></code> directory as <code class="docutils literal notranslate"><span class="pre">p4runtime-1.3.0-py3-none-any.whl</span></code>.</p>
+</section>
+<section id="default-build-target">
+<h3>Default build target<a class="headerlink" href="#default-build-target" title="Link to this heading"></a></h3>
+<p>The default target for the P4 Control Plane build has been changed from
+<code class="docutils literal notranslate"><span class="pre">Tofino</span></code> to <code class="docutils literal notranslate"><span class="pre">DPDK</span></code>.</p>
+</section>
+<section id="security-improvements">
+<h3>Security improvements<a class="headerlink" href="#security-improvements" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> is now secure by default when built for the DPDK and ES2K targets.
+The P4Runtime and gNMI ports are opened with TLS enabled, and require that a
+certificate be provided. This can be overridden on startup by specifying
+<code class="docutils literal notranslate"><span class="pre">-grpc_open_insecure_mode=true</span></code> on the <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> command line.</p>
+<p>See the <a class="reference internal" href="../guides/security/security-guide.html"><span class="std std-doc">security guide</span></a> for more information.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sgnmi_cli</span></code> is a gNMI client tool that defaults to secure mode. See the
+<a class="reference internal" href="../clients/sgnmi_cli.html"><span class="std std-doc">sgnmi_cli guide</span></a> for more information.</p>
+</section>
+</section>
+<section id="component-changes">
+<h2>Component Changes<a class="headerlink" href="#component-changes" title="Link to this heading"></a></h2>
+<section id="kernel-monitor">
+<h3>Kernel Monitor<a class="headerlink" href="#kernel-monitor" title="Link to this heading"></a></h3>
+<p>The Kernel Monitor has been updated to support ES2K.</p>
+<p>krnlmon is enabled by default for DPDK and ES2K builds. It can be suppressed
+by specifying <code class="docutils literal notranslate"><span class="pre">--no-krnlmon</span></code> on the <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> command line. It can also
+be disabled at runtime by specifying <code class="docutils literal notranslate"><span class="pre">-disable_krnlmon</span></code> on the <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>
+command line.</p>
+</section>
+<section id="ovs">
+<h3>OVS<a class="headerlink" href="#ovs" title="Link to this heading"></a></h3>
+<p>Open vSwitch (OVS) and the OVS P4Runtime Library (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>) are enabled by
+default for DPDK and ES2K builds. They can be suppressed by specifying
+<code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> on the <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> command line.</p>
+<p>When OVS is enabled, P4 Control Plane builds Open vSwitch with P4 extensions.
+It also builds a library (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>) that is linked with <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> to
+allow OVS to issue P4Runtime requests to <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p>
+<p>ovs-p4rt has been extended to support ES2K.</p>
+</section>
+<section id="stratum">
+<h3>Stratum<a class="headerlink" href="#stratum" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">TdiPortManager</span></code> class has been extracted from <code class="docutils literal notranslate"><span class="pre">TdiSdeInterface</span></code> and
+moved to a separate header file. The <code class="docutils literal notranslate"><span class="pre">PortEvent</span></code> class is now part of the
+<code class="docutils literal notranslate"><span class="pre">TdiPortManager</span></code> class.</p>
+<p>The ES2K, DPDK, and Tofino targets have their own target-specific PortManager
+subclasses and mocks. The <code class="docutils literal notranslate"><span class="pre">PortConfigParams</span></code> and <code class="docutils literal notranslate"><span class="pre">HotplugConfigParams</span></code> classes
+are now part of the <code class="docutils literal notranslate"><span class="pre">DpdkPortManager</span></code> class.</p>
+</section>
+</section>
+<section id="documentation-changes">
+<h2>Documentation Changes<a class="headerlink" href="#documentation-changes" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory has been reorganized and a number of files have been
+renamed.</p>
+<ul class="simple">
+<li><p>Documentation for the command-line clients is in the <code class="docutils literal notranslate"><span class="pre">clients</span></code> subdirectory.</p></li>
+<li><p>The target-specific setup guides and the <a class="reference internal" href="../guides/security/security-guide.html"><span class="std std-doc">security guide</span></a>
+are in the <code class="docutils literal notranslate"><span class="pre">guides</span></code> subdirectory.</p></li>
+</ul>
+</section>
+<section id="security-fixes">
+<h2>Security Fixes<a class="headerlink" href="#security-fixes" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">c-ares</span></code> has been updated to v1.19.0 to address CVE-2022-4904.</p>
+</section>
+<section id="coming-attractions">
+<h2>Coming Attractions<a class="headerlink" href="#coming-attractions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Rename ‘ES2K’ to a more generic label</p>
+<ul>
+<li><p>Will affect file, directory, and class names</p></li>
+</ul>
+</li>
+<li><p>Add Stratum and Kernel Monitor unit tests</p></li>
+<li><p>Add/revise documentation</p></li>
+<li><p>Update Stratum to a more recent version</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev-updates-index.html" class="btn btn-neutral float-left" title="Development Updates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development-update-22.50.html" class="btn btn-neutral float-right" title="Development Update 22.50" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

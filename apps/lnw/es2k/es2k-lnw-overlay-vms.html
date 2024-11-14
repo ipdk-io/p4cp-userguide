@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Networking with Overlay VMs &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Linux Networking with IPv6 (ES2K)" href="es2k-lnw-overlay-ipv6.html" />
+    <link rel="prev" title="Linux Networking for ES2K" href="es2k-linux-networking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../lnw-index.html">Linux Networking</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../lnw-index.html#dpdk">DPDK</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../lnw-index.html#es2k">ES2K</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="es2k-linux-networking.html">Linux Networking for ES2K</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Linux Networking with Overlay VMs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-overlay-ipv6.html">Linux Networking with IPv6 (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-ecmp.html">Linux Networking with ECMP (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-frr.html">Linux Networking with FRR (ES2K)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="es2k-lnw-underlay-lag.html">Linux Networking with LAG (ES2K)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../packet-io.html">Packet I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/p4-role-configuration.html">P4 Role Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../features.html">Features</a></li>
+          <li class="breadcrumb-item"><a href="../lnw-index.html">Linux Networking</a></li>
+      <li class="breadcrumb-item active">Linux Networking with Overlay VMs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/apps/lnw/es2k/es2k-lnw-overlay-vms.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!--
+
+ Copyright 2024 Intel Corporation.
+
+ SPDX-License-Identifier: Apache-2.0
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at:
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+- -->
+<section id="linux-networking-with-overlay-vms">
+<h1>Linux Networking with Overlay VMs<a class="headerlink" href="#linux-networking-with-overlay-vms" title="Link to this heading"></a></h1>
+<p>This document explains how to run the Linux networking scenario on ES2K with 8 overlay VMs.</p>
+<section id="topology">
+<h2>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h2>
+<p><img alt="Linux Networking Topology" src="../../../_images/es2k-lnw-topology.png" /></p>
+<p>See <a class="reference internal" href="es2k-linux-networking.html"><span class="std std-doc">Linux Networking for ES2K</span></a>
+for more details on this feature.</p>
+<p>Prerequisites:</p>
+<ul>
+<li><p>For Linux Networking</p>
+<ul>
+<li><p>Download <code class="docutils literal notranslate"><span class="pre">hw-p4-programs</span></code> TAR file compliant with the CI build image and extract it to get <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking</span></code> P4 artifacts. Check <code class="docutils literal notranslate"><span class="pre">README</span></code> for bringup guide, and be sure to check <code class="docutils literal notranslate"><span class="pre">Limitations</span></code> for known issues.</p></li>
+<li><p>Follow steps mentioned in <a class="reference internal" href="../../../guides/es2k/deploying-p4-programs.html"><span class="doc std std-doc">Deploying P4 Programs for E2100</span></a> for bringing up IPU with a custom P4 package.
+Modify <code class="docutils literal notranslate"><span class="pre">load_custom_pkg.sh</span></code> with following parameters for linux_networking package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/sem_num_pages = .*;/sem_num_pages = 28;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span>
+<span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/lem_num_pages = .*;/lem_num_pages = 32;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span>
+<span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/mod_num_pages = .*;/mod_num_pages = 2;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span>
+<span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/cxp_num_pages = .*;/cxp_num_pages = 5;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span><span class="w"> </span><span class="c1"># for IPsec use-case</span>
+<span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/allow_change_mac_address = false;/allow_change_mac_address = true;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span><span class="w"> </span><span class="c1"># for LAG use-case</span>
+<span class="w">   </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/acc_apf = 4;/acc_apf = 16;/g&#39;</span><span class="w"> </span><span class="nv">$CP_INIT_CFG</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Download <code class="docutils literal notranslate"><span class="pre">IPU_Documentation</span></code> TAR file compliant with the CI build image and refer to <code class="docutils literal notranslate"><span class="pre">Getting</span> <span class="pre">Started</span> <span class="pre">Guide</span></code> on how to install compatible <code class="docutils literal notranslate"><span class="pre">IDPF</span> <span class="pre">driver</span></code> on host. Once an IDPF driver is installed, bring up SRIOV VF by modifying the <code class="docutils literal notranslate"><span class="pre">sriov_numvfs</span></code> file present under one of the IDPF network devices. Example as below</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="m">8</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/net/ens802f0/device/sriov_numvfs
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Notes about topology:</p>
+<ul class="simple">
+<li><p>VMs are spawned on top of each VF. Each VF will have a port representor in ACC. P4 runtime rules are configured to map VFs and their corresponding port representors.</p></li>
+<li><p>Each physical port will have a port representor in ACC. P4 runtime rules are configured to map VFs and its corresponding port representors.</p></li>
+<li><p>Each physical port will have a corresponding APF netdev on HOST. Create port representors in ACC for each HOST APF netdev. These APF netdev on HOST will receive unknown traffic for applications to act on.</p></li>
+<li><p>All port representors should be part of an OvS bridge. Based on topology, these OvS bridges will just perform bridging or TEP termination bridges which are used to enable underlay connectivity for VxLAN traffic.</p></li>
+<li><p>OvS bridges, VxLAN ports are created using ovs-vsctl command provided by the networking recipe and all the port representors are attached to OvS bridge using ovs-vsctl command.</p></li>
+<li><p>This config has:</p>
+<ul>
+<li><p>8 Overlay VFs</p></li>
+<li><p>8 Port representors in ACC for the above 8 Overlay VFs</p></li>
+<li><p>2 physical ports</p></li>
+<li><p>2 Port representors in ACC for the above 2 physical ports</p></li>
+<li><p>2 APF netdev on HOST</p></li>
+<li><p>2 Port representors in ACC for the above 2 HOST APF netdevs</p></li>
+</ul>
+</li>
+</ul>
+<p>System under test will have above topology running the networking recipe. Link Partner can have the networking recipe or legacy OvS or kernel VxLAN. Refer to the limitation section in <a class="reference internal" href="es2k-linux-networking.html"><span class="std std-doc">Linux Networking for E2100</span></a> before setting up the topology.</p>
+</section>
+<section id="creating-the-topology">
+<h2>Creating the topology<a class="headerlink" href="#creating-the-topology" title="Link to this heading"></a></h2>
+<p>Follow steps mentioned in <a class="reference internal" href="../../../guides/es2k/running-infrap4d.html"><span class="std std-doc">Running Infrap4d on Intel E2100</span></a> for starting <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> process and creating protobuf binary for <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking</span></code> P4 program.</p>
+<section id="port-mapping">
+<h3>Port Mapping<a class="headerlink" href="#port-mapping" title="Link to this heading"></a></h3>
+<p>These VSI values can be checked with <code class="docutils literal notranslate"><span class="pre">/usr/bin/cli_client</span> <span class="pre">-q</span> <span class="pre">-c</span></code> command on IMC. This command provides VSI ID, Vport ID, and corresponding MAC addresses for all</p>
+<ul class="simple">
+<li><p>IDPF netdevs on ACC</p></li>
+<li><p>VFs on HOST</p></li>
+<li><p>IDPF netdevs on HOST (if IDPF driver loaded by you on HOST)</p></li>
+<li><p>Netdevs on IMC</p></li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Overlay VFs</p></th>
+<th class="head"><p>Overlay VFs VSI ID</p></th>
+<th class="head"><p>ACC port representor</p></th>
+<th class="head"><p>ACC port representor VSI ID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ens802f0v0</p></td>
+<td><p>(0x1b) 27</p></td>
+<td><p>enp0s1f0d1</p></td>
+<td><p>(0x09) 9</p></td>
+</tr>
+<tr class="row-odd"><td><p>ens802f0v1</p></td>
+<td><p>(0x1c) 28</p></td>
+<td><p>enp0s1f0d2</p></td>
+<td><p>(0x0a) 10</p></td>
+</tr>
+<tr class="row-even"><td><p>ens802f0v4</p></td>
+<td><p>(0x1d) 29</p></td>
+<td><p>enp0s1f0d3</p></td>
+<td><p>(0x0b) 11</p></td>
+</tr>
+<tr class="row-odd"><td><p>ens802f0v3</p></td>
+<td><p>(0x1e) 30</p></td>
+<td><p>enp0s1f0d4</p></td>
+<td><p>(0x0c) 12</p></td>
+</tr>
+<tr class="row-even"><td><p>ens802f0v2</p></td>
+<td><p>(0x1f) 31</p></td>
+<td><p>enp0s1f0d5</p></td>
+<td><p>(0x0d) 13</p></td>
+</tr>
+<tr class="row-odd"><td><p>ens802f0v11</p></td>
+<td><p>(0x20) 32</p></td>
+<td><p>enp0s1f0d6</p></td>
+<td><p>(0x0e) 14</p></td>
+</tr>
+<tr class="row-even"><td><p>ens802f0v10</p></td>
+<td><p>(0x21) 33</p></td>
+<td><p>enp0s1f0d7</p></td>
+<td><p>(0x0f) 15</p></td>
+</tr>
+<tr class="row-odd"><td><p>ens802f0v9</p></td>
+<td><p>(0x22) 34</p></td>
+<td><p>enp0s1f0d8</p></td>
+<td><p>(0x10) 16</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Physical port</p></th>
+<th class="head"><p>Physical port ID</p></th>
+<th class="head"><p>ACC Port presenter</p></th>
+<th class="head"><p>ACC Port presenter VSI ID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Phy port 0</p></td>
+<td><p>(0x0) 0</p></td>
+<td><p>enp0s1f0d9</p></td>
+<td><p>(0x11) 17</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phy port 1</p></td>
+<td><p>(0x1) 1</p></td>
+<td><p>enp0s1f0d11</p></td>
+<td><p>(0x13) 19</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>APF netdev</p></th>
+<th class="head"><p>APF netdev VSI ID</p></th>
+<th class="head"><p>ACC Port presenter</p></th>
+<th class="head"><p>ACC Port presenter VSI ID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ens802f0d1</p></td>
+<td><p>(0x18) 24</p></td>
+<td><p>enp0s1f0d10</p></td>
+<td><p>(0x12) 18</p></td>
+</tr>
+<tr class="row-odd"><td><p>ens802f0d2</p></td>
+<td><p>(0x19) 25</p></td>
+<td><p>enp0s1f0d12</p></td>
+<td><p>(0x14) 20</p></td>
+</tr>
+</tbody>
+</table>
+<p>(NOTE: Above port names and its VSI ID’s may different from setup to setup, configure accordingly)</p>
+</section>
+<section id="set-the-forwarding-pipeline">
+<h3>Set the forwarding pipeline<a class="headerlink" href="#set-the-forwarding-pipeline" title="Link to this heading"></a></h3>
+<p>Once the application is started, set the forwarding pipeline config using
+P4Runtime Client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> set-pipe command</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/fxp-net_linux-networking.pb.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="nv">$OUTPUT_DIR</span>/p4info.txt
+</pre></div>
+</div>
+<p>Note: Assuming <code class="docutils literal notranslate"><span class="pre">pb.bin</span></code> and <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code> along with other P4 artifacts are created as per
+the steps mentioned in the previous section.</p>
+</section>
+<section id="configure-vsi-group-and-add-a-netdev">
+<h3>Configure VSI Group and add a netdev<a class="headerlink" href="#configure-vsi-group-and-add-a-netdev" title="Link to this heading"></a></h3>
+<p>Add all ACC port representors to VSI group 1. VSI group 1 is dedicated for this configuration,
+execute below devmem commands on IMC.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
+devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x8000050000000009
+
+<span class="c1"># SEM_DIRECT_MAP_PGEN_DATA_VSI_GROUP : This will set vsi</span>
+<span class="c1"># (set in SEM_DIRECT_MAP_PGEN_CTRL register LSB) into VSIG-1.</span>
+devmem<span class="w"> </span>0x2029200388<span class="w"> </span><span class="m">64</span><span class="w"> </span>0x1
+
+<span class="c1"># SEM_DIRECT_MAP_PGEN_CTRL: LSB 11-bit is for vsi which need to map into vsig</span>
+devmem<span class="w"> </span>0x20292002a0<span class="w"> </span><span class="m">64</span><span class="w"> </span>0xA000050000000009
+</pre></div>
+</div>
+<p>Note: Here VSI 9 has been used as one of the ACC port representors and added to VSI group 1. For this use case add all 16 IDPF interfaces created on ACC. Modify this VSI based on your configuration.</p>
+</section>
+<section id="start-ovs-as-a-separate-process">
+<h3>Start OvS as a separate process<a class="headerlink" href="#start-ovs-as-a-separate-process" title="Link to this heading"></a></h3>
+<p>Enhanced OvS is used as a control plane for source MAC learning of overlay VM’s. This OvS binary is available as part of ACC build and should be started as a separate process.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">RUN_OVS</span><span class="o">=</span>/opt/p4/p4-cp-nws
+
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$RUN_OVS</span>/var/run/openvswitch<span class="w"> </span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$RUN_OVS</span>/var/run/openvswitch
+
+
+ovsdb-tool<span class="w"> </span>create<span class="w"> </span><span class="nv">$RUN_OVS</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="nv">$RUN_OVS</span>/share/openvswitch/vswitch.ovsschema
+
+ovsdb-server<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--remote<span class="o">=</span>punix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--remote<span class="o">=</span>db:Open_vSwitch,Open_vSwitch,manager_options<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--pidfile<span class="w"> </span>--detach
+
+ovs-vsctl<span class="w"> </span>--no-wait<span class="w"> </span>init
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/logs
+ovs-vswitchd<span class="w"> </span>--pidfile<span class="w"> </span>--detach<span class="w"> </span>--mlockall<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--log-file<span class="o">=</span>/tmp/logs/ovs-vswitchd.log
+
+ovs-vsctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>Open_vSwitch<span class="w"> </span>.<span class="w"> </span>other_config:n-revalidator-threads<span class="o">=</span><span class="m">1</span>
+ovs-vsctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span>Open_vSwitch<span class="w"> </span>.<span class="w"> </span>other_config:n-handler-threads<span class="o">=</span><span class="m">1</span>
+
+ovs-vsctl<span class="w">  </span>show
+</pre></div>
+</div>
+<p>Note: If you are using a P4Runtime gRPC server address other than localhost, specify the gRPC server address when starting ovs-vswitchd using the <code class="docutils literal notranslate"><span class="pre">--grpc-addr</span></code> option.
+This address will be used by ovs-p4rt client for communication with P4Runtime gRPC server.</p>
+<p>Example:
+If infrap4d server is started on address 5.5.5.5 using <code class="docutils literal notranslate"><span class="pre">$P4CP_INSTALL/sbin/infrap4d</span> <span class="pre">--nodetach</span> <span class="pre">--local_stratum_url=&quot;5.5.5.5:9559&quot;</span> <span class="pre">--external_stratum_urls=&quot;5.5.5.5:9339,5.5.5.5:9559&quot;</span></code>, then start ovs-vswitchd as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vswitchd<span class="w"> </span>--pidfile<span class="w"> </span>--detach<span class="w"> </span>--mlockall<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--log-file<span class="o">=</span>/tmp/logs/ovs-vswitchd.log<span class="w"> </span>--grpc-addr<span class="o">=</span><span class="s2">&quot;5.5.5.5&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="create-overlay-network">
+<h3>Create Overlay network<a class="headerlink" href="#create-overlay-network" title="Link to this heading"></a></h3>
+<p>Option 1: Create VFs on HOST and spawn VMs on top of those VFs.
+Example: Below config is provided for one VM, and considering each VM is in one VLAN. Extend this to 8 VMs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># VM1 configuration</span>
+telnet<span class="w"> </span>&lt;VM1<span class="w"> </span>IP&gt;<span class="w"> </span>&lt;VM1<span class="w"> </span>port&gt;
+ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF1&gt;<span class="w"> </span>name<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF1&gt;.10<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">10</span>
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">101</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF1&gt;.10
+ifconfig<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF&gt;<span class="w"> </span>up
+ifconfig<span class="w"> </span>&lt;Netdev<span class="w"> </span>connected<span class="w"> </span>to<span class="w"> </span>VF&gt;.10<span class="w"> </span>up
+</pre></div>
+</div>
+<p>Option 2: If we are unable to spawn VM’s on top of the VF’s, we can leverage kernel network namespaces.
+Move each VF to a network namespace and assign IP addresses.
+Example: Below config is provided for one VM, and considering each namespace is in one VLAN. Extend this to 8 namespaces.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>netns<span class="w"> </span>add<span class="w"> </span>VM0
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>netns<span class="w"> </span>VM0
+ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>name<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;.10<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">10</span>
+ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w"> </span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">101</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;.10
+ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w">  </span>ifconfig<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;<span class="w"> </span>up
+ip<span class="w"> </span>netns<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>VM0<span class="w">  </span>ifconfig<span class="w"> </span>&lt;VF1<span class="w"> </span>port&gt;.10<span class="w"> </span>up
+</pre></div>
+</div>
+</section>
+<section id="configure-rules-for-mapping-between-overlay-vf-and-acc-port-representor">
+<h3>Configure rules for mapping between Overlay VF and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-overlay-vf-and-acc-port-representor" title="Link to this heading"></a></h3>
+<p>Configure rules to send overlay packets from a VM to its respective port representors.</p>
+<p>Refer above port mapping for overlay VF to ACC port representor mapping. Here sample commands are shown for a single overlay network, configure similar mapping for remaining VFs.</p>
+<p>Example:</p>
+<ul>
+<li><p>Overlay VF1 has a VSI value 27</p></li>
+<li><p>Corresponding port representor VSI value 9</p></li>
+<li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="c1"># Create a source port for an overlay VF (VSI-27). Source port value should be VSI ID + 16.</span>
+<span class="w">    </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_source_port<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=27/2047,priority=1,action=linux_networking_control.set_source_port(43)&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Common P4RT rules</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a mapping between overlay VF (VSI-27/source port-43) and ACC port representor (VSI-9)</span>
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.source_port_to_pr_map<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;user_meta.cmeta.source_port=43,zero_padding=0,action=linux_networking_control.fwd_to_vsi(25)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_acc_vsi<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=9,zero_padding=0,action=linux_networking_control.l2_fwd_and_bypass_bridge(43)&quot;</span>
+
+<span class="c1"># Create a mapping for traffic to flow between VSIs (VSI-27/source port-43) and (VSI-9)</span>
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vsi_to_vsi_loopback<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=9,target_vsi=27,action=linux_networking_control.fwd_to_vsi(43)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vsi_to_vsi_loopback<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=27,target_vsi=9,action=linux_networking_control.fwd_to_vsi(25)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-rules-for-mapping-between-physical-port-and-acc-port-representor">
+<h3>Configure rules for mapping between Physical port and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-physical-port-and-acc-port-representor" title="Link to this heading"></a></h3>
+<p>Configure rules to send ingress packets from a physical port to its respective port representors.</p>
+<p>Refer above port mapping for physical port to ACC port representor mapping. Here sample commands are shown for a single physical port, configure similar mapping for remaining physical ports.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>Physical port 0 port id is 0</p></li>
+<li><p>Corresponding port representor VSI value 17</p></li>
+<li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source port for a physical port (Phy port-0). Source port value should be VSI ID + 16.</span>
+<span class="c1"># For simplicity consider the same value as phy port id.</span>
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.rx_source_port<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.port_id=0,zero_padding=0,action=linux_networking_control.set_source_port(0)&quot;</span>
+
+<span class="c1"># Create a mapping between physical port (Phy port 0/src port 0) and ACC port representor (VSI-17)</span>
+<span class="w">  </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.rx_phy_port_to_pr_map<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;vmeta.common.port_id=0,zero_padding=0,action=linux_networking_control.fwd_to_vsi(33)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.source_port_to_pr_map<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;user_meta.cmeta.source_port=0,zero_padding=0,action=linux_networking_control.fwd_to_vsi(33)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_acc_vsi<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=17,zero_padding=0,action=linux_networking_control.l2_fwd_and_bypass_bridge(0)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representor">
+<h3>Configure rules for mapping between APF netdev on HOST and ACC port representor<a class="headerlink" href="#configure-rules-for-mapping-between-apf-netdev-on-host-and-acc-port-representor" title="Link to this heading"></a></h3>
+<p>Configure rules to send APF netdev on HOST to its respective port representors.</p>
+<p>Refer above port mapping for APF netdev on HOST to ACC port representor mapping. Here sample commands are shown for APF netdev on HOST, configure similar mapping for remaining APF netdevs on HOST.</p>
+<p>Example:</p>
+<ul>
+<li><p>APF netdev 1 on HOST has a VSI value 24</p></li>
+<li><p>Corresponding port representor VSI value 18</p></li>
+<li><p>If a VSI is used as an action, add an offset of 16 to the VSI value</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="c1"># Create a source port for an APF netdev (VSI-24). Source port value should be VSI ID + 16.</span>
+<span class="w">    </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_source_port<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;vmeta.common.vsi=24/2047,priority=1,action=linux_networking_control.set_source_port(40)&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Common P4RT rules</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a mapping between APF netdev (VSI-24/source port-40) and ACC port representor (VSI-18)</span>
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.source_port_to_pr_map<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;user_meta.cmeta.source_port=40,zero_padding=0,action=linux_networking_control.fwd_to_vsi(34)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.tx_acc_vsi<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=17,zero_padding=0,action=linux_networking_control.l2_fwd_and_bypass_bridge(0)&quot;</span>
+
+<span class="c1"># Create a mapping for traffic to flow between VSIs (VSI-24/source port-40) and (VSI-18)</span>
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vsi_to_vsi_loopback<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;vmeta.common.vsi=18,target_vsi=24,action=linux_networking_control.fwd_to_vsi(40)&quot;</span>
+
+<span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.vsi_to_vsi_loopback<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;vmeta.common.vsi=24,target_vsi=18,action=linux_networking_control.fwd_to_vsi(34)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-supporting-p4-runtime-tables">
+<h3>Configure supporting p4 runtime tables<a class="headerlink" href="#configure-supporting-p4-runtime-tables" title="Link to this heading"></a></h3>
+<p>For TCAM entry configure LPM LUT table</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.ipv4_lpm_root_lut<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="s2">&quot;user_meta.cmeta.bit16_zeros=4/65535,priority=2048,action=linux_networking_control.ipv4_lpm_root_lut_action(0)&quot;</span>
+</pre></div>
+</div>
+<p>Create a dummy LAG bypass table for all 8 hash indexes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=0/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=1/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=2/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=3/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=4/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=5/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=6/7,action=linux_networking_control.bypass&quot;</span>
+
+<span class="w">   </span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w">  </span>linux_networking_control.tx_lag_table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;user_meta.cmeta.lag_group_id=0/255,hash=7/7,action=linux_networking_control.bypass&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="create-integration-bridge-and-add-ports-to-the-bridge">
+<h3>Create integration bridge and add ports to the bridge<a class="headerlink" href="#create-integration-bridge-and-add-ports-to-the-bridge" title="Link to this heading"></a></h3>
+<p>Create OvS bridge, VxLAN tunnel and assign overlay VFs port representor to individual bridges.
+Reference provided for single overlay network, repeat similar steps for other VFs.</p>
+<p>Each bridge has:</p>
+<ul class="simple">
+<li><p>One overlay PR which is Native-tagged to a specific VLAN</p></li>
+<li><p>One VxLAN port which is Native-untagged to the VLAN and with different remote TEP and VNI</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-1
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-1<span class="w"> </span>enp0s1f0d1<span class="w"> </span><span class="nv">tag</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">vlan_mode</span><span class="o">=</span>native-tagged
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-1<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">tag</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">vlan_mode</span><span class="o">=</span>native-untagged<span class="w"> </span>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w">  </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>options:local_ip<span class="o">=</span><span class="m">10</span>.1.1.1<span class="w"> </span>options:remote_ip<span class="o">=</span><span class="m">10</span>.1.1.2<span class="w"> </span>options:key<span class="o">=</span><span class="m">10</span><span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
+</pre></div>
+</div>
+<p>Note: Here we are creating a VxLAN tunnel with VNI 10, you can create any VNI for tunneling.</p>
+</section>
+<section id="underlay-configuration">
+<h3>Underlay configuration<a class="headerlink" href="#underlay-configuration" title="Link to this heading"></a></h3>
+<p>Create TEP termination bridge, add physical port’s port representor and APF netdev port representor.
+Reference provided for underlay network, repeat similar steps for multiple underlay networks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-tun-1
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tun-1<span class="w"> </span>enp0s1f0d9
+ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-tun-1<span class="w"> </span>enp0s1f0d10
+</pre></div>
+</div>
+<p>Configure underlay IP address on the TEP termination port, route to reach remote IP is on termination bridge, and add change routes to reach remote IP.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dummy port and add TEP local IP</span>
+ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>TEP10<span class="w"> </span><span class="nb">type</span><span class="w"> </span>dummy
+ifconfig<span class="w">  </span>TEP10<span class="w"> </span><span class="m">10</span>.1.1.1/24<span class="w"> </span>up
+
+<span class="c1"># On termiantion bridge, configure an IP to reach remote TEP, and modify route to include nexthop details.</span>
+ifconfig<span class="w"> </span>br-tun-1<span class="w"> </span><span class="m">1</span>.1.1.1/24<span class="w"> </span>up
+ip<span class="w"> </span>route<span class="w"> </span>change<span class="w"> </span><span class="m">10</span>.1.1.0/24<span class="w"> </span>via<span class="w"> </span><span class="m">1</span>.1.1.2<span class="w"> </span>dev<span class="w"> </span>br-tun-1
+</pre></div>
+</div>
+</section>
+<section id="test-the-ping-scenarios">
+<h3>Test the ping scenarios<a class="headerlink" href="#test-the-ping-scenarios" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Underlay ping</p></li>
+<li><p>Overlay ping: Ping between VMs on different hosts</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="es2k-linux-networking.html" class="btn btn-neutral float-left" title="Linux Networking for ES2K" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="es2k-lnw-overlay-ipv6.html" class="btn btn-neutral float-right" title="Linux Networking with IPv6 (ES2K)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

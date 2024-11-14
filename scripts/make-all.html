@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>make-all.sh &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="make-cross-ovs.sh" href="make-cross-ovs.html" />
+    <link rel="prev" title="Helper Scripts" href="helper-scripts.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../building.html">Building P4 Control Plane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="helper-scripts.html">Helper Scripts</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">make-all.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-flow">Build flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#syntax">Syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-line-parameters">Command-line parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="make-cross-ovs.html">make-cross-ovs.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config-cross-recipe.html">config-cross-recipe.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../building.html">Building P4 Control Plane</a></li>
+          <li class="breadcrumb-item"><a href="helper-scripts.html">Helper Scripts</a></li>
+      <li class="breadcrumb-item active">make-all.sh</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/make-all.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="make-all-sh">
+<h1>make-all.sh<a class="headerlink" href="#make-all-sh" title="Link to this heading"></a></h1>
+<p>Helper script to build and install the P4 Control Plane software.</p>
+<section id="build-flow">
+<h2>Build flow<a class="headerlink" href="#build-flow" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> script builds and installs Open vSwitch (OVS), and then
+builds and installs the rest of P4 Control Plane.</p>
+<img alt="../_images/make-all-build-flow.png" src="../_images/make-all-build-flow.png" />
+</section>
+<section id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>./make-all.sh \
+    [--help|-h]  \
+    [--dry-run|-n] \
+    [--deps=DEPS | -D DEPS] \
+    [--host=HOSTDEPS | -H HOSTDEPS] \
+    [--ovs=OVS | -O OVS] \
+    [--prefix=PREFIX | -P PREFIX] \
+    [--sde=SDE | -S SDE] \
+    [--toolchain=TOOLFILE | -T TOOLFILE ] \
+    [--coverage] \
+    [--cxx=STD] \
+    [--jobs=NJOBS | -j NJOBS] \
+    [--no-build] \
+    [--no-krnlmon] \
+    [--no-ovs] \
+    [--p4ovs=MODE] \
+    [--target=dpdk|es2k|tofino] \
+    [--debug|--minsize|--reldeb|--release]
+</pre></div>
+</div>
+</section>
+<section id="command-line-parameters">
+<h2>Command-line parameters<a class="headerlink" href="#command-line-parameters" title="Link to this heading"></a></h2>
+<section id="general">
+<h3>General<a class="headerlink" href="#general" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--help</span></code>, <code class="docutils literal notranslate"><span class="pre">-h</span></code></dt><dd><p>Displays usage information and exits.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>, <code class="docutils literal notranslate"><span class="pre">-n</span></code></dt><dd><p>Displays the parameters that will be passed to CMake, and exits.</p>
+</dd>
+</dl>
+</section>
+<section id="paths">
+<h3>Paths<a class="headerlink" href="#paths" title="Link to this heading"></a></h3>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--deps=DEPS</span></code>, <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">DEPS</span></code></dt><dd><p>Directory in which the Stratum dependencies for the runtime system
+are installed.</p>
+<p>P4 Control Plane will be linked with these libraries.
+Use this option instead of <code class="docutils literal notranslate"><span class="pre">--host</span></code> if are building for the native
+system (not cross-compiling).
+Supplies the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL_DIR</span></code> listfile variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code> environment variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--host=HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">-H</span> <span class="pre">HOST</span></code></dt><dd><p>Directory in which the Stratum dependencies for the development system
+are installed.</p>
+<p><strong>Only used when cross-compiling</strong>.
+Used to compile Protobufs to C++ during cross-compilation.
+Supplies the value of the <code class="docutils literal notranslate"><span class="pre">HOST_DEPEND_DIR</span></code> listfile variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">HOST_INSTALL</span></code> environment variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--ovs=OVS</span></code>, <code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">OVS</span></code></dt><dd><p>Directory in which Open vSwitch will be (or is) installed.</p>
+<p>May be omitted if the <code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> option is specified.
+Specifies the value of <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> for the OVS build.
+Supplies the value of the <code class="docutils literal notranslate"><span class="pre">OVS_INSTALL_DIR</span></code> listfile variable for
+the networking recipe (P4 Control Plane) build.
+May be the same as the <code class="docutils literal notranslate"><span class="pre">prefix</span></code> directory, in which case OVS and
+P4 Control Plane will be installed to the same directory tree.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">OVS_INSTALL</span></code> environment variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--prefix=PREFIX</span></code>, <code class="docutils literal notranslate"><span class="pre">-P</span> <span class="pre">PREFIX</span></code></dt><dd><p>Directory in which P4 Control Plane will be installed.
+The directory will be created if it does not exist.</p>
+<p>May be the same as the <code class="docutils literal notranslate"><span class="pre">--ovs</span></code> option, in which case OVS and
+P4 Control Plane will be installed to the same directory tree.
+Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> variable when
+building P4 Control Plane.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--sde=SDE</span></code>, <code class="docutils literal notranslate"><span class="pre">-S</span> <span class="pre">SDE</span></code></dt><dd><p>Directory in which the SDK for the P4 target is installed.</p>
+<p>Supplies the value of the <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL_DIR</span></code> listfile variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code> environment variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--toolchain=FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">FILE</span></code></dt><dd><p>Path to the CMake toolchain file.</p>
+<p>Must be specified when cross-compiling.
+Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> variable.
+Defaults to the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> environment variable.</p>
+</dd>
+</dl>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--coverage</span></code></dt><dd><p>Instrument build to measure unit test code coverage.
+Sets the <code class="docutils literal notranslate"><span class="pre">TEST_COVERAGE</span></code> listfile option to TRUE.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--cxx=STD</span></code></dt><dd><p>C++ standard to be used by the compiler (11, 14, 17).
+Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CXX_STANDARD</span></code> listfile variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--jobs=NJOBS</span></code>, <code class="docutils literal notranslate"><span class="pre">-j</span> <span class="pre">NJOBS</span></code></dt><dd><p>Number of build threads.
+Specifies the value of the <code class="docutils literal notranslate"><span class="pre">-j</span></code> CMake option.
+Defaults to 8 threads.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-build</span></code></dt><dd><p>Configures CMake to build P4 Control Plane, but does not build it.
+May still build OVS.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-krnlmon</span></code></dt><dd><p>Excludes the Kernel Monitor from the build.
+Sets the <code class="docutils literal notranslate"><span class="pre">WITH_KRNLMON</span></code> listfile option to FALSE.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code></dt><dd><p>Excludes OVS from the build.
+Sets the <code class="docutils literal notranslate"><span class="pre">WITH_OVSP4RT</span></code> listfile option to FALSE.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--p4ovs=MODE</span></code></dt><dd><p>Specifies the mode in which to build OvS. See
+<a class="reference internal" href="#p4ovs-modes"><span class="std std-ref">P4OVS Modes</span></a> for a list of values.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--target=TARGET</span></code></dt><dd><p>Specifies the target (<code class="docutils literal notranslate"><span class="pre">dpdk</span></code>, <code class="docutils literal notranslate"><span class="pre">es2k</span></code>, or <code class="docutils literal notranslate"><span class="pre">tofino</span></code>) for which
+P4 Control Plane will be built.
+The target name is case-insensitive.
+Sets the <code class="docutils literal notranslate"><span class="pre">TDI_TARGET</span></code> listfile variable.
+Defaults to <code class="docutils literal notranslate"><span class="pre">DPDK</span></code> if unspecified.</p>
+</dd>
+</dl>
+</section>
+<section id="build-types">
+<h3>Build Types<a class="headerlink" href="#build-types" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--debug</span></code></dt><dd><p>Build with <code class="docutils literal notranslate"><span class="pre">-DCMAKE_BUILD_TYPE=Debug</span></code>.
+The compiler settings will default to <code class="docutils literal notranslate"><span class="pre">-g</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--minsize</span></code></dt><dd><p>Build with <code class="docutils literal notranslate"><span class="pre">-DCMAKE_BUILD_TYPE=MinSizeRel</span></code>.
+The compiler settings will default to <code class="docutils literal notranslate"><span class="pre">-Os</span> <span class="pre">-DNDEBUG</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--reldeb</span></code></dt><dd><p>Build with <code class="docutils literal notranslate"><span class="pre">-DCMAKE_BUILD_TYPE=RelWithDebInfo</span></code>.
+The compiler settings will default to <code class="docutils literal notranslate"><span class="pre">-O2</span> <span class="pre">-g</span> <span class="pre">-DNDEBUG</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--release</span></code></dt><dd><p>Build with <code class="docutils literal notranslate"><span class="pre">-DCMAKE_BUILD_TYPE=Release</span></code>.
+The compiler settings will default to <code class="docutils literal notranslate"><span class="pre">-O3</span> <span class="pre">-DNDEBUG</span></code>.</p>
+</dd>
+</dl>
+<p>If no configuration is specified, the CMake listfile currently defaults to
+<code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code>.</p>
+</section>
+<section id="p4ovs-modes">
+<span id="id1"></span><h3>P4OVS Modes<a class="headerlink" href="#p4ovs-modes" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">none</span></code></dt><dd><p>Build OVS in non-P4 mode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ovsp4rt</span></code></dt><dd><p>Build OVS with the ovsp4rt library.
+OVS is built <em>after</em> P4 Control Plane.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">p4ovs</span></code></dt><dd><p>Build OVS in legacy P4 mode.
+OVS is built <em>before</em> P4 Control Plane.
+(default)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">stubs</span></code></dt><dd><p>Build OVS with the ovsp4rt stubs library.
+OVS is built <em>after</em> P4 Control Plane.
+Use this mode when building to run the OVS test suite.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code></dt><dd><p>Path to the CMake toolchain file to be used.
+Specifies the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code> variable.
+May be overridden by <code class="docutils literal notranslate"><span class="pre">--toolchain=TOOLFILE</span></code>.
+Must be defined when cross-compiling.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DEPEND_INSTALL</span></code></dt><dd><p>Directory in which the Stratum dependencies for the runtime system
+are installed.
+Supplies the default value of the <code class="docutils literal notranslate"><span class="pre">--deps</span></code> option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">HOST_INSTALL</span></code></dt><dd><p>Directory in which the Stratum dependencies for the development system
+are installed.
+Supplies the default value of the <code class="docutils literal notranslate"><span class="pre">--host</span></code> option.
+Only used when cross-compiling.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OVS_INSTALL</span></code></dt><dd><p>Directory in which Open vSwitch should be (or is) installed.
+Supplies the default value of the <code class="docutils literal notranslate"><span class="pre">--ovs</span></code> option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code></dt><dd><p>Directory in which the P4SDE for the target is installed.
+Supplies the default value of the <code class="docutils literal notranslate"><span class="pre">--sde</span></code> option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDKTARGETSYSROOT</span></code></dt><dd><p>Path to the system root (sysroot) directory for the ARM Compute Complex
+(ACC) of the E2100 IPU.
+Must be defined when cross-compiling.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="helper-scripts.html" class="btn btn-neutral float-left" title="Helper Scripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="make-cross-ovs.html" class="btn btn-neutral float-right" title="make-cross-ovs.sh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

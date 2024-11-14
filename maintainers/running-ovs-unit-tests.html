@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running OVS Unit Tests &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running OVSP4RT Unit Tests" href="running-ovsp4rt-unit-tests.html" />
+    <link rel="prev" title="Running Krnlmon Unit Tests" href="running-krnlmon-unit-tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maintainers.html">Maintainers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build-guides.html">Build Guides</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="unit-tests.html">Unit Tests</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="running-krnlmon-unit-tests.html">Running Krnlmon Unit Tests</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Running OVS Unit Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bootstrap-ovs-build">Bootstrap OVS build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initialize-test-directory">Initialize test directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-ovs-in-test-directory">Build OVS in test directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-unit-tests">Run unit tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#review-test-results">Review test results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#measure-code-coverage">Measure code coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="running-ovsp4rt-unit-tests.html">Running OVSP4RT Unit Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running-stratum-unit-tests.html">Running Stratum Unit Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="maintainers.html">Maintainers</a></li>
+          <li class="breadcrumb-item"><a href="unit-tests.html">Unit Tests</a></li>
+      <li class="breadcrumb-item active">Running OVS Unit Tests</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/maintainers/running-ovs-unit-tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-ovs-unit-tests">
+<h1>Running OVS Unit Tests<a class="headerlink" href="#running-ovs-unit-tests" title="Link to this heading"></a></h1>
+<p>OVS comes with its own unit test suite. The instructions for running it
+may be found in the OVS
+<a class="reference external" href="https://github.com/ipdk-io/ovs/blob/ipdk-latest/Documentation/topics/testing.rst">Testing</a>
+document.</p>
+<section id="bootstrap-ovs-build">
+<h2>Bootstrap OVS build<a class="headerlink" href="#bootstrap-ovs-build" title="Link to this heading"></a></h2>
+<p>The first step is to initialize the ovs build system by running the
+bootstrap script. You can skip this step if you’ve already run it (e.g.,
+by building OVS).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">pushd</span><span class="w"> </span>ovs/ovs
+./boot.sh
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<p>The script copies a number of files to the <code class="docutils literal notranslate"><span class="pre">ovs/ovs</span></code> directory and
+generates the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script.</p>
+</section>
+<section id="initialize-test-directory">
+<h2>Initialize test directory<a class="headerlink" href="#initialize-test-directory" title="Link to this heading"></a></h2>
+<p>The next step is to build OVS. We’re going to do an out-of-source build
+so as not to clutter the OVS directory or interfere with our regular
+build.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">pushd</span><span class="w"> </span>ovs
+mkdir<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nb">test</span>
+../ovs/configure
+</pre></div>
+</div>
+<p>Note that we do not specify any configuration options.</p>
+<p>This step generates the files necessary to do the build in the ovs/test
+directory.</p>
+</section>
+<section id="build-ovs-in-test-directory">
+<h2>Build OVS in test directory<a class="headerlink" href="#build-ovs-in-test-directory" title="Link to this heading"></a></h2>
+<p>The next step is to build OVS in the ovs/test directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-j6<span class="w"> </span><span class="nv">V</span><span class="o">=</span><span class="m">0</span>
+</pre></div>
+</div>
+<p>You can change the number of build threads (<code class="docutils literal notranslate"><span class="pre">-jN</span></code>) to something
+appropriate for your system.</p>
+<p>The V=0 parameter gives you a less verbose build log.</p>
+</section>
+<section id="run-unit-tests">
+<h2>Run unit tests<a class="headerlink" href="#run-unit-tests" title="Link to this heading"></a></h2>
+<p>Now you can run the unit test suite.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>check<span class="w"> </span><span class="nv">TESTSUITEFLAGS</span><span class="o">=</span>-j8
+</pre></div>
+</div>
+<p>The TESTSUITEFLAGS parameter accepts a number of options, which are
+described in the
+<a class="reference external" href="https://github.com/ipdk-io/ovs/blob/ovs-with-p4/Documentation/topics/testing.rst">testing.rst</a>
+document.</p>
+<p>The -j8 parameter value specifies the number of test threads to use. You
+will almost undoubtedly want to use this parameter; there are ~2500 test
+cases in the suite.</p>
+</section>
+<section id="review-test-results">
+<h2>Review test results<a class="headerlink" href="#review-test-results" title="Link to this heading"></a></h2>
+<p>Each test case generates a single line of output as it is executed,
+consisting of the test number, test name, and the results of the test.</p>
+<p>A summary is displayed after the last test case has been run.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">## ------------- ##</span>
+<span class="c1">## Test results. ##</span>
+<span class="c1">## ------------- ##</span>
+
+ERROR:<span class="w"> </span><span class="m">2504</span><span class="w"> </span>tests<span class="w"> </span>were<span class="w"> </span>run,
+<span class="m">8</span><span class="w"> </span>failed<span class="w"> </span>unexpectedly.
+<span class="m">3</span><span class="w"> </span>tests<span class="w"> </span>were<span class="w"> </span>skipped.
+<span class="c1">## -------------------------- ##</span>
+<span class="c1">## testsuite.log was created. ##</span>
+<span class="c1">## -------------------------- ##</span>
+
+Please<span class="w"> </span>send<span class="w"> </span><span class="se">\`</span>tests/testsuite.log<span class="s1">&#39; and all information you think might</span>
+<span class="s1">help:</span>
+
+<span class="s1">   To: &lt;bugs@openvswitch.org&gt;</span>
+<span class="s1">   Subject: [openvswitch 3.0.90] testsuite: 771 773 778 780 781 1279 1949 2232 failed</span>
+
+<span class="s1">You may investigate any problem if you feel able to do so, in which</span>
+<span class="s1">case the test suite provides a good starting point. Its output may</span>
+<span class="s1">be found below \`tests/testsuite.dir&#39;</span>.
+</pre></div>
+</div>
+<p>Details of each failed test are saved in the <code class="docutils literal notranslate"><span class="pre">ovs/tests/testsuite.dir</span></code>
+directory, for use in debugging.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/recipe/ovs/test$<span class="w"> </span>ls<span class="w"> </span>tests/testsuite.dir
+<span class="m">0771</span><span class="w"> </span><span class="m">0773</span><span class="w"> </span><span class="m">0778</span><span class="w"> </span><span class="m">0780</span><span class="w"> </span><span class="m">0781</span><span class="w"> </span><span class="m">1279</span><span class="w"> </span><span class="m">1949</span><span class="w"> </span><span class="m">2232</span><span class="w"> </span>at-job-fifo
+~/recipe/ovs/test$<span class="w"> </span>ls<span class="w"> </span>tests/testsuite.dir/0771
+cleanup<span class="w"> </span>conf.db<span class="w"> </span>flows.txt<span class="w"> </span>ovs-vswitchd.log<span class="w"> </span>ovsdb-server.log<span class="w"> </span>run<span class="w"> </span>stderr<span class="w"> </span>stdout<span class="w"> </span>testsuite.log
+</pre></div>
+</div>
+</section>
+<section id="measure-code-coverage">
+<h2>Measure code coverage<a class="headerlink" href="#measure-code-coverage" title="Link to this heading"></a></h2>
+<section id="enable-measurement">
+<h3>Enable measurement<a class="headerlink" href="#enable-measurement" title="Link to this heading"></a></h3>
+<p>To enable unit test code coverage, you will need to build OVS with the
+–enable-coverage option.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>recipe/ovs
+rm<span class="w"> </span>-fr<span class="w"> </span><span class="nb">test</span>
+mkdir<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nb">test</span>
+../ovs/configure<span class="w"> </span>--enable-coverage
+make<span class="w"> </span>-j8<span class="w"> </span><span class="nv">V</span><span class="o">=</span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="run-and-measure-tests">
+<h3>Run and measure tests<a class="headerlink" href="#run-and-measure-tests" title="Link to this heading"></a></h3>
+<p>Then run the test suite using the check-lcov Makefile target.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>make check-lcov TESTSUITEFLAGS=-j8
+
+(progress messages omitted)
+
+## ------------- ##
+## Test results. ##
+## ------------- ##
+
+ERROR: 2504 tests were run,
+7 failed unexpectedly.
+3 tests were skipped.
+## -------------------------- ##
+## testsuite.log was created. ##
+## -------------------------- ##
+
+Please send \`tests/testsuite.log&#39; and all information you think might
+help:
+
+To: &lt;bugs@openvswitch.org&gt;
+Subject: [openvswitch 3.0.90] testsuite: 771 773 778 780 781 961 1279 failed
+
+You may investigate any problem if you feel able to do so, in which
+case the test suite provides a good starting point. Its output may
+be found below \`tests/testsuite.dir&#39;.
+
+make: [Makefile:7035: check-lcov] Error 1 (ignored)
+/usr/bin/mkdir -p tests/lcov
+lcov -b /home/porthos/recipe/ovs/test -d /home/porthos/recipe/ovs/test -q -c --rc lcov_branch_coverage=1 -o tests/lcov/coverage.info
+genhtml -q --branch-coverage --num-spaces 4 -o tests/lcov tests/lcov/coverage.info
+genhtml: WARNING: negative counts found in tracefile tests/lcov/coverage.info
+coverage report generated at tests/lcov/index.html
+</pre></div>
+</div>
+</section>
+<section id="view-report">
+<h3>View report<a class="headerlink" href="#view-report" title="Link to this heading"></a></h3>
+<p>To view the coverage report, open <strong>ovs/tests/lcov/index.html</strong> in a
+browser.</p>
+<p><img alt="image0" src="../_images/ovs-coverage-report.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="running-krnlmon-unit-tests.html" class="btn btn-neutral float-left" title="Running Krnlmon Unit Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running-ovsp4rt-unit-tests.html" class="btn btn-neutral float-right" title="Running OVSP4RT Unit Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

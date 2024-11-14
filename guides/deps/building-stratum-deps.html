@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building the Stratum Dependencies &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Building for the ES2K ACC" href="../building-for-es2k-acc.html" />
+    <link rel="prev" title="Building for the ES2K Host" href="../building-for-es2k-host.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Building the Stratum Dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-code">Source Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-location">Install Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cmake-build-options">CMake Build Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../building.html">Building P4 Control Plane</a></li>
+          <li class="breadcrumb-item"><a href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+      <li class="breadcrumb-item active">Building the Stratum Dependencies</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/deps/building-stratum-deps.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-the-stratum-dependencies">
+<h1>Building the Stratum Dependencies<a class="headerlink" href="#building-the-stratum-dependencies" title="Link to this heading"></a></h1>
+<p>Stratum is the component of <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> that implements the P4Runtime and gNMI
+(OpenConfig) services. It requires that a number of third-party libraries
+be built and installed on the system.</p>
+<p>This document explains how to build and install the Stratum dependencies.</p>
+<blockquote>
+<div><p><strong>Note</strong>: For the Intel® IPU E2100, see
+<a class="reference internal" href="building-acc-stratum-deps.html"><span class="std std-doc">Building Stratum Dependencies for the ACC</span></a>.</p>
+</div></blockquote>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>There are a couple of things to do before you build the dependencies:</p>
+<ul>
+<li><p>Install CMake 3.15 or above</p>
+<p>Avoid versions 3.24 and 3.25. There is an issue in cmake that causes the
+Protobuf build to fail. This problem was fixed in version 3.26.</p>
+</li>
+<li><p>Install OpenSSL 3.x</p>
+<p>P4 Control Plane uses OpenSSL instead of BoringSSL.</p>
+</li>
+</ul>
+</section>
+<section id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Link to this heading"></a></h2>
+<p>There are two ways to obtain the source code: from the open-source repository
+on GitHub, or as a source package.</p>
+<section id="github-repository">
+<h3>GitHub repository<a class="headerlink" href="#github-repository" title="Link to this heading"></a></h3>
+<p>The script to build the Stratum dependencies is in the <code class="docutils literal notranslate"><span class="pre">stratum-deps</span></code>
+repository. To clone the repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
+</pre></div>
+</div>
+<p>The source code for the dependencies is not part of the distribution.
+It is downloaded by the build script.</p>
+</section>
+<section id="source-package">
+<h3>Source package<a class="headerlink" href="#source-package" title="Link to this heading"></a></h3>
+<p>You may receive the source code for the Stratum dependencies in the form of
+an RPM file, a Debian file, or a tarball.</p>
+<p>If this is case, use the appropriate command to unpack the source files.</p>
+</section>
+</section>
+<section id="install-location">
+<h2>Install Location<a class="headerlink" href="#install-location" title="Link to this heading"></a></h2>
+<p>You will need to decide where on your system you would like to install the
+dependencies. This location (the “install prefix”) must be specified when you
+configure the build.</p>
+<p>It is recommended that you <em>not</em> install the dependency libraries in <code class="docutils literal notranslate"><span class="pre">/usr</span></code> or
+<code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>. It is easier to upgrade or do a clean build if packages that are
+updated on different cadences are kept separate from one another.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> option is used to specify the directory in which
+the dependencies should be installed.</p>
+<p>If you plan to install the dependency libraries in a system directory, you will
+need to log in as <code class="docutils literal notranslate"><span class="pre">root</span></code> or run from an account that has <code class="docutils literal notranslate"><span class="pre">sudo</span></code> privilege.</p>
+</section>
+<section id="cmake-build-options">
+<h2>CMake Build Options<a class="headerlink" href="#cmake-build-options" title="Link to this heading"></a></h2>
+<p>The CMake build script supports the following configuration options.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></p></td>
+<td><p>Path</p></td>
+<td><p>Directory in which the dependencies should be installed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CXX_STANDARD</span></code></p></td>
+<td><p>Number</p></td>
+<td><p>C++ standard (11, 14, 17, etc.) the compiler should apply. (Default: None)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Whether to download the source repositories. (Default: [1])</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Whether to patch the downloaded repositories. (Default: [1])</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ON_DEMAND</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Whether to build only the specified target(s). If this option is FALSE, all targets will be built. (Default: FALSE)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">USE_LDCONFIG</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Whether to use <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> to update the loader cache[2] after installing a module. Only valid if <code class="docutils literal notranslate"><span class="pre">USE_SUDO</span></code> is enabled. (Default: FALSE)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">USE_SUDO</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Whether to use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> to install each module. (Default: FALSE)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Boolean values are (<code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, <code class="docutils literal notranslate"><span class="pre">YES</span></code>, <code class="docutils literal notranslate"><span class="pre">ON</span></code>) and (<code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, <code class="docutils literal notranslate"><span class="pre">NO</span></code>, <code class="docutils literal notranslate"><span class="pre">OFF</span></code>).
+They may be upper or lower case.</p>
+<p>[1] <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> and <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> default to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if you download stratum-deps
+from GitHub, and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> if you receive a distribution that includes
+the source.</p>
+<p>[2] See the <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> man page for more information.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="non-root-build">
+<h3>Non-root build<a class="headerlink" href="#non-root-build" title="Link to this heading"></a></h3>
+<p>To build and install as a non-privileged user:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>setup
+cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>./install
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8
+</pre></div>
+</div>
+<p>The source files will be downloaded, built, and installed in the <code class="docutils literal notranslate"><span class="pre">install</span></code>
+directory. The targets will be built in parallel, using eight threads.</p>
+<p>CMake will generate all of its temporary files in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory.
+This is called an “out-of-source” build.</p>
+</section>
+<section id="non-root-build-to-system-directory">
+<h3>Non-root build to system directory<a class="headerlink" href="#non-root-build-to-system-directory" title="Link to this heading"></a></h3>
+<p>To build as a non-privileged user and install the libraries in a
+system directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/deps<span class="w"> </span>-DUSE_SUDO<span class="o">=</span>yes
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6
+</pre></div>
+</div>
+<p>CMake will build the dependencies as the current user.
+It will use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> only when it installs the libraries.
+The build will be done in parallel, using six threads.</p>
+</section>
+<section id="on-demand-build">
+<h3>On-demand build<a class="headerlink" href="#on-demand-build" title="Link to this heading"></a></h3>
+<p>To build and install just gRPC and its dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DON_DEMAND<span class="o">=</span>yes<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>~/hostdeps
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6<span class="w"> </span>--target<span class="w"> </span>grpc
+</pre></div>
+</div>
+<p>The necessary components will be downloaded, built, and installed in
+<code class="docutils literal notranslate"><span class="pre">/home/&lt;username&gt;/hostdeps</span></code>. The build will be done in parallel, using
+six threads.</p>
+</section>
+<section id="rebuilding-without-downloading">
+<h3>Rebuilding without downloading<a class="headerlink" href="#rebuilding-without-downloading" title="Link to this heading"></a></h3>
+<p>To instruct cmake not to download the source repositories again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>deps<span class="w"> </span>-DDOWNLOAD<span class="o">=</span>NO<span class="w"> </span>-DPATCH<span class="o">=</span>NO
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j6
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>Alternatively, you can run a script that changes the default values
+of the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> and <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> parameters to <code class="docutils literal notranslate"><span class="pre">NO</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/preconfig.sh
+</pre></div>
+</div>
+<p>The script writes a <code class="docutils literal notranslate"><span class="pre">preload.cmake</span></code> file to the <code class="docutils literal notranslate"><span class="pre">source</span></code> directory
+that cmake will read the next time it configures the build.</p>
+</section>
+<section id="clean-builds">
+<h3>Clean builds<a class="headerlink" href="#clean-builds" title="Link to this heading"></a></h3>
+<p>To do a clean build without deleting the source directories:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-fr<span class="w"> </span>build
+cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>deps<span class="w"> </span>...
+</pre></div>
+</div>
+<p>You’ll need to specify <code class="docutils literal notranslate"><span class="pre">-DDOWNLOAD=NO</span> <span class="pre">-DPATCH=NO</span></code> or run the <code class="docutils literal notranslate"><span class="pre">preload.sh</span></code>
+script, as described under
+<a class="reference internal" href="#rebuilding-without-downloading">Rebuilding without downloading</a>, or
+cmake will download the repositories a second time.</p>
+<p>This erases the configuration as well as the binary build artifacts.</p>
+<hr class="docutils" />
+<p>To get a fresh start, delete both the <code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">source</span></code> directories:</p>
+<p>To scrub the directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-fr<span class="w"> </span>build<span class="w"> </span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../building-for-es2k-host.html" class="btn btn-neutral float-left" title="Building for the ES2K Host" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../building-for-es2k-acc.html" class="btn btn-neutral float-right" title="Building for the ES2K ACC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
