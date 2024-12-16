@@ -1,0 +1,7 @@
+# Used to build the user guide.
+sphinx
+sphinx_rtd_theme
+myst_parser
+
+# ReStructuredText file linter.
+rstcheck[sphinx]
