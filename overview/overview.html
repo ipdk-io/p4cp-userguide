@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Setup Guides" href="../guides/setup/setup-guides.html" />
+    <link rel="prev" title="General Information" href="../general.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../general.html">General Information</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#infrap4d">Infrap4d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kernel-monitor-krnlmon">Kernel monitor (krnlmon)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#open-vswitch-ovs">Open vSwitch (OvS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stratum">Stratum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#switch-abstraction-interface-sai">Switch Abstraction Interface (SAI)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#table-driven-interface-tdi">Table Driven Interface (TDI)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gnmi-clients">gNMI clients</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gnmi-cli">gnmi_cli</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnmi-ctl">gnmi-ctl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sgnmi-cli">sgnmi_cli</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#p4runtime-clients">P4Runtime clients</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ovs-p4rt">ovs-p4rt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#p4rt-ctl">p4rt-ctl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/setup/setup-guides.html">Setup Guides</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../general.html">General Information</a></li>
+      <li class="breadcrumb-item active">Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/overview/overview.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>P4 Control Plane (formerly P4-OVS Split Architecture) modularizes P4-OVS
+and reduces coupling between its components, making the code easier to maintain
+and more suitable for upstreaming. It moves the P4-specific components of the
+architecture to a separate process called <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p>
+<p><img alt="P4 Control Plane Architecture" src="../_images/p4-control-plane-architecture.png" /></p>
+<section id="infrap4d">
+<h2>Infrap4d<a class="headerlink" href="#infrap4d" title="Link to this heading"></a></h2>
+<p>Infrap4d integrates Stratum, Kernel Monitor (krnlmon), Switch Abstraction
+Interface (SAI), Table Driven Interface (TDI), and a P4 target driver into a
+single process (daemon).</p>
+<p><img alt="Infrap4d Architecture" src="../_images/infrap4d-architecture.png" /></p>
+<section id="kernel-monitor-krnlmon">
+<h3>Kernel monitor (krnlmon)<a class="headerlink" href="#kernel-monitor-krnlmon" title="Link to this heading"></a></h3>
+<p>The Kernel Monitor receives RFC 3549 messages from the Linux Kernel over a
+Netlink socket when changes are made to the kernel networking data structures.
+It listens for network events (link, address, neighbor, route) and issues
+calls to update the P4 tables via SAI and TDI. The kernel monitor is an
+optional component of infrap4d.</p>
+</section>
+<section id="open-vswitch-ovs">
+<h3>Open vSwitch (OvS)<a class="headerlink" href="#open-vswitch-ovs" title="Link to this heading"></a></h3>
+<p>Open vSwitch is an open-source multi-layer software virtual switch that is
+well-suited to bridging traffic across virtual machines and providing
+connections to the outside world. P4 Control Plane incorporates an optional
+component (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>) that allows OVS to communicate with the P4Runtime
+Server in Infrap4d via gRPC.</p>
+</section>
+<section id="stratum">
+<h3>Stratum<a class="headerlink" href="#stratum" title="Link to this heading"></a></h3>
+<p>Stratum is an open-source silicon-independent switch operating system.
+It is a component of Infrap4d that provides the P4Runtime and gNMI/Openconfig
+capabilities for P4 flow rule offloads and port configuration offloads.
+Stratum is augmented with a new tdi platform layer that processes P4rt and
+gNMI requests and interacts with the underlying P4 target driver through TDI.
+A new ipdk platform layer provides IPDK-specific replacements for several
+TDI modules that allow it to handle configuration differences between IPUs
+and the switches for which Stratum was developed.</p>
+</section>
+<section id="switch-abstraction-interface-sai">
+<h3>Switch Abstraction Interface (SAI)<a class="headerlink" href="#switch-abstraction-interface-sai" title="Link to this heading"></a></h3>
+<p>Switch Abstraction Interface (SAI) defines a vendor-independent interface
+for switching ASICs.</p>
+</section>
+<section id="table-driven-interface-tdi">
+<h3>Table Driven Interface (TDI)<a class="headerlink" href="#table-driven-interface-tdi" title="Link to this heading"></a></h3>
+<p>TDI (Table Driven Interface) provides a target-agnostic interface to the
+driver for a P4-programmable device. It is a set of APIs that enable
+configuration and management of P4 programmable and fixed functions of a
+backend device in a uniform and dynamic way. Different targets like bmv2
+and P4-DPDK can choose to implement their own backends for different P4
+and non-P4 objects but can share a common TDI. Stratum talks to the
+target-specific driver through the TDI front-end interface.</p>
+</section>
+</section>
+<section id="gnmi-clients">
+<h2>gNMI clients<a class="headerlink" href="#gnmi-clients" title="Link to this heading"></a></h2>
+<p>gRPC Network Management Interface (gNMI) is a gRPC-based protocol to manage
+network devices.</p>
+<section id="gnmi-cli">
+<h3>gnmi_cli<a class="headerlink" href="#gnmi-cli" title="Link to this heading"></a></h3>
+<p>Command-line client that can be used for testing and sending
+messages to a gNMI server (such as <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>). Part of Stratum.</p>
+</section>
+<section id="gnmi-ctl">
+<h3>gnmi-ctl<a class="headerlink" href="#gnmi-ctl" title="Link to this heading"></a></h3>
+<p>Derivative of <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> that was introduced in P4-OVS and continues to
+be part of the DPDK target build. <code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span></code> is being phased out in favor of
+<code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> and <code class="docutils literal notranslate"><span class="pre">sgnmi_cli</span></code>.</p>
+</section>
+<section id="sgnmi-cli">
+<h3>sgnmi_cli<a class="headerlink" href="#sgnmi-cli" title="Link to this heading"></a></h3>
+<p>Version of <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> that is secure by default. It uses TLS certificates
+to communicate securely with the server.</p>
+</section>
+</section>
+<section id="p4runtime-clients">
+<h2>P4Runtime clients<a class="headerlink" href="#p4runtime-clients" title="Link to this heading"></a></h2>
+<p>P4Runtime interface is a control plane specification for managing the
+data plane elements of a device defined or described by a P4 program.</p>
+<section id="ovs-p4rt">
+<h3>ovs-p4rt<a class="headerlink" href="#ovs-p4rt" title="Link to this heading"></a></h3>
+<p>Library (C++ with a C interface) that allows ovs-vswitchd and ovsdb-server
+to communicate with the P4Runtime Server in Infrap4d via gRPC. It is used to
+program (insert/modify/delete) P4 forwarding tables in the pipeline.</p>
+</section>
+<section id="p4rt-ctl">
+<h3>p4rt-ctl<a class="headerlink" href="#p4rt-ctl" title="Link to this heading"></a></h3>
+<p>Command-line client that talks to the P4Runtime Server in
+Infrap4d via gRPC. It is used to program the P4 pipeline and insert/delete
+P4 table entries.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../general.html" class="btn btn-neutral float-left" title="General Information" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../guides/setup/setup-guides.html" class="btn btn-neutral float-right" title="Setup Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

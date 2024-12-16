@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Update 22.50 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development Update 22.44" href="development-update-22.44.html" />
+    <link rel="prev" title="Development Update 23.21" href="development-update-23.21.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Development Update 22.50</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#new-directories">New Directories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dependency-setup-script">Dependency setup script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentation-updates">Documentation Updates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-fixes">Security Fixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bug-fixes">Bug Fixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coming-attractions">Coming Attractions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.44.html">Development Update 22.44</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
+      <li class="breadcrumb-item active">Development Update 22.50</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/development-update-22.50.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-update-22-50">
+<h1>Development Update 22.50<a class="headerlink" href="#development-update-22-50" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This is an interim update (“code drop”) to give the validation team
+an opportunity to work with the latest DPDK features.</p>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<section id="highlights">
+<h3>Highlights<a class="headerlink" href="#highlights" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Overhauled DPDK port parameter handling</p></li>
+<li><p>Implemented TdiPortManager class</p></li>
+<li><p>Updated <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> client</p></li>
+<li><p>Integrated Kernel Monitor</p></li>
+<li><p>Added OvS extensions</p></li>
+<li><p>Added support for ECMP and FRR</p></li>
+<li><p>Added support for debug builds</p></li>
+<li><p>Improved dependency setup script</p></li>
+</ul>
+</section>
+<section id="dpdk-port-attributes">
+<h3>DPDK port attributes<a class="headerlink" href="#dpdk-port-attributes" title="Link to this heading"></a></h3>
+<p>The DPDK chassis manager has been extensively revised.</p>
+<ul class="simple">
+<li><p>Moved Constant definitions to a separate hader file (<code class="docutils literal notranslate"><span class="pre">dpdk_port_constants.h</span></code>).</p></li>
+<li><p>Extracted port configuration management to a new <code class="docutils literal notranslate"><span class="pre">DpdkPortConfig</span></code> class.</p></li>
+<li><p>Removed support for the speed_bps, autoneg, fec_mode, and loopback port
+parameters, and reduced support for the mtu parameter.</p></li>
+<li><p>Normalized the log messages issued when port parameters are set.</p></li>
+</ul>
+</section>
+<section id="tdiportmanager-class-tofino-only">
+<h3>TdiPortManager class (Tofino only)<a class="headerlink" href="#tdiportmanager-class-tofino-only" title="Link to this heading"></a></h3>
+<p>Extracted a new <code class="docutils literal notranslate"><span class="pre">TdiPortManager</span></code> class from <code class="docutils literal notranslate"><span class="pre">TdiSdeWrapper</span></code>, to interface
+to the port management functions of the underlying P4 Driver. This class is
+currently implemented for the Tofino target only.</p>
+</section>
+<section id="p4rt-ctl">
+<h3>p4rt-ctl<a class="headerlink" href="#p4rt-ctl" title="Link to this heading"></a></h3>
+<p>Added the following commands:</p>
+<ul class="simple">
+<li><p>add-action-profile-member</p></li>
+<li><p>delete-action-profile-member</p></li>
+<li><p>get-action-profile-member</p></li>
+<li><p>add-action-profile-group</p></li>
+<li><p>delete-action-profile-group</p></li>
+<li><p>get-action-profile-member</p></li>
+</ul>
+<p>The utility should now be on par with P4-OVS except counter support.</p>
+</section>
+<section id="kernel-monitor-dpdk-only">
+<h3>Kernel Monitor (DPDK only)<a class="headerlink" href="#kernel-monitor-dpdk-only" title="Link to this heading"></a></h3>
+<p>The Kernel Monitor (<code class="docutils literal notranslate"><span class="pre">krnlmon</span></code>) receives RFC 3549 messages from the Linux
+kernel over a Netlink socket when changes are made to the kernel networking
+data structures. It updates the P4 tables defined by <code class="docutils literal notranslate"><span class="pre">linux_networking.p4</span></code>
+to reflect these changes.</p>
+<p>The Kernel Monitor is now built as part of <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> for DPDK targets.</p>
+</section>
+<section id="ovs-extensions">
+<h3>OvS extensions<a class="headerlink" href="#ovs-extensions" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> script now has <code class="docutils literal notranslate"><span class="pre">--ovs</span></code> and <code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> options to specify
+whether to build with Open vSwitch support.</p></li>
+<li><p>The DPDK target builds a library (the <em>OVS Sidecar</em>) which it links with
+<code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code> to allow OVS to issue P4Runtime requests to <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p></li>
+</ul>
+</section>
+<section id="ecmp-and-frr-support">
+<h3>ECMP and FRR support<a class="headerlink" href="#ecmp-and-frr-support" title="Link to this heading"></a></h3>
+<p>The P4 program and the Kernel Monitor have been updated to support
+Equal Cost Multipath (ECMP) and FRR (Free Range Routing). See the
+<a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/p4src/linux_networking/README_LINUX_NETWORKING_WITH_ECMP.md">ECMP guide</a>
+for more information.</p>
+</section>
+<section id="debug-builds">
+<h3>Debug builds<a class="headerlink" href="#debug-builds" title="Link to this heading"></a></h3>
+<p>CMake builds the networking recipe in the CMake <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code> (Release
+With Debug Info) configuration by default. Specify the <code class="docutils literal notranslate"><span class="pre">--debug</span></code> parameter
+to <code class="docutils literal notranslate"><span class="pre">make-all.sh</span></code> to build with debug symbols (<code class="docutils literal notranslate"><span class="pre">Debug</span></code> configuration).</p>
+</section>
+</section>
+<section id="new-directories">
+<h2>New Directories<a class="headerlink" href="#new-directories" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">krnlmon</span></code> contains the kernel monitor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code> contains the OvS sidecar</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p4src</span></code> contains p4 files and documentation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ptf-tests</span></code> contains end-to-end tests</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts/dpdk</span></code> contains dpdk-specific scripts for setting up the environment</p></li>
+</ul>
+</section>
+<section id="dependency-setup-script">
+<h2>Dependency setup script<a class="headerlink" href="#dependency-setup-script" title="Link to this heading"></a></h2>
+<p>The setup script (<code class="docutils literal notranslate"><span class="pre">setup/CMakeLists.txt</span></code>) fails when building Protobuf
+with CMake version 3.24 and 3.25. The script now aborts if CMake version
+is 3.24 or later.</p>
+<p>The script now specifies CMAKE_PREFIX_PATH when building gRPC and Protobuf,
+to ensure that they link against the newly built versions of other dependent
+libraries.</p>
+</section>
+<section id="documentation-updates">
+<h2>Documentation Updates<a class="headerlink" href="#documentation-updates" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../clients/p4rt-ctl.html"><span class="doc std std-doc">p4rt-ctl</span></a> and <a class="reference internal" href="../clients/gnmi-ctl.html"><span class="doc std std-doc">gnmi-ctl</span></a>
+guides have been updated with lists of known issues.</p></li>
+<li><p>The <a class="reference internal" href="../guides/setup/dpdk-setup-guide.html"><span class="std std-doc">DPDK setup guide</span></a>
+has been extensively revised.</p></li>
+</ul>
+</section>
+<section id="security-fixes">
+<h2>Security Fixes<a class="headerlink" href="#security-fixes" title="Link to this heading"></a></h2>
+<p>The setup script now installs zlib v1.2.13, to address CVE-2018-25032 and
+CVE-2022-37434. zlib is used by gRPC and Protobuf.</p>
+</section>
+<section id="bug-fixes">
+<h2>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed a pervasive memory leak in TDI.</p></li>
+<li><p>Test automation did not work with <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> because the daemon could not be
+started to run in the background. This problem has been fixed.</p></li>
+<li><p>P4Runtime was not returning the proper error when adding or deleting rules
+multiple times. The server now returns an appropriate error indicating
+duplicate or missing entries.</p></li>
+<li><p>gNMI now returns an error if the MTU parameter for a port is out of range.</p></li>
+</ul>
+</section>
+<section id="coming-attractions">
+<h2>Coming Attractions<a class="headerlink" href="#coming-attractions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Implement DpdkPortManager class</p></li>
+<li><p>Update Stratum to a more recent version</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development-update-23.21.html" class="btn btn-neutral float-left" title="Development Update 23.21" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development-update-22.44.html" class="btn btn-neutral float-right" title="Development Update 22.44" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
