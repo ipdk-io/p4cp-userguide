@@ -48,7 +48,7 @@ Boolean values
 --------------
 
 A Boolean value of **true** may be expressed as ``true``, ``yes``, ``on``,
-or ``1``, or by writing the flag name with no value. For example:
+or ``1``, or by specifying the flag without a value. For example:
 
 .. code-block:: text
 
@@ -71,7 +71,7 @@ Documentation
 Infrap4d uses the Google ``gflags`` library to process command-line flags.
 Technical documentation is available in
 `How to Use Gflags <https://gflags.github.io/gflags/>`_.
-This document is intended for developers using the library, but there it
+This document is intended for developers using the library, but it
 has some information on Special Flags as well.
 
 Help Options
@@ -88,7 +88,7 @@ The most useful of these are:
   Displays just the flags that are defined by the named module.
 
   MODULE is the name of the source file in which the flags are defined,
-  without ``.cc`` suffix, e.g. ``logging`` or ``tdi_hal_flags``.
+  without the ``.cc`` suffix; for example, ``logging`` or ``tdi_hal_flags``.
 
 ``--help``
   Displays the flags for all modules. The list is long.
@@ -118,7 +118,7 @@ They are defined by the ``infrap4d_main`` module.
 Other Options
 =============
 
-See :ref:`infrap4d_flags` for a complete list of flags supported by
+See the :ref:`infrap4d_flags` for a complete list of flags supported by
 infrap4d.
 
 Verifying Settings
