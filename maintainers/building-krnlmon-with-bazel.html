@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building Krnlmon with Bazel &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unit Tests" href="unit-tests.html" />
+    <link rel="prev" title="Building Krnlmon with CMake" href="building-krnlmon-with-cmake.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maintainers.html">Maintainers</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="build-guides.html">Build Guides</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="building-krnlmon-with-cmake.html">Building Krnlmon with CMake</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Building Krnlmon with Bazel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-options">Build Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#useful-targets">Useful Targets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="maintainers.html">Maintainers</a></li>
+          <li class="breadcrumb-item"><a href="build-guides.html">Build Guides</a></li>
+      <li class="breadcrumb-item active">Building Krnlmon with Bazel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/maintainers/building-krnlmon-with-bazel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-krnlmon-with-bazel">
+<h1>Building Krnlmon with Bazel<a class="headerlink" href="#building-krnlmon-with-bazel" title="Link to this heading"></a></h1>
+<p>Krnlmon has an experimental Bazel buildsystem. It is not integrated with
+the main CMake build, and is thus of use only to maintainers as a way to
+do test builds or run unit tests.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>To use the Bazel buildsystem, you will need to install the following
+packages on your development platform.</p>
+<ul class="simple">
+<li><p>Bazel. We have tested with versions 7.1.2 and 7.4.0.</p></li>
+<li><p>Netlink library (libnl-3)</p></li>
+<li><p>Target SDE (DPDK or ES2K). Krnlmon does not support Tofino.</p></li>
+</ul>
+<p>The buildsystem downloads private copies of Abseil, Googletest, and SAI.</p>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>The Bazel buildsystem requires that the following environment variables
+be defined.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code></dt><dd><p>Path to the SDE install directory.</p>
+</dd>
+</dl>
+</section>
+<section id="build-options">
+<h2>Build Options<a class="headerlink" href="#build-options" title="Link to this heading"></a></h2>
+<p>The buildsystem supports the following command-line options. They may be
+specified before or after the target(s).</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">{dpdk|es2k}</span></code></dt><dd><p>TDI target to support. Equivalent to the <code class="docutils literal notranslate"><span class="pre">TDI_TARGET={dpdk|es2k}</span></code>
+cmake variable or the <code class="docutils literal notranslate"><span class="pre">--target={dpdk|es2k}</span></code> helper script option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--define</span> <span class="pre">target={dpdk|es2k}</span></code></dt><dd><p>Alternative to the <code class="docutils literal notranslate"><span class="pre">--config</span></code> flag.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--//flags:ovs={true|false}</span></code></dt><dd><p>Whether to support OVSP4RT. Equivalent to the <code class="docutils literal notranslate"><span class="pre">WITH_OVSP4RT={true|false}</span></code>
+cmake variable or (in the negative) the <code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> helper script option.</p>
+<p>Specify <code class="docutils literal notranslate"><span class="pre">yes</span></code>, <code class="docutils literal notranslate"><span class="pre">true</span></code>, or <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable support, and <code class="docutils literal notranslate"><span class="pre">no</span></code>,
+<code class="docutils literal notranslate"><span class="pre">false</span></code>, or <code class="docutils literal notranslate"><span class="pre">0</span></code> to disable it.</p>
+</dd>
+</dl>
+</section>
+<section id="useful-targets">
+<h2>Useful Targets<a class="headerlink" href="#useful-targets" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">:krnlmon</span></code></dt><dd><p>Krnlmon library (<code class="docutils literal notranslate"><span class="pre">libkrnlmon.so</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:dummy_krnlmon</span></code></dt><dd><p>Dummy application. Used to check for link errors.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="build-krnlmon-for-dpdk">
+<h3>Build krnlmon for DPDK<a class="headerlink" href="#build-krnlmon-for-dpdk" title="Link to this heading"></a></h3>
+<p>We are using the <code class="docutils literal notranslate"><span class="pre">--define</span></code> option and specifying it after the
+build target.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bazel<span class="w"> </span>build<span class="w"> </span>//:krnlmon<span class="w"> </span>--define<span class="w"> </span><span class="nv">target</span><span class="o">=</span>dpdk
+</pre></div>
+</div>
+</section>
+<section id="build-for-es2k-without-ovs">
+<h3>Build for ES2K without OVS<a class="headerlink" href="#build-for-es2k-without-ovs" title="Link to this heading"></a></h3>
+<p>We are using <code class="docutils literal notranslate"><span class="pre">--config</span></code> instead of <code class="docutils literal notranslate"><span class="pre">define</span></code> and specifying the
+options before the target.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bazel<span class="w"> </span>build<span class="w"> </span>--config<span class="w"> </span>es2k<span class="w"> </span>--//flags:ovs<span class="o">=</span>no<span class="w"> </span>//:krnlmon
+</pre></div>
+</div>
+</section>
+<section id="build-dummy-application">
+<h3>Build dummy application<a class="headerlink" href="#build-dummy-application" title="Link to this heading"></a></h3>
+<section id="check-for-link-issues">
+<h4>Check for link issues<a class="headerlink" href="#check-for-link-issues" title="Link to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">dummy_krnlmon</span></code> target links the krnlmon library with a dummy
+main program. This allows you to check for unresolved external symbols
+in the library.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bazel<span class="w"> </span>build<span class="w"> </span>--config<span class="w"> </span>dpdk<span class="w"> </span>//:dummy_krnlmon
+</pre></div>
+</div>
+</section>
+<section id="check-for-rpath-issues">
+<h4>Check for RPATH issues<a class="headerlink" href="#check-for-rpath-issues" title="Link to this heading"></a></h4>
+<p>You can check for RPATH problems by issuing the <code class="docutils literal notranslate"><span class="pre">ldd</span></code> comand and
+looking for missing libraries in its output.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ldd<span class="w"> </span>bazel-bin/dummy_krnlmon
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-unit-tests">
+<h3>Run unit tests<a class="headerlink" href="#run-unit-tests" title="Link to this heading"></a></h3>
+<p>To build and run the unit tests for ES2K:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bazel<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--config<span class="w"> </span>es2k<span class="w"> </span>//switchlink:all<span class="w"> </span>//switchsde:all
+</pre></div>
+</div>
+<p>Sample output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>INFO: Analyzed 23 targets (2 packages loaded, 92 targets configured).
+INFO: Found 18 targets and 5 test targets...
+INFO: Elapsed time: 2.372s, Critical Path: 1.79s
+INFO: 34 processes: 13 internal, 21 linux-sandbox.
+INFO: Build completed successfully, 34 total actions
+//switchlink:switchlink_address_test                           PASSED in 0.0s
+//switchlink:switchlink_link_test                              PASSED in 0.1s
+//switchlink:switchlink_neigh_test                             PASSED in 0.0s
+//switchlink:switchlink_route_test                             PASSED in 0.0s
+//switchsde:switchsde_test                                     PASSED in 0.1s
+
+Executed 5 out of 5 tests: 5 tests pass.
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="building-krnlmon-with-cmake.html" class="btn btn-neutral float-left" title="Building Krnlmon with CMake" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="unit-tests.html" class="btn btn-neutral float-right" title="Unit Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

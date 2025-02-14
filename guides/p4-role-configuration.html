@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P4 Role Configuration &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Maintainers" href="../maintainers/maintainers.html" />
+    <link rel="prev" title="Packet I/O" href="../apps/packet-io.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../apps/ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apps/lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apps/packet-io.html">Packet I/O</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">P4 Role Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-configuration">Example Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compile-p4-program">Compile P4 program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extract-table-ids">Extract table IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edit-files-to-partition-the-roles">Edit files to partition the roles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connect-p4-client-to-infrap4d">Connect P4 client to infrap4d</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#your-p4-client">Your P4 Client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../features.html">Features</a></li>
+      <li class="breadcrumb-item active">P4 Role Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/p4-role-configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="p4-role-configuration">
+<h1>P4 Role Configuration<a class="headerlink" href="#p4-role-configuration" title="Link to this heading"></a></h1>
+<p>The Stratum component of P4 Control Plane supports the P4 Role
+Configuration feature. The
+<a class="reference external" href="https://p4.org/p4-spec/p4runtime/main/P4Runtime-Spec.html#sec-arbitration-role-config">P4Runtime Specification</a>
+allows multiple P4 clients simultaneous access to the various parts of the P4
+pipeline, and defines the client arbitration rules. The partitioning of the
+control planes is controlled via the concept of ‘roles’. A role defines a
+grouping of P4 entities and P4Runtime allows a primary controller for each role.</p>
+<p><em>P4 Clients</em> and <em>controllers</em> are used interchangably in this context.</p>
+<p>Stratum’s role config description is protobuf-based and can be found in
+<a class="reference external" href="https://github.com/ipdk-io/stratum-dev/blob/split-arch/stratum/public/proto/p4_role_config.proto">stratum/public/proto/p4_role_config.proto</a>.</p>
+<p>Each controller defines a role name and the P4 entities that it has either
+shared or exclusive write-access to. In addition, the controller configures
+whether it can receive input packets, push new pipelines, etc.
+Multiple controllers with the same role will be arbitrated via time-based
+election ID by the P4 Runtime server. If no roles are defined, the
+controller will assume a <em>default</em> role, giving it unrestricted full pipeline
+access.</p>
+<section id="example-configuration">
+<h2>Example Configuration<a class="headerlink" href="#example-configuration" title="Link to this heading"></a></h2>
+<p>This example demonstrates two control planes (i.e., two P4 clients)
+partitioning the pipeline into non-overlapping sections giving each client
+exclusive access to specified P4 tables. Clients chosen for this example are
+Linux Networking and IPsec.</p>
+<section id="compile-p4-program">
+<h3>Compile P4 program<a class="headerlink" href="#compile-p4-program" title="Link to this heading"></a></h3>
+<p>Compile the application program according to the instructions in the Compiling
+P4 Programs guide to generate P4 artifacts for programming the pipeline.</p>
+</section>
+<section id="extract-table-ids">
+<h3>Extract table IDs<a class="headerlink" href="#extract-table-ids" title="Link to this heading"></a></h3>
+<p>From the P4 artifact <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code>, extract P4 table IDs. A helper script is
+provided to assist in extracting all table IDs from the provided input file.</p>
+<p>Each P4 client will need its own role configuration, so run the script for
+each of them.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span><span class="nv">$P4CP_RECIPE</span>/install/sbin/extract_table_ids_from_p4info.py<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-i<span class="w"> </span>p4info.txt<span class="w"> </span>-o<span class="w"> </span>/usr/share/stratum/ovs_p4rt_role_config.pb.txt
+
+python<span class="w"> </span><span class="nv">$P4CP_RECIPE</span>/install/sbin/extract_table_ids_from_p4info.py<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-i<span class="w"> </span>p4info.txt<span class="w"> </span>-o<span class="w"> </span>/usr/share/stratum/ipsec_role_config.pb.txt
+</pre></div>
+</div>
+</section>
+<section id="edit-files-to-partition-the-roles">
+<h3>Edit files to partition the roles<a class="headerlink" href="#edit-files-to-partition-the-roles" title="Link to this heading"></a></h3>
+<p>You will need to compare the table IDs from input file <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code> and the
+extracted list in the output role configuration file. For each table ID,
+specify
+whether a table gets exclusive access or shared access between controllers.</p>
+<p>The following show table IDs with comments added showing the table name,
+for clarity.</p>
+<section id="ovs-p4rt-role-config-pb-txt">
+<h4>ovs_p4rt_role_config.pb.txt<a class="headerlink" href="#ovs-p4rt-role-config-pb-txt" title="Link to this heading"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ cat /usr/share/stratum/ovs_p4rt_role_config.pb.txt
+
+exclusive_p4_ids: 41667918  // table ID for linux_networking_control.ipv4_lpm_root_lut
+exclusive_p4_ids: 43524029  // table ID fro linux_networking_control.ipv6_lpm_root_lut
+exclusive_p4_ids: 40980035  // table ID for linux_networking_control.vxlan_decap_mod_table
+exclusive_p4_ids: 37624107  // table ID for linux_networking_control.vxlan_decap_and_push_vlan_mod_table
+exclusive_p4_ids: 42605135  // table ID for linux_networking_control.rif_mod_table_start
+...
+receives_packet_ins: false
+can_push_pipeline: true
+</pre></div>
+</div>
+</section>
+<section id="ipsec-role-config-pb-txt">
+<h4>ipsec_role_config.pb.txt<a class="headerlink" href="#ipsec-role-config-pb-txt" title="Link to this heading"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ cat /usr/share/stratum/ipsec_role_config.pb.txt
+
+exclusive_p4_ids: 48773578  // table ID for MainControlDecrypt.lem_exception
+exclusive_p4_ids: 38116127  // table ID for MainControlDecrypt.lem_clear
+exclusive_p4_ids: 45068641  // table ID for MainControlDecrypt.ipsec_rx_sa_classification_table
+exclusive_p4_ids: 41233864  // table ID for crypto_tunnel_control.ipsec_rx_post_decrypt_table
+...
+receives_packet_ins: false
+can_push_pipeline: false
+</pre></div>
+</div>
+</section>
+</section>
+<section id="connect-p4-client-to-infrap4d">
+<h3>Connect P4 client to infrap4d<a class="headerlink" href="#connect-p4-client-to-infrap4d" title="Link to this heading"></a></h3>
+<p>Once the configuration is complete, the P4 clients will push a role name and
+the role configuration file to infrap4d with a <code class="docutils literal notranslate"><span class="pre">MasterArbitrationUpdate</span></code>
+message after the gRPC connection is initiated.</p>
+</section>
+</section>
+<section id="your-p4-client">
+<h2>Your P4 Client<a class="headerlink" href="#your-p4-client" title="Link to this heading"></a></h2>
+<p>If using your own P4 client, you can set role name and pack <code class="docutils literal notranslate"><span class="pre">Any</span></code> protobuf
+message with the role configuration. Details of how to perform this are
+available in this in the
+<a class="reference external" href="https://github.com/ipdk-io/stratum-dev/blob/split-arch/stratum/public/proto/p4_role_config.md">Stratum P4 Role Configuration</a>
+document.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../apps/packet-io.html" class="btn btn-neutral float-left" title="Packet I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../maintainers/maintainers.html" class="btn btn-neutral float-right" title="Maintainers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

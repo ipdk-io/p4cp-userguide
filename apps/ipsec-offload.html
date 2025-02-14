@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPsec Offload &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Linux Networking" href="lnw/lnw-index.html" />
+    <link rel="prev" title="Features" href="../features.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">IPsec Offload</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#feature-overview">Feature overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enabling-ipsec">Enabling IPsec</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compile-p4-program">Compile P4 program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#load-fxp-net-linux-networking-p4-package">Load <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking</span></code> P4 package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-and-run-infrap4d">Configure and run infrap4d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-strongswan">Configure strongSwan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-ipsec">Start IPsec</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lnw/lnw-index.html">Linux Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packet-io.html">Packet I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/p4-role-configuration.html">P4 Role Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../features.html">Features</a></li>
+      <li class="breadcrumb-item active">IPsec Offload</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/ipsec-offload.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipsec-offload">
+<h1>IPsec Offload<a class="headerlink" href="#ipsec-offload" title="Link to this heading"></a></h1>
+<p>The Inline IPsec offload feature uses the
+<a class="reference external" href="https://ipdk.io/documentation/Interfaces/InfraApp/">IPDK Infrastructure Application Interface</a>
+to enable cryptographically-secure data traffic. The IPsec control plane
+(IKE protocol) is offloaded, thus avoiding specialized drivers or control
+planes burdening compute instances. Further details are available on the
+<a class="reference external" href="https://ipdk.io/documentation/Recipes/InlineIPsec/">IPDK Inline Acceleration - IPsec</a>
+page.</p>
+<p>This feature works in conjunction with the
+<a class="reference external" href="https://github.com/ipdk-io/ipsec-recipe">IPsec Recipe</a>, which provides
+strongSwan plugin code to configure and program control messages into the
+target.</p>
+<p>The IPsec offload feature is only supported on the Intel® IPU E2100 target.</p>
+<section id="feature-overview">
+<h2>Feature overview<a class="headerlink" href="#feature-overview" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> process provides the gRPC server-side support for P4RT and
+gNMI messages. strongSwan acts as the gRPC client in this context.
+You can also use other clients that implement the IKE stack. The
+client uses P4Runtime to program the Security Policy Database (SPD), and it
+uses gNMI to configure Security Association Database (SAD) entries, which
+includes encryption keys, re-keying etc.</p>
+<p>The <a class="reference external" href="https://github.com/ipdk-io/openconfig-public/blob/master/release/models/ipsec/openconfig-ipsec-offload.yang">openconfig-ipsec-offload</a>
+YANG model is used to configure IPsec offload.</p>
+</section>
+<section id="enabling-ipsec">
+<h2>Enabling IPsec<a class="headerlink" href="#enabling-ipsec" title="Link to this heading"></a></h2>
+<p>Follow the sequence of steps listed below to enable IPsec functionality.
+The <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking</span></code> P4 program is a combined recipe which implements and supports both the Linux Networking and the IPsec portion of the program.</p>
+<section id="compile-p4-program">
+<h3>Compile P4 program<a class="headerlink" href="#compile-p4-program" title="Link to this heading"></a></h3>
+<p>Compile the ipsec-offload program according to the instructions in
+<a class="reference internal" href="../guides/es2k/compiling-p4-programs.html"><span class="std std-doc">Compiling P4 programs</span></a>
+to generate crypto P4 artifacts for programming the pipelines.</p>
+</section>
+<section id="load-fxp-net-linux-networking-p4-package">
+<h3>Load <code class="docutils literal notranslate"><span class="pre">fxp-net_linux-networking</span></code> P4 package<a class="headerlink" href="#load-fxp-net-linux-networking-p4-package" title="Link to this heading"></a></h3>
+<p>Follow the instructions in <a class="reference internal" href="../guides/es2k/deploying-p4-programs.html"><span class="std std-doc">Deploying P4 programs</span></a>
+to load the hardware FXP pipeline with the IPsec package.</p>
+</section>
+<section id="configure-and-run-infrap4d">
+<h3>Configure and run infrap4d<a class="headerlink" href="#configure-and-run-infrap4d" title="Link to this heading"></a></h3>
+<p>Follow the instructions in
+<a class="reference internal" href="../guides/es2k/running-infrap4d.html"><span class="std std-doc">Running infrap4d</span></a>
+and prepare the system with generated TDI.json and context.json file references.
+In order to  offload IPsec, fixed function support must be enabled in infrap4d.</p>
+<p>The /usr/share/stratum/es2k/es2k_skip_p4.conf file must include the fixed
+function configuration reference.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;fixed_functions&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crypto&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;tdi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/tmp/fixed/tdi.json&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;ctx&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/tmp/fixed/crypto-mgr-ctx.json&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>Update this configuration before starting <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p>
+</section>
+<section id="configure-strongswan">
+<h3>Configure strongSwan<a class="headerlink" href="#configure-strongswan" title="Link to this heading"></a></h3>
+<p>Follow the instructions in the <a class="reference external" href="https://docs.strongswan.org/docs/5.9/index.html">strongSwan documentation</a>
+to configure host for the use-case selected. This includes details such as
+certificate location, IPs, lifetime thresholds, etc.</p>
+</section>
+<section id="start-ipsec">
+<h3>Start IPsec<a class="headerlink" href="#start-ipsec" title="Link to this heading"></a></h3>
+<p>With the strongSwan application configured, starting IPsec
+(see <a class="reference external" href="https://github.com/ipdk-io/ipsec-recipe">ipsec-recipe</a> for details) will
+initiate the pipeline, program the SPD rules as per the P4 program, and
+configure/re-configure SAD entries based on negotiated encryption parameters
+between local and peer system.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../features.html" class="btn btn-neutral float-left" title="Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lnw/lnw-index.html" class="btn btn-neutral float-right" title="Linux Networking" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building P4 Control Plane &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=eb612f83" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building for the ES2K Host" href="guides/building-for-es2k-host.html" />
+    <link rel="prev" title="Tofino Setup Guide" href="guides/setup/tofino-setup-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general.html">General Information</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building P4 Control Plane</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts/helper-scripts.html">Helper Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Building P4 Control Plane</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/building.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-p4-control-plane">
+<h1>Building P4 Control Plane<a class="headerlink" href="#building-p4-control-plane" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/building-for-es2k-host.html">Building for the ES2K Host</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/setup/es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deps/building-stratum-deps.html">Building the Stratum Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/building-for-es2k-acc.html">Building for the ES2K ACC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/es2k/installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/es2k/defining-acc-environment.html">Defining the build environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/es2k/building-acc-p4cp.html">Building P4 Control Plane</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripts/helper-scripts.html">Helper Scripts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scripts/make-all.html">make-all.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts/make-cross-ovs.html">make-cross-ovs.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts/config-cross-recipe.html">config-cross-recipe.sh</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guides/setup/tofino-setup-guide.html" class="btn btn-neutral float-left" title="Tofino Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="guides/building-for-es2k-host.html" class="btn btn-neutral float-right" title="Building for the ES2K Host" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
