@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running Infrap4d on Intel IPU E2100 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Enabling the Communication Channel" href="enabling-comm-channel.html" />
+    <link rel="prev" title="Deploying P4 Programs for ES2K" href="deploying-p4-programs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compiling-p4-programs.html">Compiling P4 Programs for ES2K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running Infrap4d on Intel IPU E2100</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#extract-p4-libraries-from-tarball">1. Extract P4 libraries from tarball</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-up-the-environment">2. Set up the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-tls-certificates">3. Install TLS certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-forwarding-pipeline-binary">4. Generate forwarding pipeline binary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#copy-p4-artifacts-to-acc">Copy P4 artifacts to ACC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-ipu-bin">Create ipu.bin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-configuration-file">Prepare configuration file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate-binary-file">Generate binary file</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#start-infrap4d">5. Start Infrap4d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-the-pipeline">6. Set the pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-forwarding-rule">7. Configure forwarding rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-test-traffic">8. Send test traffic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enabling-comm-channel.html">Enabling the Communication Channel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../p4_programs.html">Working with P4 Programs</a></li>
+      <li class="breadcrumb-item active">Running Infrap4d on Intel IPU E2100</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/running-infrap4d.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-infrap4d-on-intel-ipu-e2100">
+<h1>Running Infrap4d on Intel IPU E2100<a class="headerlink" href="#running-infrap4d-on-intel-ipu-e2100" title="Link to this heading"></a></h1>
+<p>This document explains how to install and run <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>
+on Intel IPU E2100 hardware. It is assumed that you have followed the
+<a class="reference internal" href="deploying-p4-programs.html"><span class="std std-doc">Deploying P4 programs guide</span></a>
+to install the P4 package on FXP during IMC boot-up.</p>
+<section id="extract-p4-libraries-from-tarball">
+<h2>1. Extract P4 libraries from tarball<a class="headerlink" href="#extract-p4-libraries-from-tarball" title="Link to this heading"></a></h2>
+<p>Log in to ACC and untar the <code class="docutils literal notranslate"><span class="pre">p4.tar.gz</span></code> tarball available under <code class="docutils literal notranslate"><span class="pre">/opt</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@mev-acc-rl<span class="w"> </span>opt<span class="o">]</span><span class="c1"># cd /opt</span>
+<span class="o">[</span>root@mev-acc-rl<span class="w"> </span>opt<span class="o">]</span><span class="c1"># tar -xf p4.tar.gz</span>
+<span class="o">[</span>root@mev-acc-rl<span class="w"> </span>opt<span class="o">]</span><span class="c1"># cd /opt/p4/</span>
+<span class="o">[</span>root@mev-acc-rl<span class="w"> </span>p4<span class="o">]</span><span class="c1"># ls -lr</span>
+total<span class="w"> </span><span class="m">8</span>
+drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Nov<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">09</span>:18<span class="w"> </span>p4sde
+drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">4096</span><span class="w"> </span>Nov<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">09</span>:18<span class="w"> </span>p4-cp-nws
+</pre></div>
+</div>
+<p>p4sde and p4-cp-nws binaries and libraries can be found under <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4sde</span></code>
+and <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4-cp-nws</span></code> respectively.</p>
+</section>
+<section id="set-up-the-environment">
+<h2>2. Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Link to this heading"></a></h2>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">no_proxy</span></code> is set to avoid issues with the gRPC server connection.
+The <code class="docutils literal notranslate"><span class="pre">sudo</span></code> option is required when running copy_config_files.sh since
+we are creating directories and copying config files at a system level.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SDE_INSTALL</span><span class="o">=</span>/opt/p4/p4sde
+<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_INSTALL</span><span class="o">=</span>/opt/p4/p4-cp-nws
+<span class="nb">export</span><span class="w"> </span><span class="nv">DEPEND_INSTALL</span><span class="o">=</span><span class="nv">$P4CP_INSTALL</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">no_proxy</span><span class="o">=</span>&lt;system_proxy&gt;,localhost,127.0.0.1,192.168.0.0/16,<span class="se">\</span>
+&lt;Docker<span class="w"> </span>container<span class="w"> </span>network&gt;/12
+<span class="nb">export</span><span class="w"> </span><span class="nv">NO_PROXY</span><span class="o">=</span>&lt;system_proxy&gt;,localhost,127.0.0.1,192.168.0.0/16,<span class="se">\</span>
+&lt;Docker<span class="w"> </span>container<span class="w"> </span>network&gt;/12
+<span class="nb">unset</span><span class="w"> </span>http_proxy
+<span class="nb">unset</span><span class="w"> </span>https_proxy
+
+<span class="c1"># Set up the environment</span>
+bash<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/setup_env.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span><span class="w"> </span><span class="nv">$DEPEND_INSTALL</span>
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/copy_config_files.sh<span class="w"> </span><span class="nv">$P4CP_INSTALL</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>
+</pre></div>
+</div>
+</section>
+<section id="install-tls-certificates">
+<h2>3. Install TLS certificates<a class="headerlink" href="#install-tls-certificates" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="../security/using-tls-certificates.html"><span class="std std-doc">Using TLS Certificates</span></a>
+for step by step guide for generating and installing TLS certificates</p>
+</section>
+<section id="generate-forwarding-pipeline-binary">
+<h2>4. Generate forwarding pipeline binary<a class="headerlink" href="#generate-forwarding-pipeline-binary" title="Link to this heading"></a></h2>
+<p>Download <code class="docutils literal notranslate"><span class="pre">hw-p4-programs</span></code> TAR file specific to the release build and extract it to get p4 artifacts.
+This document explains with <code class="docutils literal notranslate"><span class="pre">l3-fwd_sem</span></code> as a reference P4 program and the P4 artifacts are copied to <code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem</span></code></p>
+<section id="copy-p4-artifacts-to-acc">
+<h3>Copy P4 artifacts to ACC<a class="headerlink" href="#copy-p4-artifacts-to-acc" title="Link to this heading"></a></h3>
+<p>Copy <code class="docutils literal notranslate"><span class="pre">tdi.json</span></code>, <code class="docutils literal notranslate"><span class="pre">context.json</span></code>, <code class="docutils literal notranslate"><span class="pre">p4info.txt</span></code> to the ACC. See
+<a class="reference internal" href="compiling-p4-programs.html"><span class="std std-doc">Compiling P4 programs</span></a>
+for instructions on generating these files manually without downloading from
+release build.</p>
+</section>
+<section id="create-ipu-bin">
+<h3>Create ipu.bin<a class="headerlink" href="#create-ipu-bin" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/opt/p4/l3-fwd_sem
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$OUTPUT_DIR</span>
+touch<span class="w"> </span>ipu.bin
+</pre></div>
+</div>
+</section>
+<section id="prepare-configuration-file">
+<h3>Prepare configuration file<a class="headerlink" href="#prepare-configuration-file" title="Link to this heading"></a></h3>
+<p>Handcraft the configuration file <code class="docutils literal notranslate"><span class="pre">/usr/share/stratum/es2k/es2k_skip_p4.conf</span></code>
+with the following parameters:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcie_bdf</span></code></p>
+<p>Get PCI BDF of LAN Control Physical Function (CPF) device with device
+ID 1453 on ACC</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lspci<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">1453</span>
+<span class="m">00</span>:01.6<span class="w"> </span>Ethernet<span class="w"> </span>controller:<span class="w"> </span>Intel<span class="w"> </span>Corporation<span class="w"> </span>Device<span class="w"> </span><span class="m">1453</span><span class="w"> </span><span class="o">(</span>rev<span class="w"> </span><span class="m">11</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">pcie_bdf</span></code> should be <code class="docutils literal notranslate"><span class="pre">00:01.6</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iommu_grp_num</span></code></p>
+<p>Get the iommu group number</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>/bin/
+./vfio_bind.sh<span class="w"> </span><span class="m">8086</span>:1453
+Device:<span class="w"> </span><span class="m">0000</span>:00:01.6<span class="w"> </span><span class="nv">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
+</pre></div>
+</div>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">iommu_grp_num</span></code> should be <code class="docutils literal notranslate"><span class="pre">5</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vport</span></code></p>
+<p>The number of vports supported is from [0-6].
+For example: <code class="docutils literal notranslate"><span class="pre">vport=[0-1]</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eal_args</span></code></p>
+<p>Support values for <code class="docutils literal notranslate"><span class="pre">--proc-type</span></code> are <code class="docutils literal notranslate"><span class="pre">primary</span></code> and <code class="docutils literal notranslate"><span class="pre">auto</span></code>
+Note: In case of multi-process setup which is supported in docker
+environment, <code class="docutils literal notranslate"><span class="pre">--proc-type</span></code> can be used to specify the process type.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfgqs-idx</span></code></p>
+<p>We give options to each process (primary or secondary) to request
+numbers of configure queues. Admin must set cfgqs-idx between <code class="docutils literal notranslate"><span class="pre">&quot;0-15&quot;</span></code>,
+recommended option when running only 1 process. Plan and split config
+queues between multi-processes. For example, to configure two cfgq; use
+<code class="docutils literal notranslate"><span class="pre">cfgqs-idx:</span> <span class="pre">&quot;0-1&quot;</span></code>. Supported index numbers are from 0 to 15.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">program-name</span></code></p>
+<p>Specify the name of P4 program. For l3-fwd_sem example, replace
+<code class="docutils literal notranslate"><span class="pre">P4-PROGRAM-NAME</span></code> with <code class="docutils literal notranslate"><span class="pre">l3-fwd_sem</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p4_pipeline_name</span></code></p>
+<p>Specify the name of P4 pipeline. For l3-fwd_sem example, replace
+<code class="docutils literal notranslate"><span class="pre">P4-PIPELINE-NAME</span></code> with <code class="docutils literal notranslate"><span class="pre">main</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tdi-config</span></code>,  <code class="docutils literal notranslate"><span class="pre">context</span></code>, <code class="docutils literal notranslate"><span class="pre">config</span></code> and <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<p>Specify the absolute paths for the files. For l3-fwd_sem sample program:</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-TDI-JSON-FILE</span></code> with
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/tdi.json</span></code></p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-CONTEXT-JSON-FILE</span></code> with
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/context.json</span></code></p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-TO-TOFINO-BIN-FILE</span></code> with
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem/ipu.bin</span></code></p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">ABSOLUTE-PATH-FOR-JSON-FILES</span></code> with
+<code class="docutils literal notranslate"><span class="pre">/opt/p4/l3-fwd_sem</span></code></p>
+</li>
+</ul>
+<p>The final es2k_skip_p4.conf for l3-fwd_sem sample program will look like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
+    &quot;chip_list&quot;: [
+    {
+        &quot;id&quot;: &quot;asic-0&quot;,
+        &quot;chip_family&quot;: &quot;mev&quot;,
+        &quot;instance&quot;: 0,
+        &quot;pcie_bdf&quot;: &quot;0000:00:01.6&quot;,
+        &quot;iommu_grp_num&quot;: 5
+    }
+    ],
+    &quot;instance&quot;: 0,
+    &quot;cfgqs-idx&quot;: &quot;0-15&quot;,
+    &quot;p4_devices&quot;: [
+    {
+        &quot;device-id&quot;: 0,
+        &quot;fixed_functions&quot; : [],
+        &quot;eal-args&quot;: &quot;--lcores=1-2 -a 00:01.6,vport=[0-1] -- -i --rxq=1 --txq=1 --hairpinq=1 --hairpin-mode=0x0&quot;,
+        &quot;p4_programs&quot;: [
+        {
+            &quot;program-name&quot;: &quot;l3-fwd_sem&quot;,
+            &quot;tdi-config&quot;: &quot;/opt/p4/l3-fwd_sem/tdi.json&quot;,
+            &quot;p4_pipelines&quot;: [
+            {
+                &quot;p4_pipeline_name&quot;: &quot;main&quot;,
+                &quot;context&quot;: &quot;/opt/p4/l3-fwd_sem/context.json&quot;,
+                &quot;config&quot;: &quot;/opt/p4/l3-fwd_sem/ipu.bin&quot;,
+                &quot;pipe_scope&quot;: [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                &quot;path&quot;: &quot;/opt/p4/l3-fwd_sem&quot;
+            }
+            ]
+        }
+        ],
+        &quot;agent0&quot;: &quot;lib/libpltfm_mgr.so&quot;
+    }
+    ]
+}
+</pre></div>
+</div>
+</section>
+<section id="generate-binary-file">
+<h3>Generate binary file<a class="headerlink" href="#generate-binary-file" title="Link to this heading"></a></h3>
+<p>On ACC, use <code class="docutils literal notranslate"><span class="pre">tdi_pipeline_builder</span></code> available under <code class="docutils literal notranslate"><span class="pre">/opt/p4/p4-cp-nws/bin</span></code> to
+combine the artifacts generated by the <code class="docutils literal notranslate"><span class="pre">p4c-pna-xxp</span></code> compiler and generate
+forwarding pipeline binary.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p4c_conf_file<span class="o">=</span>/usr/share/stratum/es2k/es2k_skip_p4.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tdi_pipeline_config_binary_file<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.pb.bin
+</pre></div>
+</div>
+</section>
+</section>
+<section id="start-infrap4d">
+<h2>5. Start Infrap4d<a class="headerlink" href="#start-infrap4d" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>infrap4d
+
+<span class="c1"># Confirm infrap4d process is running</span>
+ps<span class="w"> </span>-ef<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>infrap4d
+root<span class="w"> </span><span class="m">2406</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">99</span><span class="w"> </span><span class="m">03</span>:34<span class="w"> </span>?<span class="w"> </span><span class="m">01</span>:20:03<span class="w"> </span>infrap4d
+</pre></div>
+</div>
+<p>Other options available for the infrap4d process are:</p>
+<p><code class="docutils literal notranslate"><span class="pre">-detach</span></code> (Run infrap4d in detached mode) type: bool default: true.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-disable_krnlmon</span></code> (Run infrap4d without krnlmon support) type: bool
+default: false</p>
+<p><code class="docutils literal notranslate"><span class="pre">-external_stratum_urls</span></code> (Comma-separated list of URLs for server to listen to
+for external calls from SDN controller, etc.) type: string
+default: “0.0.0.0:9339,0.0.0.0:9559”</p>
+<p><code class="docutils literal notranslate"><span class="pre">-local_stratum_url</span></code> (URL for listening to local calls from stratum stub.)
+type: string default: “localhost:9559”</p>
+<p>See infrap4d –help for more options.</p>
+</section>
+<section id="set-the-pipeline">
+<h2>6. Set the pipeline<a class="headerlink" href="#set-the-pipeline" title="Link to this heading"></a></h2>
+<p>Once the application is started, set the forwarding pipeline config using
+P4Runtime Client <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> set-pipe command</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.pb.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/l3-fwd_sem.p4info.txt
+</pre></div>
+</div>
+</section>
+<section id="configure-forwarding-rule">
+<h2>7. Configure forwarding rule<a class="headerlink" href="#configure-forwarding-rule" title="Link to this heading"></a></h2>
+<p>Add a forwarding rule to receive traffic on VSI-1 (base offset 16 + VSI ID 1)
+when the key matches.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_INSTALL</span>/bin/p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span><span class="se">\</span>
+MainControlImpl.l3_l4_match_rx<span class="w"> </span><span class="s2">&quot;hdrs.ipv4[vmeta.common.depth].protocol=0x11,\</span>
+<span class="s2">vmeta.common.port_id=0,istd.direction=0,\</span>
+<span class="s2">hdrs.ipv4[vmeta.common.depth].src_ip=&quot;</span><span class="m">192</span>.168.1.10<span class="s2">&quot;,\</span>
+<span class="s2">hdrs.ipv4[vmeta.common.depth].dst_ip=&quot;</span><span class="m">192</span>.168.1.20<span class="s2">&quot;,\</span>
+<span class="s2">hdrs.udp[vmeta.common.depth].sport=1000,\</span>
+<span class="s2">hdrs.udp[vmeta.common.depth].dport=2000,\</span>
+<span class="s2">action=MainControlImpl.send(17)&quot;</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../../clients/p4rt-ctl.html"><span class="std std-doc">p4rt-ctl client guide</span></a> for more information
+on the <code class="docutils literal notranslate"><span class="pre">p4rt-ctl</span></code> utility.</p>
+</section>
+<section id="send-test-traffic">
+<h2>8. Send test traffic<a class="headerlink" href="#send-test-traffic" title="Link to this heading"></a></h2>
+<p>Send a packet from a physical port of link partner to the E2100 using scapy, and
+listen on the netdev corresponding to VSI-1 using <code class="docutils literal notranslate"><span class="pre">tcpdump</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sendp(Ether\
+(dst=&quot;6e:80:97:ae:1e:4e&quot;, src=&quot;00:00:00:09:03:14&quot;)/IP(src=&quot;192.168.1.10&quot;,\
+ dst=&quot;192.168.1.20&quot;)/UDP(sport=1000, dport=2000)/Raw(load=&quot;0&quot;*50),\
+ iface=&#39;enp175s0f0&#39;) # where enp175s0f0 is link partner interface
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="deploying-p4-programs.html" class="btn btn-neutral float-left" title="Deploying P4 Programs for ES2K" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="enabling-comm-channel.html" class="btn btn-neutral float-right" title="Enabling the Communication Channel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Networking for DPDK &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Linux Networking with ECMP (DPDK)" href="dpdk-linux-networking-ecmp.html" />
+    <link rel="prev" title="Linux Networking" href="../lnw-index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../ipsec-offload.html">IPsec Offload</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../lnw-index.html">Linux Networking</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../lnw-index.html#dpdk">DPDK</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Linux Networking for DPDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dpdk-linux-networking-ecmp.html">Linux Networking with ECMP (DPDK)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../lnw-index.html#es2k">ES2K</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../packet-io.html">Packet I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/p4-role-configuration.html">P4 Role Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../features.html">Features</a></li>
+          <li class="breadcrumb-item"><a href="../lnw-index.html">Linux Networking</a></li>
+      <li class="breadcrumb-item active">Linux Networking for DPDK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/apps/lnw/dpdk/dpdk-linux-networking.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!--
+/*
+ * Copyright 2022-2024 Intel Corporation.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+- -->
+<section id="linux-networking-for-dpdk">
+<h1>Linux Networking for DPDK<a class="headerlink" href="#linux-networking-for-dpdk" title="Link to this heading"></a></h1>
+<p>This document explains how to run Linux networking scenario.</p>
+<section id="topology">
+<h2>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h2>
+<p><img alt="Linux Networking Topology" src="../../../_images/dpdk-lnw-topology.png" /></p>
+<p>Notes about topology:</p>
+<ul class="simple">
+<li><p>VHOST ports, TAP ports, Physical LINK ports are created by the GNMI CLI,
+and LINK port is bound to the DPDK target.</p></li>
+<li><p>VLAN 1, VLAN 2, …. VLAN N created using Linux commands and are on top of a
+TAP port. These VLAN ports should be equal to number of VM’s that are spawned.</p></li>
+<li><p>br-int, VxLAN0 ports are created using ovs-vsctl command provided by the
+networking recipe and all the VLAN ports are attached to br-int using the
+ovs-vsctl command.</p></li>
+</ul>
+<p>System under test will have above topology running the networking recipe.
+Link Partner can have either the networking recipe or legacy OVS or kernel
+VxLAN.  Note the limitations below before setting up the topology.</p>
+</section>
+<section id="create-p4-artifacts">
+<h2>Create P4 artifacts<a class="headerlink" href="#create-p4-artifacts" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Install p4c compiler from p4lang/p4c (<a class="reference external" href="https://github.com/p4lang/p4c">https://github.com/p4lang/p4c</a>)
+repository and follow the readme for procedure.</p></li>
+<li><p>Set the OUTPUT_DIR environment variable to the location where artifacts
+should be generated and p4 files are available. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="nv">$IPDK_RECIPE</span>/p4src/linux_networking/
+</pre></div>
+</div>
+</li>
+<li><p>Generate the artifacts using p4c-dpdk installed in previous step using
+the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4c-dpdk<span class="w"> </span>--arch<span class="w"> </span>pna<span class="w"> </span>--target<span class="w"> </span>dpdk<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p4runtime-files<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/p4Info.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bf-rt-schema<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/bf-rt.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--context<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/context.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.spec<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$OUTPUT_DIR</span>/linux_networking.p4
+</pre></div>
+</div>
+</li>
+<li><p>Modify sample lnw.conf file available in $IPDK_RECIPE/p4src/linux_networking/
+to specify absolute path of the artifacts (json and spec files).</p></li>
+<li><p>Generate binary file using the following tdi-pipeline builder command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tdi_pipeline_builder<span class="w"> </span>--p4c_conf_file<span class="o">=</span>lnw.conf<span class="w"> </span>--tdi_pipeline_config_binary_file<span class="o">=</span>lnw.pb.bin
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="creating-the-topology">
+<h2>Creating the topology<a class="headerlink" href="#creating-the-topology" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../../../clients/gnmi-ctl.html"><span class="doc std std-doc">gnmi-ctl</span></a> and <a class="reference internal" href="../../../clients/p4rt-ctl.html"><span class="doc std std-doc">p4rt-ctl</span></a> utilities
+used below are in the $P4CP_INSTALL/bin directory.
+They should be run with <code class="docutils literal notranslate"><span class="pre">sudo</span></code>.</p>
+<section id="bind-physical-port-port-0-and-port-1-to-user-space-io-driver">
+<h3>1. Bind physical port (Port 0 and Port 1) to user-space IO driver<a class="headerlink" href="#bind-physical-port-port-0-and-port-1-to-user-space-io-driver" title="Link to this heading"></a></h3>
+<p>Load uio and vfio-pci driver:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>modprobe<span class="w"> </span>uio
+modprobe<span class="w"> </span>vfio-pci
+</pre></div>
+</div>
+<p>Bind the devices to DPDK using the dpdk-devbind.py script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>/bin
+./dpdk-devbind.py<span class="w"> </span>--bind<span class="o">=</span>vfio-pci<span class="w"> </span>PCI-BDF
+</pre></div>
+</div>
+<p>For example,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./dpdk-devbind.py<span class="w"> </span>--bind<span class="o">=</span>vfio-pci<span class="w"> </span><span class="m">0000</span>:18:00.0
+</pre></div>
+</div>
+<p>PCI-BDF can be obtained using the lspci command.
+Check if the device is bound correctly using <code class="docutils literal notranslate"><span class="pre">./dpdk-devbind.py</span> <span class="pre">-s</span></code>.</p>
+<!-- (See the section "Network devices using DPDK-compatible driver") -->
+</section>
+<section id="export-environment-variables-and-start-infrap4d">
+<h3>2. Export environment variables and start infrap4d<a class="headerlink" href="#export-environment-variables-and-start-infrap4d" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo PATH=&quot;$PATH&quot; HOME=&quot;$HOME&quot; LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH&quot; SDE_INSTALL=&quot;$SDE_INSTALL&quot;&#39;</span>
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/infrap4d
+</pre></div>
+</div>
+</section>
+<section id="create-two-vhost-user-ports">
+<h3>3. Create two VHOST user ports<a class="headerlink" href="#create-two-vhost-user-ports" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost0,host-name:host1,device-type:VIRTIO_NET,queues:1,socket-path:/tmp/vhost-user-0,packet-dir:host,port-type:LINK&quot;</span>
+
+gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost1,host-name:host2,device-type:VIRTIO_NET,queues:1,socket-path:/tmp/vhost-user-1,packet-dir:host,port-type:LINK&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="create-two-physical-link-ports-with-control-port">
+<h3>4. Create two physical link ports with control port<a class="headerlink" href="#create-two-physical-link-ports-with-control-port" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT0,control-port:TAP1,pci-bdf:0000:18:00.0,packet-dir:network,port-type:link&quot;</span>
+
+gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT1,control-port:TAP2,pci-bdf:0000:18:00.1,packet-dir:network,port-type:link&quot;</span>
+</pre></div>
+</div>
+<p>Note: Specify the pci-bdf of the devices bound to user-space in step 1.
+Corresponding control port for physical link port will be created if
+control port attribute is specified.</p>
+</section>
+<section id="create-two-tap-ports">
+<h3>5. Create two TAP ports<a class="headerlink" href="#create-two-tap-ports" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:TAP0,pipeline-name:pipe,mempool-name:MEMPOOL0,mtu:1500,packet-dir:host,port-type:TAP&quot;</span>
+
+gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:virtual-device,name:TAP3,pipeline-name:pipe,mempool-name:MEMPOOL0,mtu:1500,packet-dir:host,port-type:TAP&quot;</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<ul class="simple">
+<li><p>Pkt-dir parameter is to specify the direction of traffic.
+It can take two values: host/network.
+Value ‘host’ specifies that traffic on this port will be internal (within the host).
+Value ‘network’ specifies that a particular port can receive traffic from network.</p></li>
+<li><p>The number of ports created should be a power of two to satisfy DPDK requirements.
+When counting the number of ports, count control ports created along with
+physical link port (e.g. TAP1 and TAP2).</p></li>
+</ul>
+</section>
+<section id="spawn-two-vm-s-on-vhost-user-ports-created-in-step-3-start-vm-s-and-assign-ip-addresses">
+<h3>6. Spawn two VM’s on vhost-user ports created in step 3, start VM’s, and assign IP addresses<a class="headerlink" href="#spawn-two-vm-s-on-vhost-user-ports-created-in-step-3-start-vm-s-and-assign-ip-addresses" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.1/24<span class="w"> </span>dev<span class="w"> </span>eth0
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>up
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">99</span>.0.0.2/24<span class="w"> </span>dev<span class="w"> </span>eth0
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>eth0<span class="w"> </span>up
+</pre></div>
+</div>
+</section>
+<section id="bring-up-the-tap-or-dummy-interfaces">
+<h3>7. Bring up the TAP or dummy interfaces<a class="headerlink" href="#bring-up-the-tap-or-dummy-interfaces" title="Link to this heading"></a></h3>
+<section id="option-1-use-one-of-the-tap-ports-as-tunnel-termination-and-assign-ip-address-to-the-tap-port">
+<h4>Option 1: Use one of the TAP ports as tunnel termination and assign IP address to the TAP port<a class="headerlink" href="#option-1-use-one-of-the-tap-ports-as-tunnel-termination-and-assign-ip-address-to-the-tap-port" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP0<span class="w"> </span>up
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">40</span>.1.1.1/24<span class="w"> </span>dev<span class="w"> </span>TAP1
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP1<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP2<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP3<span class="w"> </span>up
+</pre></div>
+</div>
+</section>
+<section id="option-2-create-a-dummy-port-and-use-it-for-tunnel-termination">
+<h4>Option 2: Create a dummy port and use it for tunnel termination<a class="headerlink" href="#option-2-create-a-dummy-port-and-use-it-for-tunnel-termination" title="Link to this heading"></a></h4>
+<p>Route to reach dummy port will be statically configured on peer or this
+route will be re-distributed to the peer via routing protocols available
+from FRR.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>dev<span class="w"> </span>TEP1<span class="w"> </span><span class="nb">type</span><span class="w"> </span>dummy
+
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP0<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP1<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP2<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TAP3<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>TEP1<span class="w"> </span>up
+</pre></div>
+</div>
+</section>
+</section>
+<section id="set-the-pipeline">
+<h3>8. Set the pipeline<a class="headerlink" href="#set-the-pipeline" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>set-pipe<span class="w"> </span>br0<span class="w"> </span>lnw.pb.bin<span class="w"> </span>p4Info.txt
+</pre></div>
+</div>
+</section>
+<section id="run-ovs-vswitchd-server-and-ovsdb-server">
+<h3>9. Run ovs-vswitchd server and ovsdb-server<a class="headerlink" href="#run-ovs-vswitchd-server-and-ovsdb-server" title="Link to this heading"></a></h3>
+<p>Kill any existing ovs process if running.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/var/run/openvswitch
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/etc/openvswitch/conf.db
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovsdb-tool<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$P4CP_INSTALL</span>/etc/openvswitch/conf.db<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$P4CP_INSTALL</span>/share/openvswitch/vswitch.ovsschema
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">RUN_OVS</span><span class="o">=</span><span class="nv">$P4CP_INSTALL</span>
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/ovsdb-server<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--remote<span class="o">=</span>punix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--remote<span class="o">=</span>db:O
+<span class="w">    </span>pen_vSwitch,Open_vSwitch,manager_options<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--pidfile<span class="w"> </span>--detach
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/sbin/ovs-vswitchd<span class="w"> </span>--detach<span class="w"> </span>--no-chdir<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>unix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span>--mlockall<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--log-file<span class="o">=</span>/tmp/ovs-vswitchd.log
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--db<span class="w"> </span>unix:<span class="nv">$RUN_OVS</span>/var/run/openvswitch/db.sock<span class="w"> </span>show
+
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br-int
+
+ifconfig<span class="w"> </span>br-int<span class="w"> </span>up
+</pre></div>
+</div>
+</section>
+<section id="configure-vxlan-port">
+<h3>10. Configure VXLAN port<a class="headerlink" href="#configure-vxlan-port" title="Link to this heading"></a></h3>
+<section id="option-1-when-one-of-the-tap-ports-is-used-for-tunnel-termination">
+<h4>Option 1: When one of the TAP ports is used for tunnel termination<a class="headerlink" href="#option-1-when-one-of-the-tap-ports-is-used-for-tunnel-termination" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vxlan1<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span>options:local_ip<span class="o">=</span><span class="m">40</span>.1.1.1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>options:remote_ip<span class="o">=</span><span class="m">40</span>.1.1.2<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
+</pre></div>
+</div>
+</section>
+<section id="option-2-when-a-dummy-port-is-used-for-tunnel-termination">
+<h4>Option 2: When a dummy port is used for tunnel termination<a class="headerlink" href="#option-2-when-a-dummy-port-is-used-for-tunnel-termination" title="Link to this heading"></a></h4>
+<p>Remote IP is on a different network. Route to reach peer needs to be
+statically configured or learned via FRR.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vxlan1<span class="w"> </span>--<span class="se">\</span>
+<span class="w">     </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>vxlan1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>vxlan<span class="w"> </span>options:local_ip<span class="o">=</span><span class="m">40</span>.1.1.1<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>options:remote_ip<span class="o">=</span><span class="m">30</span>.1.1.1<span class="w"> </span>options:dst_port<span class="o">=</span><span class="m">4789</span>
+</pre></div>
+</div>
+<p>Note: VXLAN destination port should always be standard port, i.e. 4789.
+(limitation of p4 parser)</p>
+</section>
+</section>
+<section id="configure-vlan-ports-on-tap0-and-add-them-to-br-int">
+<h3>11. Configure VLAN ports on TAP0 and add them to br-int<a class="headerlink" href="#configure-vlan-ports-on-tap0-and-add-them-to-br-int" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>TAP0<span class="w"> </span>name<span class="w"> </span>vlan1<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">1</span>
+ip<span class="w"> </span>link<span class="w"> </span>add<span class="w"> </span>link<span class="w"> </span>TAP0<span class="w"> </span>name<span class="w"> </span>vlan2<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vlan<span class="w"> </span>id<span class="w"> </span><span class="m">2</span>
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vlan1
+sudo<span class="w"> </span><span class="nv">$P4CP_INSTALL</span>/bin/ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br-int<span class="w"> </span>vlan2
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>vlan1<span class="w"> </span>up
+ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>dev<span class="w"> </span>vlan2<span class="w"> </span>up
+</pre></div>
+</div>
+<p>VLAN interfaces should be created on top of TAP ports, and should always be
+in lowercase format “vlan+vlan_id”.</p>
+</section>
+<section id="configure-rules-to-push-and-pop-vlan-from-vhost-0-and-1-ports-to-tap0-port-vhost-user-and-vlan-port-mapping">
+<h3>12. Configure rules to push and pop VLAN from vhost 0 and 1 ports to TAP0 port (vhost-user and vlan port mapping)<a class="headerlink" href="#configure-rules-to-push-and-pop-vlan-from-vhost-0-and-1-ports-to-tap0-port-vhost-user-and-vlan-port-mapping" title="Link to this heading"></a></h3>
+<p>Note: Port numbers used in p4rt-ctl commands are target datapath indexes
+(unique identifier for each port) which can be queried using the
+commands below. In the current SDE implementation, tdi-portin-id and
+tdi-portout-id are the same.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost0,tdi-portin-id&quot;</span>
+gnmi-ctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;device:virtual-device,name:net_vhost0,tdi-portout-id&quot;</span>
+</pre></div>
+</div>
+<p>Target DP index of control TAP port will be Target DP index of the
+corresponding physical port + 1.  If the ports are created in the order
+specified in the above step, target datapath indexes will be:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Port name</p></th>
+<th class="head text-center"><p>DP index</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>vhost-user-0 (VM1)</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>vhost-user-1 (VM2)</p></td>
+<td class="text-center"><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>phy-port0</p></td>
+<td class="text-center"><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>TAP1</p></td>
+<td class="text-center"><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>phy-port1</p></td>
+<td class="text-center"><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>TAP2</p></td>
+<td class="text-center"><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>TAP0</p></td>
+<td class="text-center"><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>TAP3</p></td>
+<td class="text-center"><p>7</p></td>
+</tr>
+</tbody>
+</table>
+<p>For any tx control packet from VM1 (TDP 0), pipeline should add a VLAN tag
+1 and send it to TAP0 port (TDP 6):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=0,action=linux_networking_control.push_vlan_fwd(6,1)&quot;</span>
+</pre></div>
+</div>
+<p>For any tx control packet from VM2 (TDP 1), pipeline should add a VLAN tag
+2 and send it to TAP0 port (TDP 6):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=1,action=linux_networking_control.push_vlan_fwd(6,2)&quot;</span>
+</pre></div>
+</div>
+<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 1, pipeline
+should pop the VLAN tag and send it to VM1 (TDP 0):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_vlan_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=6,local_metadata.vlan_id=1,action=linux_networking_control.pop_vlan_fwd(0)&quot;</span>
+</pre></div>
+</div>
+<p>For any tx control packet from TAP0 port (TDP 6) with VLAN tag 2, pipeline
+should pop the VLAN tag and send it to VM2 (TDP 1):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_vlan_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=6,local_metadata.vlan_id=2,action=linux_networking_control.pop_vlan_fwd(1)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-rules-for-control-packets-to-or-from-physical-port">
+<h3>13. Configure rules for control packets to or from physical port<a class="headerlink" href="#configure-rules-for-control-packets-to-or-from-physical-port" title="Link to this heading"></a></h3>
+<p>Any rx control packet from phy port0 (TDP 2) should be sent to corresponding
+control port TAP1 (TDP 3):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=2,action=linux_networking_control.set_control_dest(3)&quot;</span>
+</pre></div>
+</div>
+<p>Any rx control packet from phy port1 (TDP 4) should be sent to corresponding
+control port TAP2 (TDP 5):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_rx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=4,action=linux_networking_control.set_control_dest(5)&quot;</span>
+</pre></div>
+</div>
+<p>Any tx control packet from control TAP1 port (TDP 3) should be sent to corresponding physical port phy port0 (TDP 2):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=3,action=linux_networking_control.set_control_dest(2)&quot;</span>
+</pre></div>
+</div>
+<p>Any tx control packet from control TAP2 port (TDP 5) should be sent to corresponding physical port phy port1 (TDP 4):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>p4rt-ctl<span class="w"> </span>add-entry<span class="w"> </span>br0<span class="w"> </span>linux_networking_control.handle_tx_control_pkts_table<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;istd.input_port=5,action=linux_networking_control.set_control_dest(4)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-routes-only-when-dummy-port-is-used-for-tunnel-termination">
+<h3>14. Configure routes only when dummy port is used for tunnel termination<a class="headerlink" href="#configure-routes-only-when-dummy-port-is-used-for-tunnel-termination" title="Link to this heading"></a></h3>
+<section id="option-1-configure-static-route">
+<h4>Option 1: Configure static route<a class="headerlink" href="#option-1-configure-static-route" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">40</span>.1.1.1/24<span class="w"> </span>dev<span class="w"> </span>TEP1
+ip<span class="w"> </span>addr<span class="w"> </span>add<span class="w"> </span><span class="m">50</span>.1.1.1/24<span class="w"> </span>dev<span class="w"> </span>TAP1
+ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">30</span>.1.1.1<span class="w"> </span>nexthop<span class="w"> </span>via<span class="w"> </span><span class="m">50</span>.1.1.2<span class="w"> </span>dev<span class="w"> </span>TAP1
+</pre></div>
+</div>
+</section>
+<section id="option-2-learn-dynamic-routes-via-frr-ibgp-route-distribution">
+<h4>Option 2: Learn dynamic routes via FRR (iBGP route distribution)<a class="headerlink" href="#option-2-learn-dynamic-routes-via-frr-ibgp-route-distribution" title="Link to this heading"></a></h4>
+<p>Install FRR:</p>
+<ul class="simple">
+<li><p>Install FRR via default package manager, like <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">frr</span></code> for Ubuntu
+or <code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">frr</span></code> for Fedora.</p></li>
+<li><p>If not, see the <a class="reference external" href="https://docs.frrouting.org/en/latest/installation.html">official FRR documentation</a>
+and install according to your distribution.</p></li>
+</ul>
+<p>Configure FRR:</p>
+<ul>
+<li><p>Modify /etc/frr/daemons to enable bgpd daemon</p></li>
+<li><p>Restart FRR service: <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">frr</span></code></p></li>
+<li><p>Start VTYSH process, which is a CLI provided by FRR for user configuration</p></li>
+<li><p>Set the following configuration on the DUT (host1) for single-path scenario:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>interface<span class="w"> </span>TAP1
+ip<span class="w"> </span>address<span class="w"> </span><span class="m">50</span>.1.1.1/24
+<span class="nb">exit</span>
+!
+interface<span class="w"> </span>TEP1
+ip<span class="w"> </span>address<span class="w"> </span><span class="m">40</span>.1.1.1/24
+<span class="nb">exit</span>
+!
+router<span class="w"> </span>bgp<span class="w"> </span><span class="m">65000</span>
+bgp<span class="w"> </span>router-id<span class="w"> </span><span class="m">40</span>.1.1.1
+neighbor<span class="w"> </span><span class="m">50</span>.1.1.2<span class="w"> </span>remote-as<span class="w"> </span><span class="m">65000</span>
+!
+address-family<span class="w"> </span>ipv4<span class="w"> </span>unicast
+<span class="w">  </span>network<span class="w"> </span><span class="m">40</span>.1.1.0/24
+exit-address-family
+</pre></div>
+</div>
+</li>
+<li><p>Once Peer is also configured, we should see neighbor 50.1.1.2 is learnt on
+DUT (host1) and also route learnt on the kernel.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">30</span>.1.1.0/24<span class="w"> </span>nhid<span class="w"> </span><span class="m">54</span><span class="w"> </span>via<span class="w"> </span><span class="m">50</span>.1.1.2<span class="w"> </span>dev<span class="w"> </span>TAP1<span class="w"> </span>proto<span class="w"> </span>bgp<span class="w"> </span>metric<span class="w"> </span><span class="m">20</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="test-the-ping-scenarios">
+<h3>15. Test the ping scenarios<a class="headerlink" href="#test-the-ping-scenarios" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Ping between VM’s on the same host</p></li>
+<li><p>Underlay ping</p></li>
+<li><p>Overlay ping: Ping between VM’s on different hosts</p></li>
+</ul>
+</section>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<p>Current SAI enablement for the networking recipe has following limitations:</p>
+<ul>
+<li><p>Always all VHOST user ports need to be configured first and only then TAP ports/physical ports.</p></li>
+<li><p>TAP port created for the corresponding link port should be created using
+“gnmi-ctl control port creation got the link port”. For example,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gnmi-ctl<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;device:physical-device,name:PORT0,pipeline-name:pipe,mempool-name:MEMPOOL0,control-port:TAP1,mtu:1500,pci-bdf:0000:18:00.0,packet-dir=network,port-type:link</span>
+</pre></div>
+</div>
+</li>
+<li><p>All VLAN interfaces created on top of TAP ports, should always be in lowercase format “vlan+vlan_id”
+Ex: vlan1, vlan2, vlan3, … vlan4094</p></li>
+<li><p>br-int port, vxlan0 port and adding vlan ports to br-int need to be done after loading the pipeline.</p></li>
+<li><p>VxLAN destination port should always be standard port. i.e., 4789. (limitation by p4 parser)</p></li>
+<li><p>Only VNI 0 is supported.</p></li>
+<li><p>We are not supporting any ofproto rules which would not allow for FDB learning on OVS.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../lnw-index.html" class="btn btn-neutral float-left" title="Linux Networking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dpdk-linux-networking-ecmp.html" class="btn btn-neutral float-right" title="Linux Networking with ECMP (DPDK)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

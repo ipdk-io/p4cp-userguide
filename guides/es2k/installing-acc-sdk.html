@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installing the ACC SDK &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Defining the ACC Build Environment" href="defining-acc-environment.html" />
+    <link rel="prev" title="Building for the ES2K ACC" href="../building-for-es2k-acc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Installing the ACC SDK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdk-contents">SDK contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#obtain-the-acc-rl-sdk">Obtain the ACC-RL SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#choose-an-install-location">Choose an install location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unpack-the-acc-rl-sdk">Unpack the ACC-RL SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#key-components">Key components</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="defining-acc-environment.html">Defining the build environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building-acc-p4cp.html">Building P4 Control Plane</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../building.html">Building P4 Control Plane</a></li>
+          <li class="breadcrumb-item"><a href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+      <li class="breadcrumb-item active">Installing the ACC SDK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/installing-acc-sdk.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installing-the-acc-sdk">
+<h1>Installing the ACC SDK<a class="headerlink" href="#installing-the-acc-sdk" title="Link to this heading"></a></h1>
+<p>The ACC Software Development Kit (SDK) allows you to use an x86 host
+computer to build P4 Control Plane for the ARM Compute Complex (ACC) of the
+Intel® IPU E2100.</p>
+<p><strong>Disclaimer</strong>:</p>
+<p>The contents and packaging of the SDK are under active development.
+Although the information in this document was correct at the time it was
+written, there is no guarantee that any part of it will be correct in
+the future.
+It is beyond the scope of this document to keep pace with the changes.
+Caveat emptor.</p>
+<section id="sdk-contents">
+<h2>SDK contents<a class="headerlink" href="#sdk-contents" title="Link to this heading"></a></h2>
+<p>The ACC SDK includes the following:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#gcc-toolchain">GCC C/C++ toolchain</a></p></li>
+<li><p><a class="reference internal" href="#target-sysroot">Target directory tree (sysroot)</a></p></li>
+<li><p><a class="reference internal" href="#es2k-sde">ES2K P4SDE</a></p></li>
+</ol>
+</section>
+<section id="obtain-the-acc-rl-sdk">
+<h2>Obtain the ACC-RL SDK<a class="headerlink" href="#obtain-the-acc-rl-sdk" title="Link to this heading"></a></h2>
+<p>You will need to obtain the software packages for the Intel® IPU E2100
+from the manufacturer.</p>
+<p>The ACC-RL SDK package is a tarball whose name ends in <code class="docutils literal notranslate"><span class="pre">acc-rl-sdk</span></code>, such
+as <code class="docutils literal notranslate"><span class="pre">mev-hw-b0-ci-ts.release.3921-acc-rl-sdk.tgz</span></code>.</p>
+</section>
+<section id="choose-an-install-location">
+<h2>Choose an install location<a class="headerlink" href="#choose-an-install-location" title="Link to this heading"></a></h2>
+<p>You will need to choose a location for the SDK on your development computer.
+The examples in this document assume you are logged in as user <code class="docutils literal notranslate"><span class="pre">peabody</span></code> and
+that you plan to install the SDK in your home directory.</p>
+</section>
+<section id="unpack-the-acc-rl-sdk">
+<h2>Unpack the ACC-RL SDK<a class="headerlink" href="#unpack-the-acc-rl-sdk" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tar<span class="w"> </span>xzf<span class="w"> </span>mev-hw-b0-ci-ts.release.3921-acc-rl-sdk.tgz
+$<span class="w"> </span><span class="nb">pushd</span><span class="w"> </span>acc-rl/images/acc-sdk
+$<span class="w"> </span>./install_acc_rl_sdk.sh<span class="w"> </span>-d<span class="w"> </span>~/acc-sdk
+You<span class="w"> </span>are<span class="w"> </span>about<span class="w"> </span>to<span class="w"> </span>install<span class="w"> </span>the<span class="w"> </span>SDK<span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;/home/peabody/acc-sdk&quot;</span>.<span class="w"> </span>Proceed<span class="w"> </span><span class="o">[</span>Y/n<span class="o">]</span>?<span class="w"> </span>y
+Extracting<span class="w"> </span>SDK.............<span class="o">[</span>redacted<span class="o">]</span>.............done
+Setting<span class="w"> </span>it<span class="w"> </span>up...done
+SDK<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>successfully<span class="w"> </span><span class="nb">set</span><span class="w"> </span>up<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>ready<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>used.
+Each<span class="w"> </span><span class="nb">time</span><span class="w"> </span>you<span class="w"> </span>wish<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>SDK<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>shell<span class="w"> </span>session,<span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span><span class="nb">source</span><span class="w"> </span>the<span class="w"> </span>environment<span class="w"> </span>setup<span class="w"> </span>script<span class="w"> </span>e.g.
+<span class="w"> </span>$<span class="w"> </span>.<span class="w"> </span>/home/peabody/acc-sdk/environment-setup-aarch64-intel-linux-gnu
+$<span class="w"> </span><span class="nb">popd</span>
+</pre></div>
+</div>
+</section>
+<section id="key-components">
+<h2>Key components<a class="headerlink" href="#key-components" title="Link to this heading"></a></h2>
+<section id="acc-rl-sdk">
+<h3>ACC-RL SDK<a class="headerlink" href="#acc-rl-sdk" title="Link to this heading"></a></h3>
+<p>The  ACC-RL SDK is laid out as follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>acc-sdk/
+|-- aarch64-intel-linux-gnu
+|   |-- aarch64-intel-linux-gnu
+|   |-- bin
+|   |-- build.log.bz2
+|   |-- include
+|   |-- lib
+|   |-- libexec
+|   `-- share
+`-- environment-setup-aarch64-intel-linux-gnu
+</pre></div>
+</div>
+</section>
+<section id="gcc-toolchain">
+<h3>GCC toolchain<a class="headerlink" href="#gcc-toolchain" title="Link to this heading"></a></h3>
+<p>The GCC C/C++ toolchain executes on an x86-64 Linux host and generates binary
+executables and libraries for an AArch64 processor running Rocky Linux.</p>
+<p>The cross-compiler suite is in the <code class="docutils literal notranslate"><span class="pre">aarch64-intel-linux-gnu/bin</span></code> directory.</p>
+</section>
+<section id="target-sysroot">
+<h3>Target sysroot<a class="headerlink" href="#target-sysroot" title="Link to this heading"></a></h3>
+<p>The Target directory tree (sysroot) provides header files and binaries
+(libraries and executables) for the target system.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sysroot</span></code> directory is in the inner <code class="docutils literal notranslate"><span class="pre">aarch64-intel-linux-gnu</span></code> directory:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>aarch64-intel-linux-gnu/aarch64-intel-linux-gnu/
+├── bin
+├── debug-root
+├── include
+├── lib
+├── lib64
+└── sysroot
+</pre></div>
+</div>
+<p>It is laid out as follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sysroot
+├── bin -&gt; usr/bin
+├── boot
+├── dev
+├── etc
+├── home
+├── include
+├── lib -&gt; usr/lib
+├── lib64 -&gt; usr/lib64
+├── media
+├── mnt
+├── opt
+├── proc
+├── root
+├── run
+├── sbin -&gt; usr/sbin
+├── srv
+├── sys
+├── tmp
+├── usr
+└── var
+</pre></div>
+</div>
+</section>
+<section id="es2k-sde">
+<h3>ES2K SDE<a class="headerlink" href="#es2k-sde" title="Link to this heading"></a></h3>
+<p>The ES2K SDE contains header files and binaries specific to the
+Intel® IPU E2100.</p>
+<p>The SDE is in the <code class="docutils literal notranslate"><span class="pre">sysroot/opt/p4</span></code> directory:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sysroot/opt
+|-- p4
+|   `-- p4sde
+|       |-- bin
+|       |-- include
+|       |-- lib
+|       |-- lib64
+|       `-- share
+`-- rh
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../building-for-es2k-acc.html" class="btn btn-neutral float-left" title="Building for the ES2K ACC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defining-acc-environment.html" class="btn btn-neutral float-right" title="Defining the ACC Build Environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

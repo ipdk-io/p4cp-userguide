@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sgnmi_cli &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Infrap4d" href="../executables/infrap4d.html" />
+    <link rel="prev" title="p4rt-ctl" href="p4rt-ctl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../executables/executables.html">Executables</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../executables/clients.html">Clients</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gnmi-ctl.html">gnmi-ctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">sgnmi_cli</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flags">Flags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../executables/infrap4d.html">Infrap4d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executables/utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../executables/executables.html">Executables</a></li>
+          <li class="breadcrumb-item"><a href="../executables/clients.html">Clients</a></li>
+      <li class="breadcrumb-item active">sgnmi_cli</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/clients/sgnmi_cli.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!--
+Copyright 2018-present Open Networking Foundation
+Copyright 2022-2023 Intel Corporation
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<section id="sgnmi-cli">
+<h1>sgnmi_cli<a class="headerlink" href="#sgnmi-cli" title="Link to this heading"></a></h1>
+<p>This is a basic gNMI client that can be used for testing and sending
+messages to a gNMI server such as <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>. A YANG path needs to be
+specified with the key and value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sgnmi_cli</span></code> is a version of the Stratum gNMI tool (<code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code>) that operates
+in secure mode by default. It uses TLS certificates to establish the
+connection. You must create a certificate and install it to the server
+in order to operate.</p>
+<p>The tool may be run in insecure mode by specifying <code class="docutils literal notranslate"><span class="pre">--grpc_use_insecure_mode=true</span></code>
+on the command line. <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code> must be started in insecure mode for this to
+work.</p>
+<p>For more information, see the <a class="reference internal" href="../guides/security/security-guide.html"><span class="std std-doc">Security Guide</span></a>.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sgnmi_cli: usage: sgnmi_cli [--help] [Options] COMMAND PATH
+
+Secure gNMI CLI
+
+positional arguments:
+  COMMAND                  gNMI command
+                           (get,set,cap,del,sub-onchange,sub-sample)
+  PATH                     gNMI path
+
+optional arguments:
+  --helpshort              show help message and exit
+  --help                   show help on all flags and exit
+  --grpc_addr GRPC_ADDR    gNMI server address
+  --ca_cert_file FILE      CA certificate file
+  --client_cert_file FILE  Client certificate file
+  --client_key_file FILE   Client key file
+  --grpc_use_insecure_mode Insecure mode (default: false)
+
+[get request only]
+  --get-type TYPE          Use specific data type for get request
+                           (ALL,CONFIG,STATE,OPERATIONAL)
+
+[set request only]
+  --bool_val BOOL_VAL      Set boolean value
+  --int_val INT_VAL        Set int value (64-bit)
+  --uint_val UINT_VAL      Set uint value (64-bit)
+  --string_val STRING_VAL  Set string value
+  --float_val FLOAT_VAL    Set float value
+  --proto_bytes PROTO_VAL  Set protobuf bytes value
+  --bytes_val_file FILE    Send file as bytes value
+  --replace                Replace instead of updating
+
+[sample subscribe only]
+  --interval INTERVAL      Sample subscribe poll interval in ms
+</pre></div>
+</div>
+</section>
+<section id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Link to this heading"></a></h2>
+<p>Command-line flags are processed using the Google
+<a class="reference external" href="https://gflags.github.io/gflags/">gflags</a> library.</p>
+<p>Flag names may be prefixed with one or two hyphens.
+<code class="docutils literal notranslate"><span class="pre">-help</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">--help</span></code>.</p>
+<p>Underscores (<code class="docutils literal notranslate"><span class="pre">_</span></code>) and hyphens (<code class="docutils literal notranslate"><span class="pre">-</span></code>) may be used interchangeably within a
+flag name. <code class="docutils literal notranslate"><span class="pre">-ca_cert_file</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">-ca-cert-file</span></code>.</p>
+<p>There are a great many built-in flags in addition to the ones listed above.
+<code class="docutils literal notranslate"><span class="pre">-help</span></code> or <code class="docutils literal notranslate"><span class="pre">-helpfull</span></code> will list all the flags. <code class="docutils literal notranslate"><span class="pre">-helpshort</span></code> will list only
+the flags that are specific to the current program.</p>
+<p>Boolean flags may be specified several different ways:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-detach</span></code>, <code class="docutils literal notranslate"><span class="pre">-detach=yes</span></code>, <code class="docutils literal notranslate"><span class="pre">-detach=true</span></code> (enable)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-nodetach</span></code>, <code class="docutils literal notranslate"><span class="pre">-detach=no</span></code>, <code class="docutils literal notranslate"><span class="pre">-detach=false</span></code> (disable)</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="get-port-index">
+<h3>Get port index<a class="headerlink" href="#get-port-index" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sgnmi_cli<span class="w"> </span>get<span class="w"> </span>/interfaces/interface<span class="o">[</span><span class="nv">name</span><span class="o">=</span><span class="m">1</span>/1/1<span class="o">]</span>/state/ifindex
+</pre></div>
+</div>
+</section>
+<section id="set-config-sadb-entry-in-ipsec-offload">
+<h3>Set Config SADB entry in ipsec-offload<a class="headerlink" href="#set-config-sadb-entry-in-ipsec-offload" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sgnmi_cli<span class="w"> </span>--proto_bytes<span class="o">=</span><span class="s2">&quot;`cat /tmp/sadconfig.txt`&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;/ipsec-offload/sad/sad-entry[name=1]/config&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="subscribe-to-ipsec-offload-notifications">
+<h3>Subscribe to ipsec-offload notifications<a class="headerlink" href="#subscribe-to-ipsec-offload-notifications" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sgnmi_cli<span class="w"> </span>sub-onchange<span class="w"> </span>/ipsec-offload
+</pre></div>
+</div>
+</section>
+<section id="use-insecure-mode">
+<h3>Use insecure mode<a class="headerlink" href="#use-insecure-mode" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sgnmi_cli<span class="w"> </span>get<span class="w"> </span>/interfaces/interface<span class="o">[</span><span class="nv">name</span><span class="o">=</span><span class="m">1</span>/1/1<span class="o">]</span>/state/ifindex<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--grpc_use_insecure_mode<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-alternate-certificate-file-paths">
+<h3>Specify alternate certificate file paths<a class="headerlink" href="#specify-alternate-certificate-file-paths" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sgnmi_cli<span class="w"> </span>get<span class="w"> </span>/interfaces/interface<span class="o">[</span><span class="nv">name</span><span class="o">=</span><span class="m">1</span>/1/1<span class="o">]</span>/state/ifindex<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--ca-cert-file<span class="o">=</span>/tmp/ca.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--client-cert<span class="o">=</span><span class="nv">file</span><span class="o">=</span>/tmp/client.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--client-key-file<span class="o">=</span>/tmp/client.key
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="p4rt-ctl.html" class="btn btn-neutral float-left" title="p4rt-ctl" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../executables/infrap4d.html" class="btn btn-neutral float-right" title="Infrap4d" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
