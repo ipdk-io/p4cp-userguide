@@ -120,8 +120,3 @@ CVE-2022-37434. zlib is used by gRPC and Protobuf.
   duplicate or missing entries.
 
 - gNMI now returns an error if the MTU parameter for a port is out of range.
-
-## Coming Attractions
-
-- Implement DpdkPortManager class
-- Update Stratum to a more recent version
