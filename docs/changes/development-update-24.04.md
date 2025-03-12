@@ -115,4 +115,3 @@ of the repository. The current version is 2023.11.0.
 If you wish to build the protobuf artifacts yourself, see the
 [README file](https://github.com/ipdk-io/networking-recipe/blob/main/protobufs/README.md)
 for instructions.
-
