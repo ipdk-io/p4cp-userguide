@@ -10,6 +10,7 @@ This update aligns with [P4CP Release v3.4.0](https://github.com/ipdk-io/network
 This includes `mev-ts-1.7` (partially), `mev-ts-1.8`, `mev-ts-1.9`, and `mev-ts-2.0`.
 
 ## What's Changed
+
 - The `v3` references for Linux Networking have been dropped. `Linux Networking v3` is hereby simply called `Linux Networking`.
 - Housekeeping work for build updates, bug fixes etc
 - Addition of unit tests
@@ -25,7 +26,6 @@ Latest release of stratum-deps is v1.3.5
 ### Stratum
 
 Partial support added to the [/virtual-ports OpenConfig model](https://github.com/ipdk-io/openconfig-public/blob/master/release/models/virtual-devices/openconfig-virtual-ports.yang). Only the VSI, oper-status and mac-address GET operations are supported as of now.
-
 
 ## Security Fixes
 

@@ -17,6 +17,7 @@ This includes `mev-ts-1.5`, `mev-ts-1.6`, and partially `mev-ts-1.7`.
 - The Linux Networking v2 is no longer supported
 
 ## What's Changed
+
 - The Linux Networking program has been upgraded from v2 to v3, now called `Linux Networking v3`
 - Various unit tests have been added in the ovs-p4rt space
 - Geneve Tunnel Support in Linux Networking
@@ -44,6 +45,6 @@ Major changes introduced in krnlmon to move from support of Linux Networking v2 
 
 ## Security Fixes
 
-No changes. The latest zlib still has the [CVE-2023-45853](https://nvd.nist.gov/vuln/detail/CVE-2023-45853) active and a fix is not available. 
+No changes. The latest zlib still has the [CVE-2023-45853](https://nvd.nist.gov/vuln/detail/CVE-2023-45853) active and a fix is not available.
 
     Note that the CVE is is part of an experimental MiniZip utility that is unused/unsupported by zlib.

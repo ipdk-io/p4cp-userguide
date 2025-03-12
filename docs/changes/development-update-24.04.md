@@ -30,6 +30,7 @@ This update aligns with [IPDK v24.01 release](https://github.com/ipdk-io/network
   `gnmi_cli`, `sgnmi_cli`, and `gnmi-ctl`.
 
 ## What's Changed
+
 - The Linux Networking program has been upgraded from v1 to v2, now called `Linux Networking v2`
 - Exception packet handling - Enhanced Linux Networking with multiple VNI support, port to bridge association and VLAN traffic offload (Intel IPU&reg; E2100 target only).
 - Link Aggregation Group (LAG) - Supports active-backup use case of LAG on IDPF interfaces done via bonding driver. This LAG interface is used only for underlay connectivity in Exception packet handling feature. (Intel IPU&reg; E2100 target only).
@@ -93,11 +94,11 @@ This can be done later, if the need arises.
 
 - Upgrade from OpenSSL 1.1.1x to 3.x
 - Library upgrades
-  * Upgraded gRPC to 1.59.2 to address [CVE-2023-33953](https://nvd.nist.gov/vuln/detail/cve-2023-33953), [CVE-2023-4785](https://nvd.nist.gov/vuln/detail/cve-2023-4785)
-  * Upgraded protobuf to version 25.0
-  * Upgraded abseil-cpp to version 20230802.0
-  * Upgraded zlib to version 1.3 to address [CVE-2023-45853](https://nvd.nist.gov/vuln/detail/CVE-2023-45853). 
-    * Note that the CVE is still present in zlib 1.3 and part of an experimental MiniZip utility that is unused/unsupported by zlib.
+  - Upgraded gRPC to 1.59.2 to address [CVE-2023-33953](https://nvd.nist.gov/vuln/detail/cve-2023-33953), [CVE-2023-4785](https://nvd.nist.gov/vuln/detail/cve-2023-4785)
+  - Upgraded protobuf to version 25.0
+  - Upgraded abseil-cpp to version 20230802.0
+  - Upgraded zlib to version 1.3 to address [CVE-2023-45853](https://nvd.nist.gov/vuln/detail/CVE-2023-45853).
+    - Note that the CVE is still present in zlib 1.3 and part of an experimental MiniZip utility that is unused/unsupported by zlib.
 
 ## P4Runtime Fork
 
