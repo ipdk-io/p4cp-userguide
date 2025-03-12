@@ -3,7 +3,7 @@
 ## Overview
 
 This is an update (code drop) to incorporate changes made to support
-the Intel IPU E2100.
+the Intel&reg; IPU E2100.
 
 ## Breaking Changes
 
@@ -190,11 +190,3 @@ renamed.
 ## Security Fixes
 
 `c-ares` has been updated to v1.19.0 to address CVE-2022-4904.
-
-## Coming Attractions
-
-- Rename 'ES2K' to a more generic label
-  - Will affect file, directory, and class names
-- Add Stratum and Kernel Monitor unit tests
-- Add/revise documentation
-- Update Stratum to a more recent version
