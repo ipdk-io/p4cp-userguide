@@ -8,6 +8,9 @@ Development Updates
 .. toctree::
    :maxdepth: 1
 
+   development-update-25.11
+   development-update-24.30
+   development-update-24.04
    development-update-23.21
    development-update-22.50
    development-update-22.44

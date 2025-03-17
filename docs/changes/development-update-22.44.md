@@ -132,9 +132,3 @@ For Tofino builds, we install the unmodified version of `gnmi_cli`.
 - pna_tcp_connection_tracking demonstrates the PNA add_on_miss feature and
   flow aging for auto learn flows. It supports partial implementation of TCP
   state machine.
-
-## Coming Attractions
-
-- Update Stratum to a more recent version
-- Integrate Kernel Monitor
-- Overhaul DPDK port parameter handling
