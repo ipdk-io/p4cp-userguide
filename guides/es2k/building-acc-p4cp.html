@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building P4 Control Plane for the ACC &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Helper Scripts" href="../../scripts/helper-scripts.html" />
+    <link rel="prev" title="Building Dependencies for the ACC" href="../deps/building-acc-stratum-deps.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../building-for-es2k-host.html">Building for the ES2K Host</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../building-for-es2k-acc.html">Building for the ES2K ACC</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="installing-acc-sdk.html">Installing the ACC SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defining-acc-environment.html">Defining the build environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deps/building-stratum-deps.html">Building host dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deps/building-acc-stratum-deps.html">Building ACC target dependencies</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Building P4 Control Plane</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-the-system">Prepare the System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-the-stratum-dependencies">Install the Stratum Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fetch-the-source-code">Fetch the Source Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#define-the-environment">Define the Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-with-ovs">Build with OVS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-without-ovs">Build without OVS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-with-stratum-only">Build with Stratum Only</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../scripts/helper-scripts.html">Helper Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../building.html">Building P4 Control Plane</a></li>
+          <li class="breadcrumb-item"><a href="../building-for-es2k-acc.html">Building for the ES2K ACC</a></li>
+      <li class="breadcrumb-item active">Building P4 Control Plane for the ACC</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/building-acc-p4cp.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-p4-control-plane-for-the-acc">
+<h1>Building P4 Control Plane for the ACC<a class="headerlink" href="#building-p4-control-plane-for-the-acc" title="Link to this heading"></a></h1>
+<p>This document explains how to build P4 Control Plane for the ARM Compute
+Complex (ACC) of the Intel® IPU E2100.</p>
+<section id="prepare-the-system">
+<h2>Prepare the System<a class="headerlink" href="#prepare-the-system" title="Link to this heading"></a></h2>
+<p>There are several things to do before you can build P4 Control Plane.</p>
+<ul>
+<li><p>Install CMake 3.15 or above</p>
+<p>Avoid versions 3.24 and 3.25. They cause the dependencies build to fail.</p>
+</li>
+<li><p>Install OpenSSL 3.x</p>
+<p>Note that P4 Control Plane is not compatible with BoringSSL.</p>
+</li>
+<li><p>Install the ACC SDK</p>
+<p>See <a class="reference internal" href="installing-acc-sdk.html"><span class="std std-doc">Installing the ACC SDK</span></a> for instructions.</p>
+</li>
+</ul>
+</section>
+<section id="install-the-stratum-dependencies">
+<h2>Install the Stratum Dependencies<a class="headerlink" href="#install-the-stratum-dependencies" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="../deps/building-acc-stratum-deps.html"><span class="std std-doc">Building Stratum Dependencies for the ACC</span></a>
+for instructions.</p>
+<p>You will need the Host dependencies, Target dependencies, and Build environment
+setup file, in order to cross-compile P4 Control Plane for the ACC.</p>
+</section>
+<section id="fetch-the-source-code">
+<h2>Fetch the Source Code<a class="headerlink" href="#fetch-the-source-code" title="Link to this heading"></a></h2>
+<p>If you have not already done so, you will need to get a copy of the IPDK
+networking-recipe repository and its submodules:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
+</pre></div>
+</div>
+<p>You may substitute your own local directory name for <code class="docutils literal notranslate"><span class="pre">p4cp.recipe</span></code>.</p>
+</section>
+<section id="define-the-environment">
+<h2>Define the Environment<a class="headerlink" href="#define-the-environment" title="Link to this heading"></a></h2>
+<p>First, change to the source directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>p4cp.recipe
+</pre></div>
+</div>
+<p>Source the file that defines the
+<a class="reference internal" href="defining-acc-environment.html"><span class="std std-doc">target build environment variables</span></a>.
+For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>SETUPFILE
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">SETUPFILE</span></code> is the path to the file you created when you built the
+Stratum dependencies (for example, <code class="docutils literal notranslate"><span class="pre">setup/es2k-setup.env</span></code>).</p>
+</section>
+<section id="build-with-ovs">
+<h2>Build with OVS<a class="headerlink" href="#build-with-ovs" title="Link to this heading"></a></h2>
+<section id="building-ovs">
+<h3>Building OVS<a class="headerlink" href="#building-ovs" title="Link to this heading"></a></h3>
+<p>The distribution includes a helper script (<code class="docutils literal notranslate"><span class="pre">make-cross-ovs.sh</span></code>) that can be
+used to build OVS for P4 Control Plane.</p>
+<blockquote>
+<div><p>The <code class="docutils literal notranslate"><span class="pre">--help</span></code> (<code class="docutils literal notranslate"><span class="pre">-h</span></code>) option lists the parameters the helper script supports.</p>
+</div></blockquote>
+<p>To build OVS and install it in the sysroot directory under <code class="docutils literal notranslate"><span class="pre">/opt/ipdk/ovs</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/es2k/make-cross-ovs.sh<span class="w"> </span>--prefix<span class="o">=</span>//opt/ipdk/ovs
+</pre></div>
+</div>
+<p>Options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--prefix=PREFIX</span></code> - where to install OVS</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">//</span></code> at the beginning of the prefix path is a shortcut provided by
+the helper script. It will be replaced with the sysroot directory path.</p>
+<p>To do a clean build, issue the command <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-fr</span> <span class="pre">ovs/build</span></code> before running
+<code class="docutils literal notranslate"><span class="pre">make-cross-ovs.sh</span></code>. You may also want to remove the installation
+directory from the previous build.</p>
+</section>
+<section id="configuring-p4-control-plane">
+<h3>Configuring P4 Control Plane<a class="headerlink" href="#configuring-p4-control-plane" title="Link to this heading"></a></h3>
+<p>The distribution includes a helper script (<code class="docutils literal notranslate"><span class="pre">config-cross-deps.sh</span></code>) that
+can be used to configure CMake to build P4 Control Plane.</p>
+<blockquote>
+<div><p>The <code class="docutils literal notranslate"><span class="pre">--help</span></code> (<code class="docutils literal notranslate"><span class="pre">-h</span></code>) option lists the parameters the helper script supports.</p>
+</div></blockquote>
+<p>To configure CMake to build P4 Control Plane and install it in the sysroot
+directory under <code class="docutils literal notranslate"><span class="pre">/opt/ipdk/p4cp</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/es2k/config-cross-recipe.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--host<span class="o">=</span>../hostdeps<span class="w"> </span>--deps<span class="o">=</span>//opt/ipdk/deps<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--ovs<span class="o">=</span>//opt/ipdk/ovs<span class="w"> </span>--sde<span class="o">=</span>//opt/p4/p4sde<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--prefix<span class="o">=</span>//opt/ipdk/p4cp
+</pre></div>
+</div>
+<p>Options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--host=HOST</span></code> - path to the Host dependencies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--deps=DEPS</span></code> - path to the Target dependencies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--ovs=OVS</span></code> - path to the OVS installation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--sde=SDE</span></code> - path to the SDE installation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--prefix=PREFIX</span></code> - where to install P4 control plane</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">//</span></code> at the beginning of the prefix path is a shortcut provided by
+the helper script. It will be replaced with the sysroot directory path.</p>
+<p>To do a clean build, issue the command <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-fr</span> <span class="pre">build</span></code> before running
+<code class="docutils literal notranslate"><span class="pre">config-cross-recipe.sh</span></code>. You may also want to remove the installation
+directory from the previous build.</p>
+</section>
+<section id="building-p4-control-plane">
+<h3>Building P4 Control Plane<a class="headerlink" href="#building-p4-control-plane" title="Link to this heading"></a></h3>
+<p>Now use CMake to build and install P4 Control Plane:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8<span class="w"> </span>--target<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-without-ovs">
+<h2>Build without OVS<a class="headerlink" href="#build-without-ovs" title="Link to this heading"></a></h2>
+<p>To build P4 Control Plane without OVS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/es2k/config-cross-recipe.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--host<span class="o">=</span>../hostdeps<span class="w"> </span>--deps<span class="o">=</span>//opt/ipdk/deps<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-ovs<span class="w"> </span>--sde<span class="o">=</span>//opt/p4/p4sde<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--prefix<span class="o">=</span>//opt/ipdk/p4cp
+
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8<span class="w"> </span>--target<span class="w"> </span>install
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--no-ovs</span></code> option excludes OVS support.</p>
+</section>
+<section id="build-with-stratum-only">
+<h2>Build with Stratum Only<a class="headerlink" href="#build-with-stratum-only" title="Link to this heading"></a></h2>
+<p>To build P4 Control Plane without OVS or the Kernel Monitor:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/es2k/config-cross-recipe.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--host<span class="o">=</span>../hostdeps<span class="w"> </span>--deps<span class="o">=</span>//opt/ipdk/deps<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-ovs<span class="w"> </span>--no-krnlmon<span class="w"> </span>--sde<span class="o">=</span>//opt/p4/p4sde<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--prefix<span class="o">=</span>//opt/ipdk/p4cp
+
+cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j8<span class="w"> </span>--target<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../deps/building-acc-stratum-deps.html" class="btn btn-neutral float-left" title="Building Dependencies for the ACC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../scripts/helper-scripts.html" class="btn btn-neutral float-right" title="Helper Scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

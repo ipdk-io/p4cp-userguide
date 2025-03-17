@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tofino Setup Guide &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Building P4 Control Plane" href="../../building.html" />
+    <link rel="prev" title="ES2K Setup Guide" href="es2k-setup-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../general.html">General Information</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../overview/overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="setup-guides.html">Setup Guides</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dpdk-setup-guide.html">DPDK Setup Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="es2k-setup-guide.html">ES2K Setup Guide</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tofino Setup Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build">Build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run">Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-forwarding-pipeline">Set forwarding pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../general.html">General Information</a></li>
+          <li class="breadcrumb-item"><a href="setup-guides.html">Setup Guides</a></li>
+      <li class="breadcrumb-item active">Tofino Setup Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/setup/tofino-setup-guide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tofino-setup-guide">
+<h1>Tofino Setup Guide<a class="headerlink" href="#tofino-setup-guide" title="Link to this heading"></a></h1>
+<p>This document explains how to build, install, and run the P4 Control Plane
+software on Tofino hardware.</p>
+<p>Similar steps apply when running on the Tofino simulation model. Please see
+Tofino-specific documentation for more details.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Docker (Ubuntu 20.04 base image)</p></li>
+<li><p>Intel P4Studio</p></li>
+<li><p>Git</p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<p>The build and execution of infrap4d uses docker.</p>
+<section id="docker">
+<h3>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h3>
+<p>Pull the Ubuntu 20.04 docker base image</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>ubuntu:20.04
+</pre></div>
+</div>
+<p>Create the container</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--privileged<span class="w"> </span>--cap-add<span class="o">=</span>ALL<span class="w"> </span>-it<span class="w"> </span>--name<span class="w"> </span>infrap4d<span class="w"> </span>--network<span class="w"> </span>host<span class="w"> </span>-d<span class="w"> </span>ubuntu:20.04<span class="w"> </span>/bin/bash
+</pre></div>
+</div>
+</section>
+<section id="git">
+<h3>Git<a class="headerlink" href="#git" title="Link to this heading"></a></h3>
+<p>Clone IPDK networking-recipe:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:ipdk-io/networking-recipe.git<span class="w"> </span>p4cp.recipe
+<span class="nb">cd</span><span class="w"> </span>p4cp.recipe
+<span class="nb">export</span><span class="w"> </span><span class="nv">P4CP_RECIPE</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>Clone the repository used to build the Stratum dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/ipdk-io/stratum-deps.git
+</pre></div>
+</div>
+</section>
+<section id="intel-p4studio">
+<h3>Intel P4Studio<a class="headerlink" href="#intel-p4studio" title="Link to this heading"></a></h3>
+<p>Get Intel P4Studio SDE. The untarred directory is henceforth referred to as
+<strong>sde</strong>. If using an Intel Tofino Reference platform, please also download
+the BSP package.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>xvf<span class="w"> </span>bf-sde-9.11.0-cpr.tgz
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Link to this heading"></a></h2>
+<p>Build is done within the infrap4d docker container created above.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>infrap4d<span class="w"> </span>bash
+</pre></div>
+</div>
+<section id="install-basic-utilities">
+<h3>Install basic utilities<a class="headerlink" href="#install-basic-utilities" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>update
+apt-get<span class="w"> </span>install<span class="w"> </span>sudo<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>autoconf<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>libtool<span class="w"> </span>python3<span class="w"> </span>python3-dev<span class="w"> </span>python3-distutils<span class="w"> </span>iproute2<span class="w"> </span>libssl-dev
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../security/openssl-guide.html"><span class="std std-doc">OpenSSL security guide</span></a>
+for OpenSSL version and EOL information.</p>
+</section>
+<section id="build-and-install-stratum-dependencies">
+<h3>Build and install stratum dependencies<a class="headerlink" href="#build-and-install-stratum-dependencies" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>stratum-deps
+cmake<span class="w"> </span>.<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr/local/
+make
+ldconfig
+</pre></div>
+</div>
+</section>
+<section id="build-intel-p4studio-sde">
+<h3>Build Intel P4Studio SDE<a class="headerlink" href="#build-intel-p4studio-sde" title="Link to this heading"></a></h3>
+<p>The below steps are minimal. For a more detailed installation procedure,
+please refer to the Intel P4Studio SDE Installation Guide.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sde/p4studio
+./p4studio<span class="w"> </span>profile<span class="w"> </span>apply<span class="w"> </span>profiles/ipdk.yaml<span class="w"> </span>--bsp-path<span class="w"> </span>**path-to-bsp**
+<span class="nb">cd</span><span class="w"> </span>..
+<span class="nb">export</span><span class="w"> </span><span class="nv">SDE_INSTALL</span><span class="o">=</span>sde/install
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: To test with tofino-model, edit the <code class="docutils literal notranslate"><span class="pre">profiles/ipdk.yaml</span></code> file and
+change the <code class="docutils literal notranslate"><span class="pre">asic</span></code> configuration from <code class="docutils literal notranslate"><span class="pre">true</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+</div></blockquote>
+<p>Not that <code class="docutils literal notranslate"><span class="pre">bsp-path</span></code> is not required for tofino-model.</p>
+</section>
+<section id="build-networking-recipe">
+<h3>Build Networking Recipe<a class="headerlink" href="#build-networking-recipe" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$P4CP_RECIPE</span>/make-all.sh<span class="w"> </span>--target<span class="o">=</span>tofino<span class="w"> </span>--deps<span class="o">=</span>/usr/local
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>P4CP_RECIPE
+cp<span class="w"> </span><span class="nv">$SDE_INSTALL</span>/share/bf_switchd/zlog-cfg<span class="w"> </span><span class="nv">$P4CP_RECIPE</span>/zlog-cfg-cur
+mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/stratum/
+mkdir<span class="w"> </span>-p<span class="w"> </span>/var/log/stratum/
+
+<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>./install/sbin/infrap4d<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-chassis_config_file<span class="o">=</span>./stratum/stratum/stratum/hal/config/x86-64-accton-wedge100bf-32x-r0/chassis_config.pb.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-tdi_switchd_cfg<span class="o">=</span><span class="nv">$SDE_INSTALL</span>/share/p4/targets/tofino/tofino_skip_p4.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-tdi_sde_install<span class="o">=</span><span class="nv">$SDE_INSTALL</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: To test with tofino-model, please use <strong>./stratum/stratum/stratum/hal/config/barefoot-tofino-model/chassis_config.pb.txt</strong> as the chassis_config_file.</p>
+</div></blockquote>
+</section>
+<section id="set-forwarding-pipeline">
+<h2>Set forwarding pipeline<a class="headerlink" href="#set-forwarding-pipeline" title="Link to this heading"></a></h2>
+<p>Following are optional steps to perform set forwarding pipeline.</p>
+<p>The following steps describe generating a p4info and pipeline configuration
+required to perform a set forwarding pipeline from a controller.</p>
+<p>Tofino only supports the TNA architecture. The bf-p4c compiler can still
+generate PSA compatible P4info files.</p>
+<p>The tna_exact_match P4 example is used to describe these steps. The same
+steps will apply for any TNA program.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sde/build
+make<span class="w"> </span>tna_exact_match
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>The above commands will generate 4 files. The last three files are combined
+together by the TDI pipeline builder to generate a single bin file to be
+pushed by the controller.</p>
+<p>These files can be found in install/share/tofinopd/tna_exact_match/ directory.</p>
+<ul class="simple">
+<li><p>tna_exact_match.p4info.pb.txt</p></li>
+<li><p>tofino.bin</p></li>
+<li><p>context.json</p></li>
+<li><p>bf-rt.json</p></li>
+</ul>
+<p>A conf file is also generated. This file holds the location of the above
+files relative to SDE_INSTALL.</p>
+<section id="using-tdi-pipeline-builder">
+<h3>Using tdi_pipeline_builder<a class="headerlink" href="#using-tdi-pipeline-builder" title="Link to this heading"></a></h3>
+<p>To generate the bin file for the controller.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SDE_INSTALL</span>
+<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/install/lib/:<span class="nv">$SDE_INSTALL</span>/lib<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$P4CP_RECIPE</span>/install/bin/tdi_pipeline_builder<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p4c_conf_file<span class="o">=</span><span class="nv">$SDE_INSTALL</span>/share/p4/targets/tofino/tna_exact_match.conf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-tdi_pipeline_config_binary_file<span class="o">=</span><span class="nv">$P4CP_RECIPE</span>/tna_exact_match.pb.bin
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="es2k-setup-guide.html" class="btn btn-neutral float-left" title="ES2K Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../building.html" class="btn btn-neutral float-right" title="Building P4 Control Plane" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

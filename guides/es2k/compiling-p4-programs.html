@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compiling P4 Programs for ES2K &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Deploying P4 Programs for ES2K" href="deploying-p4-programs.html" />
+    <link rel="prev" title="Working with P4 Programs" href="../../p4_programs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../p4_programs.html">Working with P4 Programs</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Compiling P4 Programs for ES2K</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-run-the-p4tools-container">Build and run the P4Tools container</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#launch-the-p4tools-container">Launch the P4Tools container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-reference-p4-programs">Build reference P4 programs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compiling-a-p4-program">Compiling a P4 Program</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deploying-p4-programs">Deploying P4 programs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deploying-p4-programs.html">Deploying P4 Programs for ES2K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running-infrap4d.html">Running Infrap4d on Intel IPU E2100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enabling-comm-channel.html">Enabling the Communication Channel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../p4_programs.html">Working with P4 Programs</a></li>
+      <li class="breadcrumb-item active">Compiling P4 Programs for ES2K</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/es2k/compiling-p4-programs.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compiling-p4-programs-for-es2k">
+<h1>Compiling P4 Programs for ES2K<a class="headerlink" href="#compiling-p4-programs-for-es2k" title="Link to this heading"></a></h1>
+<p>This document explains how to install and use the Intel® IPU E2100 P4Tools
+Container to compile a P4 program to build artifacts, including the <code class="docutils literal notranslate"><span class="pre">.pkg</span></code>
+file, that can be deployed on ES2K.</p>
+<p>The supported host OSes are listed in the “Supported Operating Systems”
+section of the IPU Software User Guide (RDC Doc#778226), henceforth referred to
+as the “IPU SWG”.</p>
+<section id="build-and-run-the-p4tools-container">
+<h2>Build and run the P4Tools container<a class="headerlink" href="#build-and-run-the-p4tools-container" title="Link to this heading"></a></h2>
+<p>The tools required to compile and build a custom p4 package
+can be installed by building the P4 Tools Container.</p>
+<p>See “Getting Started Guide with P4 on P4 Tools Container” in the
+IPU SWG for instructions on building and launching the P4 Tools container.</p>
+<p>Once &lt;your_p4_tools_container&gt; is sucessfully built, proceed to the next step.</p>
+<section id="launch-the-p4tools-container">
+<h3>Launch the P4Tools container<a class="headerlink" href="#launch-the-p4tools-container" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Launch the P4Tools container on the host.</span>
+<span class="o">[</span>user@host<span class="w"> </span>P4Tools<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;your_p4_tools_container&gt;<span class="w"> </span>/bin/bash
+
+<span class="c1"># Inside the container, verify the p4 compiler version.</span>
+<span class="o">[</span>root@a54d354e447e<span class="w"> </span>/<span class="o">]</span><span class="w"> </span>p4c<span class="w"> </span>--version
+p4c<span class="w"> </span><span class="m">1</span>.2.3.7<span class="w"> </span><span class="o">(</span>SHA:<span class="w">  </span>BUILD:<span class="w"> </span>release<span class="o">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">p4c</span></code> compiler should now be ready for use.</p>
+<p>In previous versions of the SDK, <code class="docutils literal notranslate"><span class="pre">cpt</span></code> had to be invoked separately.
+It is no longer necessary to do so.
+<code class="docutils literal notranslate"><span class="pre">cpt</span></code> will be invoked automatically by specifying cpt flags to <code class="docutils literal notranslate"><span class="pre">p4c</span></code>.</p>
+</section>
+</section>
+<section id="build-reference-p4-programs">
+<h2>Build reference P4 programs<a class="headerlink" href="#build-reference-p4-programs" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">p4-programs</span></code> directory in the SDK folder contains a number of sample P4
+programs. The SDK is contained in a tar file named
+<code class="docutils literal notranslate"><span class="pre">intel-ipu-sdk-source-code-&lt;$VERSION&gt;.tgz</span></code>.</p>
+<p>Extract the p4-programs from the tarball.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@host<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span><span class="nv">$INTEL</span>-IPU-SDK-&lt;VERSION&gt;/tools/pipeline/p4-programs
+total<span class="w"> </span><span class="m">1100</span>
+-rw-r--r--.<span class="w">  </span><span class="m">1</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">     </span><span class="m">79</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>CONTENTS
+drwxr-xr-x.<span class="w"> </span><span class="m">10</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>fxp-cxp-features
+drwxr-xr-x.<span class="w"> </span><span class="m">10</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>fxp-net-scenarios
+drwxr-xr-x.<span class="w">  </span><span class="m">7</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">    </span><span class="m">106</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>layer-2-forwarding
+drwxr-xr-x.<span class="w">  </span><span class="m">8</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">    </span><span class="m">116</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>layer-3-forwarding
+-rw-r--r--.<span class="w">  </span><span class="m">1</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">  </span><span class="m">81529</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">03</span>:09<span class="w"> </span>Makefile
+-rw-r--r--.<span class="w">  </span><span class="m">1</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">   </span><span class="m">1494</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>mev_sample.conf
+drwxr-xr-x.<span class="w">  </span><span class="m">2</span><span class="w"> </span>user<span class="w"> </span>user<span class="w">    </span><span class="m">131</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">15</span>:54<span class="w"> </span>testsuite
+</pre></div>
+</div>
+<p>Each P4 program has its own directory and an accompanying README file that
+provides instructions on how to configure the IPU pipeline.</p>
+<section id="compiling-a-p4-program">
+<h3>Compiling a P4 Program<a class="headerlink" href="#compiling-a-p4-program" title="Link to this heading"></a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">p4c</span></code> compiler driver to compile and build packages.
+We will be using one of the reference programs mentioned above as an
+example: <code class="docutils literal notranslate"><span class="pre">p4-programs/layer-3-forwarding/l3-fwd_p2p</span></code>.</p>
+<p>The Makefile contains the exact commands to build the artifacts
+for all the reference programs.</p>
+<ol class="arabic">
+<li><p>Copy the entire p4-programs directory from the host to the P4Tools
+container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>docker<span class="w"> </span>cp<span class="w"> </span>p4-programs/<span class="w"> </span>&lt;p4Tools<span class="w"> </span>container<span class="w"> </span>id&gt;:/opt/
+</pre></div>
+</div>
+</li>
+<li><p>Set environment variables in the container prior to building.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@a54d354e447e<span class="w"> </span>p4-programs<span class="o">]</span><span class="w"> </span>which<span class="w"> </span>p4c
+/opt/p4-tools/p4c/bin/p4c
+<span class="o">[</span>root@a54d354e447e<span class="w"> </span>p4-programs<span class="o">]</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">P4C_PATH</span><span class="o">=</span>/opt/p4-tools/p4c/bin
+<span class="nb">export</span><span class="w"> </span><span class="nv">CPT_PATH</span><span class="o">=</span>/opt/p4-tools/cpt/bin
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$P4C_PATH</span>:<span class="nv">$CPT_PATH</span>:<span class="nv">$PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$P4C_PATH</span>/../lib:/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PREV_ARTIFACT_DIR</span><span class="o">=</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compile l3-fwd_p2p. All artifacts will be generated in the artifacts
+directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@a54d354e447e<span class="w"> </span>~<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/opt/p4-programs
+
+<span class="c1"># Compiling /opt/p4-programs/layer-3-forwarding/l3-fwd_p2p/l3-fwd_p2p.p4</span>
+<span class="c1"># and generating the runtime files and assembly...</span>
+<span class="o">[</span>root@a54d354e447e<span class="w"> </span>p4-programs<span class="o">]</span><span class="w"> </span>make<span class="w"> </span>l3-fwd_p2p
+/opt/p4-tools/p4c/bin/p4c<span class="w"> </span>--target<span class="w"> </span>idpf<span class="w"> </span>--arch<span class="w"> </span>pna
+<span class="w">    </span>-I/opt/p4-tools/p4c/bin/../lib<span class="w"> </span>-I/opt/p4-tools/p4c/bin/../share/p4c/p4include
+<span class="w">    </span>-I/opt/p4-tools/p4c/bin/../share/p4c/idpf-lib<span class="w"> </span>--package-by-domain
+<span class="w">    </span>--p4runtime-files<span class="w"> </span>./artifacts/l3-fwd_p2p/p4Info.txt<span class="w"> </span>--save-temps<span class="w"> </span>
+<span class="w">    </span>-Xp4c<span class="w"> </span><span class="s2">&quot;--Wdisable --no-pedantic --context ./artifacts/l3-fwd_p2p/context.json</span>
+<span class="s2">    --bfrt ./artifacts/l3-fwd_p2p/bf-rt.json&quot;</span>
+<span class="w">    </span>--save-temps<span class="w"> </span>--npic<span class="w"> </span>--format<span class="w"> </span>csr<span class="w"> </span>--pkg-version<span class="w"> </span><span class="m">1</span>.2<span class="w"> </span>--pkg-name<span class="w"> </span><span class="s2">&quot;FXP Package&quot;</span>
+<span class="w">    </span>-Xassembler<span class="w"> </span><span class="s2">&quot;.cpt_ver.s&quot;</span><span class="w"> </span>/opt/p4-programs/layer-3-forwarding/l3-fwd_p2p/l3-fwd_p2p.p4
+<span class="w">    </span>-o<span class="w"> </span>artifacts/l3-fwd_p2p
+</pre></div>
+</div>
+</li>
+<li><p>All output files, including the <code class="docutils literal notranslate"><span class="pre">.pkg</span></code> file, will be in the artifacts
+directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>root@a54d354e447e<span class="w"> </span>p4-programs<span class="o">]</span><span class="w"> </span>ls<span class="w"> </span>-lrt<span class="w"> </span>artifacts/l3-fwd_p2p/
+total<span class="w"> </span><span class="m">2884</span>
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">950608</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">23</span>:57<span class="w"> </span>l3-fwd_p2p_0b32dac62c9b4c18b3213e04a6bb8c5b.pkgo
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">3045</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>p4Info.txt
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">8866</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>bf-rt.json
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">30390</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>context.json
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">37269</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>l3-fwd_p2p.s
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">950608</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>l3-fwd_p2p_b222a542c1474685bd70a36994d16101.pkgo
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">950608</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:18<span class="w"> </span>l3-fwd_p2p.pkg<span class="w"> </span>
+</pre></div>
+</div>
+<p>These files are called <em>P4 artifacts</em>.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="deploying-p4-programs">
+<h2>Deploying P4 programs<a class="headerlink" href="#deploying-p4-programs" title="Link to this heading"></a></h2>
+<p>Please see <a class="reference internal" href="deploying-p4-programs.html"><span class="std std-doc">Deploying P4 Programs</span></a>
+for details about deployment.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../p4_programs.html" class="btn btn-neutral float-left" title="Working with P4 Programs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deploying-p4-programs.html" class="btn btn-neutral float-right" title="Deploying P4 Programs for ES2K" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

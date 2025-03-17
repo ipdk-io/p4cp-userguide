@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gnmi-ctl &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="p4rt-ctl" href="p4rt-ctl.html" />
+    <link rel="prev" title="Clients" href="../executables/clients.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../executables/executables.html">Executables</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../executables/clients.html">Clients</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">gnmi-ctl</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-a-vhost-port">Set attributes for a vhost port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-vhost-port-with-control-port">Set attributes for vhost port with control port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-attributes-for-a-port">Get attributes for a port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#virtio-net-device-hot-plug-for-dpdk-target">VIRTIO-NET device hot plug for DPDK target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-link-ports">Set attributes for link ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-link-ports-and-a-control-port">Set attributes for link ports and a control port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-tap-ports">Set attributes for TAP ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-attributes-for-tap-port-with-control-port">Set attributes for TAP port with control port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-attributes-for-pipeline-configuration">Get attributes for pipeline configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-port-statistics-for-vhost-physical-link-and-non-control-tap-ports">Get port statistics for VHOST, physical link, and non-control TAP ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-port-statistics-for-control-tap-ports">Get port statistics for control TAP ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes-and-limitations">Notes and Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="p4rt-ctl.html">p4rt-ctl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sgnmi_cli.html">sgnmi_cli</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../executables/infrap4d.html">Infrap4d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executables/utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes/changes.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../executables/executables.html">Executables</a></li>
+          <li class="breadcrumb-item"><a href="../executables/clients.html">Clients</a></li>
+      <li class="breadcrumb-item active">gnmi-ctl</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/clients/gnmi-ctl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gnmi-ctl">
+<h1>gnmi-ctl<a class="headerlink" href="#gnmi-ctl" title="Link to this heading"></a></h1>
+<p>gnmi-ctl is a gRPC-based C++ network management interface client to handle
+port configurations and program fixed functions in the P4 pipeline.  This
+client connects to the Config monitoring service running as part of
+Stratum and integrated as part of infrap4d.  This utility is built as part
+of networking recipe and is available under <code class="docutils literal notranslate"><span class="pre">install/bin/</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> when issuing gnmi-ctl command if you are a non-root user.</p>
+</div>
+<p>gnmi client connects to gRPC port 9339 opened by the server and sends a
+protobuf based message.  Refer to gnmi.proto and gnmi_ext.proto for more
+details on type of messages and services that are available for a gNMI
+client.  These documents can be found in <code class="docutils literal notranslate"><span class="pre">stratum/proto</span></code> directory.</p>
+<p>Each CLI format should be in line with the YANG parser available in server
+which is a tree based hierarchy.  Tree has <code class="docutils literal notranslate"><span class="pre">interfaces</span></code> as root-node,
+followed by the device type.  Each device can have multiple ports, where
+port-name acts as a KEY.  SET command can be executed to configure the
+ports and GET command to retrieve the information about previously
+configured ports.</p>
+<section id="set-attributes-for-a-vhost-port">
+<h2>Set attributes for a vhost port<a class="headerlink" href="#set-attributes-for-a-vhost-port" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,device-type:VIRTIO_NET&quot;
+
+gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,port-type:LINK&quot;
+
+gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,host-name:host1,
+           device-type:VIRTIO_NET,queues:1,
+           socket-path:/tmp/vhost-user-0,port-type:LINK&quot;
+
+gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,host-name:host1,
+           device-type:VIRTIO_NET,queues:1,
+           pipeline-name:pipe,mempool-name:MEMPOOL0,mtu:2000,
+           socket-path:/tmp/vhost-user-0,packet-dir:host,port-type:LINK&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, virtual-device is a sub-node that can
+hold multiple ports like net_vhost0, net_vhost1, etc. Each port accepts
+multiple configuration parameters. These configuration parameters are again
+a key:value pair, which can be either passed in single CLI command or multiple
+CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">host-name</span></code>: can be any string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">queues</span></code>: number of queues to be configured by target backend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">socket-path</span></code>: socket path for vhost port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for vhost port is
+<code class="docutils literal notranslate"><span class="pre">LINK</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device-type</span></code>: Defines the device type and supported value for vhost port
+is <code class="docutils literal notranslate"><span class="pre">VIRTIO_NET</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter. Default
+value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines mempool name. Optional parameter. Default value
+is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter. Default
+value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value <code class="docutils literal notranslate"><span class="pre">`host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. It is an optional parameter
+whose default value is <code class="docutils literal notranslate"><span class="pre">host</span></code>.</p></li>
+</ul>
+</section>
+<section id="set-attributes-for-vhost-port-with-control-port">
+<h2>Set attributes for vhost port with control port<a class="headerlink" href="#set-attributes-for-vhost-port-with-control-port" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,host-name:host1,
+              device-type:VIRTIO_NET,queues:1,
+              pipeline-name:pipe,mempool-name:MEMPOOL0,control-port:TAP2,
+              socket-path:/tmp/vhost-user-0,packet-dir:host,port-type:LINK&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, virtual-device is a
+sub-node that can hold multiple ports like net_vhost0, net_vhost1, etc.
+Each port accepts multiple configuration parameters. These configuration
+parameters are again a key:value pair, either can be passed in single CLI
+command or multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">host-name</span></code>: can be any string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">queues</span></code>: number of queues to be configured by target backend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">socket-path</span></code>: socket path for vhost port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for vhost port is
+<code class="docutils literal notranslate"><span class="pre">LINK</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device-type</span></code>: Defines the device type and supported value for vhost port
+is <code class="docutils literal notranslate"><span class="pre">VIRTIO_NET</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines mempool name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">control-port</span></code>: Defines the name for control TAP port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value <code class="docutils literal notranslate"><span class="pre">host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. It’s a non-mandatory parameter
+and default value is <code class="docutils literal notranslate"><span class="pre">host</span></code>.</p></li>
+</ul>
+</section>
+<section id="get-attributes-for-a-port">
+<h2>Get attributes for a port<a class="headerlink" href="#get-attributes-for-a-port" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl get &quot;device:virtual-device,name:net_vhost0,device-type&quot;
+
+gnmi-ctl get &quot;device:virtual-device,name:net_vhost0,port-type&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, virtual-device is a
+sub-node that can hold multiple ports like net_vhost0, net_vhost1, etc.
+Pass the key name whose value needs to be fetched. Each get can take ONLY
+one key, and fetches value for the previously configured parameter.</p>
+</section>
+<section id="virtio-net-device-hot-plug-for-dpdk-target">
+<h2>VIRTIO-NET device hot plug for DPDK target<a class="headerlink" href="#virtio-net-device-hot-plug-for-dpdk-target" title="Link to this heading"></a></h2>
+<p>This feature will allow you to hotplug the vhost-user ports to the running VM.
+To hotplug the vhost-user port to qemu based VM, add monitor option when
+instantiating qemu based VM and specify the telnet port and IP for qemu monitor
+socket.</p>
+<p>Example of qemu command:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>qemu-system-x86_64 -enable-kvm -smp 4 -m 1024M \
+    -boot c -cpu host -enable-kvm -nographic \
+    -L /root/pc-bios -name VM1_TAP_DEV \
+    -hda /root/VM/vm1.qcow2 \
+    -object memory-backend-file,id=mem,size=1024M,mem-path=/dev/hugepages,share=on \
+    -mem-prealloc \
+    -numa node,memdev=mem \
+    -monitor telnet::6555,server,nowait \
+    -serial telnet::6551,server &amp;
+</pre></div>
+</div>
+<p>Boot up the VM and login to console using telnet port (port 6551 in the above
+example). This VM will have one default port.</p>
+<p>To hotplug add a port:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,qemu-hotplug-mode:add,
+              qemu-socket-ip:127.0.0.1,qemu-socket-port:6555,
+              qemu-vm-mac-address:00:e8:ca:11:aa:01,qemu-vm-netdev-id:netdev0,
+              qemu-vm-chardev-id:char1,native-socket-path:/tmp/vhost-user-0,
+              qemu-vm-device-id:dev0&quot;
+</pre></div>
+</div>
+<p>To hotplug delete a port:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:net_vhost0,qemu-hotplug-mode:del&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, virtual-device is a
+sub-node that can hold multiple ports like net_vhost0, net_vhost1, etc.
+Each port accepts multiple configuration parameters. These configuration
+parameters are again a key:value pair, either can be passed in single CLI
+command or multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-hotplug-mode</span></code>: Defines the hotplug mode. Supported values are
+(add/ADD, del/DEL).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-socket-ip</span></code>: Defines IP address for qemu monitor socket.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-socket-port</span></code>: Defines port number for qemu monitor socket.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-vm-mac-address</span></code>: Defines MAC address for port hotplugged to qemu VM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-vm-netdev-id</span></code>: Defines netdev ID for port hotplugged to qemu VM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-vm-chardev-id</span></code>: Defines chardev ID for port hotplugged to qemu VM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">native-socket-path</span></code>: Defines the native path for vhost-user socket on host.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-vm-device-id</span></code>: Defines device ID for port hotplugged to qemu VM.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Port can be hotplug added once and hotplug deleted once. Re-adding or
+deleting the port is not supported in older qemu versions due to qemu bug
+reporting false duplicate IDs. This bug is fixed in qemu version 6.1.0 and
+re-adding and re-deleting the hotplug port is supported from qemu version
+6.1.0</p>
+</div>
+</section>
+<section id="set-attributes-for-link-ports">
+<h2>Set attributes for link ports<a class="headerlink" href="#set-attributes-for-link-ports" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:physical-device,name:PORT1,pci-bdf:0000:00:05.0,
+              port-type:link&quot;
+
+gnmi-ctl set &quot;device:physical-device,name:PORT0,pipeline-name:pipe,
+              mempool-name:MEMPOOL0,mtu:1000,pci-bdf:0000:00:04.0,
+              packet-dir:network,port-type:link&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, physical-device is a
+sub-node that can hold multiple ports like PORT0, PORT1, etc. Each port
+accepts multiple configuration parameters. These configuration parameters
+are again a key:value pair, either can be passed in single CLI command or
+multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pci-bdf</span></code>: Define PCI board device function value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for vhost port is
+<code class="docutils literal notranslate"><span class="pre">LINK</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines the mempool name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value <code class="docutils literal notranslate"><span class="pre">host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. If not specifically configured
+by the user, default value is <code class="docutils literal notranslate"><span class="pre">host</span></code></p></li>
+</ul>
+</section>
+<section id="set-attributes-for-link-ports-and-a-control-port">
+<h2>Set attributes for link ports and a control port<a class="headerlink" href="#set-attributes-for-link-ports-and-a-control-port" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:physical-device,name:PORT2,pipeline-name:pipe,
+              mempool-name:MEMPOOL0,control-port:TAP1,mtu:1000,
+              pci-bdf:0000:00:06.0,packet-dir:network,port-type:link&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, physical-device is a
+sub-node that can hold multiple ports like PORT0, PORT1, etc. Each port
+accepts multiple configuration parameters. These configuration parameters are
+again a key:value pair, either can be passed in single CLI command or
+multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pci-bdf</span></code>: Define PCI board device function value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for vhost port is
+<code class="docutils literal notranslate"><span class="pre">LINK</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines mempool name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">control-port</span></code>: Defines the name for control TAP port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value <code class="docutils literal notranslate"><span class="pre">host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. If not specifically configured
+by the user, default value is <code class="docutils literal notranslate"><span class="pre">host</span></code>.</p></li>
+</ul>
+</section>
+<section id="set-attributes-for-tap-ports">
+<h2>Set attributes for TAP ports<a class="headerlink" href="#set-attributes-for-tap-ports" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:TAP1,mtu:1500,port-type:TAP&quot;
+
+gnmi-ctl set &quot;device:virtual-device,name:TAP0,pipeline-name:pipe,
+              packet-dir:host,mempool-name:MEMPOOL0,mtu:1500,port-type:TAP&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, physical-device is a
+sub-node that can hold multiple ports like PORT0, PORT1, etc. Each port
+accepts multiple configuration parameters. These configuration parameters are
+again a key:value pair, either can be passed in single CLI command or
+multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for TAP port is
+<code class="docutils literal notranslate"><span class="pre">TAP</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines mempool name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value  <code class="docutils literal notranslate"><span class="pre">host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. If not specifically configured
+by the user, default value is <code class="docutils literal notranslate"><span class="pre">host</span></code>.</p></li>
+</ul>
+</section>
+<section id="set-attributes-for-tap-port-with-control-port">
+<h2>Set attributes for TAP port with control port<a class="headerlink" href="#set-attributes-for-tap-port-with-control-port" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl set &quot;device:virtual-device,name:TAP2,mtu:1000,
+              pipeline-name:pipe,mempool-name:MEMPOOL0,control-port:TAP31,
+              packet-dir:host,port-type:TAP&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, physical-device is a
+sub-node that can hold multiple ports like PORT0, PORT1, etc. Each port
+accepts multiple configuration parameters. These configuration parameters are
+again a key:value pair, either can be passed in single CLI command or
+multiple CLI commands.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Supported values are defined in chassis config file
+<code class="docutils literal notranslate"><span class="pre">dpdk_port_config.pb.txt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port-type</span></code>: Defines the port type and supported value for TAP port is
+<code class="docutils literal notranslate"><span class="pre">TAP</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code>: Defines the pipeline name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">pipe</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mempool-name</span></code>: Defines mempool name. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">MEMPOOL0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mtu</span></code>: Defines maximum transmission unit. Optional parameter.
+Default value is <code class="docutils literal notranslate"><span class="pre">1500</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">control-port</span></code>: Defines the name for control TAP port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet-dir</span></code>: Optional parameter. Value may be <code class="docutils literal notranslate"><span class="pre">host</span></code> or <code class="docutils literal notranslate"><span class="pre">network</span></code>
+(case insensitive). The value <code class="docutils literal notranslate"><span class="pre">host</span></code> indicates that traffic via this port
+will be within the host. The value <code class="docutils literal notranslate"><span class="pre">network</span></code> indicates this port will be
+able to send/receive traffic to/from network. If not specifically configured
+by the user, default value is <code class="docutils literal notranslate"><span class="pre">host</span></code>.</p></li>
+</ul>
+</section>
+<section id="get-attributes-for-pipeline-configuration">
+<h2>Get attributes for pipeline configuration<a class="headerlink" href="#get-attributes-for-pipeline-configuration" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gnmi-ctl get &quot;device:virtual-device,name:net_vhost0,tdi-portin-id&quot;
+
+gnmi-ctl get &quot;device:virtual-device,name:net_vhost0,tdi-portout-id&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, virtual-device is a
+sub-node that can hold multiple ports like net_vhost0, net_vhost1, etc.
+Pass the key name whose value needs to be fetched. Each get can take only
+<strong>one</strong> key. It fetches the value of the previously configured parameter.</p>
+<p>Parameter descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tdi-portin-id</span></code>: Port ID for pipeline in input Direction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tdi-portin-id</span></code>: Port ID for pipeline in output Direction.</p></li>
+</ul>
+</section>
+<section id="get-port-statistics-for-vhost-physical-link-and-non-control-tap-ports">
+<h2>Get port statistics for VHOST, physical link, and non-control TAP ports<a class="headerlink" href="#get-port-statistics-for-vhost-physical-link-and-non-control-tap-ports" title="Link to this heading"></a></h2>
+<p>For physical link ports:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ gnmi-ctl get &quot;device:physical-device,name:PORT0,counters&quot; |  \
+           grep &quot;name\|uint_val&quot; |  \
+           grep -v &quot;interface\|key\|config\|counters&quot;
+</pre></div>
+</div>
+<p>For vhost ports:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ gnmi-ctl get &quot;device:virtual-device,name:net_vhost0,counters&quot; |  \
+           grep &quot;name\|uint_val&quot; |  \
+           grep -v &quot;interface\|key\|config\|counters&quot;
+</pre></div>
+</div>
+<p>For non-control TAP ports:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ gnmi-ctl get &quot;device:virtual-device,name:TAP0,counters&quot; |  \
+           grep &quot;name\|uint_val&quot; |  \
+           grep -v &quot;interface\|key\|config\|counters&quot;
+</pre></div>
+</div>
+<p>Parameters are key:value pairs. Here, physical-device or
+virtual-device is a sub-node that holds multiple ports, etc. to pass the
+key name for whose value need to be fetched. Each get can take only <strong>one</strong> key.
+It fetches the value for the previously configured KEY.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Port stats can be retrieved for the ports that are created through GNMI CLI.
+These ports can be of type LINK/VHOST/TAP type. PORT0, net_vhost0, and TAP0
+corresponds to the name used when creating the ports using GNMI CLI.
+gnmi-ctl by default outputs the data in yang model, so the output is formatted
+using the grep command to display the port statistics.</p>
+</div>
+</section>
+<section id="get-port-statistics-for-control-tap-ports">
+<h2>Get port statistics for control TAP ports<a class="headerlink" href="#get-port-statistics-for-control-tap-ports" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ovs-ofctl dump-ports &lt;BRIDGE&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span> <span class="pre">get</span></code> counters command is not applicable for the TAP ports that
+are added as control ports. But these control ports when added to OVS bridge
+through the <code class="docutils literal notranslate"><span class="pre">ovs-vsctl</span> <span class="pre">add-port</span> <span class="pre">&lt;BRIDGE&gt;</span> <span class="pre">&lt;TAP-PORT&gt;</span></code> command, stats can be
+read through the <code class="docutils literal notranslate"><span class="pre">ovs-ofctl</span> <span class="pre">dump-ports</span> <span class="pre">&lt;BRIDGE&gt;</span></code> command.</p>
+</div>
+</section>
+<section id="notes-and-limitations">
+<h2>Notes and Limitations<a class="headerlink" href="#notes-and-limitations" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>All the optional parameters (like mempool name, pipeline name, etc)
+should be provided before the mandatory parameters. The CLI considers
+the parameters only till the last mandatory parameter. After the
+last mandatory parameter, all the optional parameters are ignored.</p></li>
+<li><p>DPDK target doesn’t support packet categorization for the purpose of
+statistics. Hence all packets are reported under the same category as
+<code class="docutils literal notranslate"><span class="pre">unicast</span> <span class="pre">packets/bytes</span></code>, and the rest of the other fields are displayed
+as zero.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span> <span class="pre">get</span></code> counters command doesn’t work for the TAP ports that
+are added as control ports. For these control ports, stats can be observed
+through the standard ovs-ofctl dump-ports command.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span> <span class="pre">get</span></code> command shows target datapath index as 0 for all control
+TAP ports.</p></li>
+<li><p>Number of ports configured should be a power of 2. No port configuration is
+allowed once PIPELINE is enabled. MODIFY and DELETE operations on ports are
+not supported once the port is added to DPDK target backend.</p></li>
+<li><p>Runtime validation of <code class="docutils literal notranslate"><span class="pre">value</span></code> for each key in <code class="docutils literal notranslate"><span class="pre">gnmi-cli</span></code> is not supported.</p></li>
+<li><p>P4 DPDK backend supports both PSA and PNA architectures. Based on the
+architecture used in the P4 program, the P4 compiler emits the pipelin
+name differently:</p>
+<ul class="simple">
+<li><p>For PNA architecture, the P4 compiler emits the PIPELINE name as “pipe”
+irrespective of the name defined in the P4 program.</p></li>
+<li><p>For PSA architecture, the P4 compiler uses and emits the PIPELINE name
+defined by the user in the program. Currently, it supports only ingress
+pipelines.</p></li>
+</ul>
+<p>This pipeline name is referred to in three places below and consumed by
+infrap4d to program the target.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p4_pipeline_name</span></code> in /usr/share/stratum/dpdk/dpdk_skip_p4.conf file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p4_pipeline_name</span></code> in conf file used in tdi_pipeline_builder to generate
+pb.bin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pipeline-name</span></code> parameter in gnmi-ctl, while configuring the PORT.
+For example, <br/>
+<code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span> <span class="pre">set</span> <span class="pre">&quot;device:virtual-device,name:TAP1,pipeline-name:pipe,mtu:1500,port-type:TAP&quot;</span></code>.</p></li>
+</ul>
+<p>Infrap4d assumes pipeline name is defaulted to “pipe”. If the P4 program is
+defined for PSA architecture and uses a pipeline name other than “pipe”,
+we need to manually change the ‘pipeline name’ at all the above
+three places to the ingress pipeline name mentioned in the p4 file.</p>
+<p>Hence to avoid this handcrafting, we recommend using the ingress pipeline
+name as “pipe” for all the PSA programs.</p>
+</li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../executables/clients.html" class="btn btn-neutral float-left" title="Clients" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="p4rt-ctl.html" class="btn btn-neutral float-right" title="p4rt-ctl" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changes from P4-OVS &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development Updates" href="dev-updates-index.html" />
+    <link rel="prev" title="Changes" href="changes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Changes from P4-OVS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transition-to-p4-control-plane">Transition to P4 Control Plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical-differences">Physical Differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operational-differences">Operational Differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repositories">Repositories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev-updates-index.html">Development Updates</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+      <li class="breadcrumb-item active">Changes from P4-OVS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/changes-from-p4-ovs.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="changes-from-p4-ovs">
+<h1>Changes from P4-OVS<a class="headerlink" href="#changes-from-p4-ovs" title="Link to this heading"></a></h1>
+<p>This document provides an overview of the changes made between P4-OVS and
+the P4 Control Plane.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>The initial implementation of P4-OVS was both physically and logically
+monolithic.</p>
+<ul class="simple">
+<li><p>Two foreign components (Stratum and the Kernel Monitor) were added to a
+fork of the Open vSwitch repository.</p></li>
+<li><p>OvS was modified to build these components and include them in
+<code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>.</p></li>
+<li><p>Stratum initialization was adapted to allow OvS to start the P4 Runtime
+and gNMI services.</p></li>
+<li><p>Extensive changes were made to Stratum to support P4-enabled IPDK hardware
+and software switches.</p></li>
+</ul>
+</section>
+<section id="transition-to-p4-control-plane">
+<h2>Transition to P4 Control Plane<a class="headerlink" href="#transition-to-p4-control-plane" title="Link to this heading"></a></h2>
+<p>The P4 Control Plane (formerly known as the Split Architecture) modularizes
+P4-OVS, making the code easier to maintain and more suitable for upstreaming.</p>
+<ul class="simple">
+<li><p>Removed foreign components from the OvS repository, together with most
+of the changes to OvS itself.</p></li>
+<li><p>Reengineered the Stratum modifications to be non-breaking and suitable for
+upstreaming to the parent project. Made <code class="docutils literal notranslate"><span class="pre">tdi</span></code> a distinct platform type,
+with <code class="docutils literal notranslate"><span class="pre">tofino</span></code> and <code class="docutils literal notranslate"><span class="pre">dpdk</span></code> variants (targets).</p></li>
+<li><p>Extracted the Kernel Monitor and make it a separate component. Removed
+OvS dependencies, and refactored for modularity and to support unit testing.</p></li>
+<li><p>Created a new component (<code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>) that combines Stratum, the Kernel
+Monitor, TDI, and a P4 target driver into a separate process (daemon).</p></li>
+<li><p>Created a superproject (<code class="docutils literal notranslate"><span class="pre">networking-recipe</span></code>) to integrate the components
+and orchestrate the overall build.</p></li>
+<li><p>Updated OvS to a more recent version.</p></li>
+<li><p>Integrated the Kernel Monitor into <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>. Merged changes that were
+made in P4-OVS after the original split was done.</p></li>
+<li><p>Created a component (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>) that can be linked with <code class="docutils literal notranslate"><span class="pre">ovs-vswitchd</span></code>
+to allow OvS to communicate with <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p></li>
+<li><p>Implemented a CMake-based build system in place of Autotools.</p></li>
+</ul>
+</section>
+<section id="physical-differences">
+<h2>Physical Differences<a class="headerlink" href="#physical-differences" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">external</span></code>, <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code>, <code class="docutils literal notranslate"><span class="pre">stratum</span></code>, and <code class="docutils literal notranslate"><span class="pre">unit_test</span></code> directories
+have been removed from the <code class="docutils literal notranslate"><span class="pre">ovs</span></code> repository.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">p4proto</span></code> directory has been removed. Locally-modified Stratum files
+were merged back into Stratum or discarded. Target-specific changes were
+made part of the <code class="docutils literal notranslate"><span class="pre">dpdk</span></code> and <code class="docutils literal notranslate"><span class="pre">tofino</span></code> variants of the <code class="docutils literal notranslate"><span class="pre">tdi</span></code> platform.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">barefoot</span></code> Stratum code has been restored to its original state.</p></li>
+</ul>
+</section>
+<section id="operational-differences">
+<h2>Operational Differences<a class="headerlink" href="#operational-differences" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>OvS no longer manages Stratum or the Kernel Monitor. It also no longer
+makes direct calls to the Kernel Monitor or switch driver. All communication
+with Stratum is by means of calls to the OvS client API (<code class="docutils literal notranslate"><span class="pre">ovs-p4rt</span></code>),
+which sends gRPC requests to <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>.</p></li>
+</ul>
+</section>
+<section id="repositories">
+<h2>Repositories<a class="headerlink" href="#repositories" title="Link to this heading"></a></h2>
+<p>Implementation is done incrementally through ipdk-io repositories.</p>
+<ul class="simple">
+<li><p>OvS development currently takes place on the <code class="docutils literal notranslate"><span class="pre">ipdk-latest</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/ovs</span></code> repository.</p></li>
+<li><p>Stratum development takes place on the <code class="docutils literal notranslate"><span class="pre">split-arch</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/stratum-dev</span></code> repository.</p></li>
+<li><p>Kernel Monitor development takes place on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/krnlmon</span></code> repository.</p></li>
+<li><p>End-to-end test development takes place in the <code class="docutils literal notranslate"><span class="pre">ipdk-io/ptf-tests</span></code>
+repository.</p></li>
+<li><p>Superproject development takes place on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of the
+<code class="docutils literal notranslate"><span class="pre">ipdk-io/networking-recipe</span></code> repository.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="changes.html" class="btn btn-neutral float-left" title="Changes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev-updates-index.html" class="btn btn-neutral float-right" title="Development Updates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

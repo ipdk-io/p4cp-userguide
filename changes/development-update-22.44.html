@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Update 22.44 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Development Update 22.50" href="development-update-22.50.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Development Update 22.44</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-name">Project Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnmi-ctl">gnmi-ctl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coming-attractions">Coming Attractions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
+      <li class="breadcrumb-item active">Development Update 22.44</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/development-update-22.44.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-update-22-44">
+<h1>Development Update 22.44<a class="headerlink" href="#development-update-22-44" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This is an interim update (“code drop”) to give the validation team
+an opportunity to take the DPDK code out for a test drive.</p>
+</section>
+<section id="project-name">
+<h2>Project Name<a class="headerlink" href="#project-name" title="Link to this heading"></a></h2>
+<p>Note that the P4-OVS Split Architecture has a new name: <strong>P4 Control Plane</strong>.</p>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<section id="highlights">
+<h3>Highlights<a class="headerlink" href="#highlights" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Restructured Stratum to support TDI variants</p></li>
+<li><p>Integrated DPDK support from P4-OVS</p></li>
+<li><p>Disabled unsupported port attributes in DPDK</p></li>
+<li><p>Updated OVS to newer release</p></li>
+<li><p>Replaced <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> with <code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span></code> in DPDK build</p></li>
+</ul>
+</section>
+<section id="tdi-variants">
+<h3>TDI variants<a class="headerlink" href="#tdi-variants" title="Link to this heading"></a></h3>
+<p>When we compared the Stratum files in P4-OVS with their Tofino equivalents,
+we found significant changes in the ChassisManager, Hal, Main, and Switch
+classes, as well as SdeWrapper and YangParseTreePaths.</p>
+<p>We addressed the first four classes by creating <em>dpdk</em> and <em>tofino</em>
+subdirectories under the <em>tdi</em> directories, and giving each target its
+own implementation of the class.</p>
+<p>For SdeWrapper, we refactored <code class="docutils literal notranslate"><span class="pre">tdi_sde_wrapper.cc</span></code> (~3800 lines) into
+multiple, smaller source files, isolating the target-specific methods
+in a single file. We then created separate versions of this file for
+the DPDK and Tofino targets, and moved them to the target-specific
+subdirectories</p>
+<p>For YangParseTreePaths, we refactored <code class="docutils literal notranslate"><span class="pre">yang_parse_tree_paths.cc</span></code>
+(originally ~4100 lines, increasing to ~5600 lines in P4-OVS) into
+multiple, smaller source files, separating out sections of code that
+had been heavily modified. We then created alternate versions for DPDK.
+See <a class="reference external" href="https://github.com/ipdk-io/stratum-dev/blob/split-arch/stratum/docs/refactoring_yang_parse_tree_paths.md">Refactoring YangParseTreePaths</a>
+for details.</p>
+<p>This restructuring allowed us to port DPDK code from P4-OVS with minimal
+impact on the existing Tofino code.</p>
+</section>
+<section id="dpdk-support">
+<h3>DPDK support<a class="headerlink" href="#dpdk-support" title="Link to this heading"></a></h3>
+<p>The P4 Control Plane software can now be built for either Tofino or
+DPDK. Features implemented by Stratum (P4Runtime and OpenConfig) should
+be on par with P4-OVS.</p>
+<p>Additional development work is required to support the kernel monitor
+and to allow OVS to communicate with <em>infrap4d</em>.</p>
+<p>To build DPDK under CMake, you must first set the <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code>
+environment variable to point to the root of the P4-DPDK install tree.
+Then, from the top-level directory of the networking recipe, enter</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./make-all<span class="w"> </span>--target<span class="o">=</span>dpdk
+</pre></div>
+</div>
+<p>to perform the build.</p>
+<p>If you are familiar with conventional Stratum builds, you can build the
+DPDK version of Stratum by setting <code class="docutils literal notranslate"><span class="pre">SDE_INSTALL</span></code> or <code class="docutils literal notranslate"><span class="pre">DPDK_INSTALL</span></code> to
+the root of the P4-DPDK install tree. Then change to the root of the
+stratum submodule (<code class="docutils literal notranslate"><span class="pre">stratum/stratum</span></code> under the top of the networking recipe)
+and enter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bazel<span class="w"> </span>build<span class="w"> </span>//stratum/hal/bin/tdi/dpdk:stratum_dpdk<span class="w"> </span>--define<span class="w"> </span><span class="nv">target</span><span class="o">=</span>dpdk
+</pre></div>
+</div>
+<p>You can build the Tofino version by issuing one of the above commands,
+substituting <code class="docutils literal notranslate"><span class="pre">tofino</span></code> for <code class="docutils literal notranslate"><span class="pre">dpdk</span></code>.</p>
+</section>
+<section id="dpdk-port-attributes">
+<h3>DPDK port attributes<a class="headerlink" href="#dpdk-port-attributes" title="Link to this heading"></a></h3>
+<p>The following leaves are not applicable to DPDK, and are no longer
+supported in the DPDK build:</p>
+<ul class="simple">
+<li><p>auto-negotiate</p></li>
+<li><p>forwarding-viable</p></li>
+<li><p>hardware-port</p></li>
+<li><p>health-indicator</p></li>
+<li><p>last-change</p></li>
+<li><p>loopback-mode</p></li>
+<li><p>negotiated-port-speed</p></li>
+<li><p>oper-status</p></li>
+<li><p>port-speed</p></li>
+<li><p>system-priority</p></li>
+</ul>
+<p>The following leaves have been renamed, to reduce ambiguity or
+for consistency with other leaves:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">host</span></code> is now <code class="docutils literal notranslate"><span class="pre">host-name</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hotplug</span></code> is now <code class="docutils literal notranslate"><span class="pre">qemu-hotplug-mode</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qemu-vm-mac</span></code> is now <code class="docutils literal notranslate"><span class="pre">qemu-vm-mac-address</span></code></p></li>
+</ul>
+</section>
+<section id="ovs-update">
+<h3>OvS Update<a class="headerlink" href="#ovs-update" title="Link to this heading"></a></h3>
+<p>OvS has been updated from January 2022 to a more recent version.</p>
+</section>
+</section>
+<section id="gnmi-ctl">
+<h2>gnmi-ctl<a class="headerlink" href="#gnmi-ctl" title="Link to this heading"></a></h2>
+<p>For DPDK builds, we have replaced <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> with <code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span></code>, which is
+the new name for the modified version of gnmi_cli that was part of P4-OVS.</p>
+<p>For Tofino builds, we install the unmodified version of <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code>.</p>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Link to this heading"></a></h2>
+<ul>
+<li><p>The Teardown test cases in <code class="docutils literal notranslate"><span class="pre">dpdk_hal_test</span></code> are currently failing.</p></li>
+<li><p>When tunnel is enabled, it is expected to have total size of the tunnel
+packet less than or equal to 1514 Bytes. To match this size, user need to
+adjust overlay network interface MTU size not more than 1450 Bytes.
+Underlay fragmentation is not support, so we need to make sure packet is
+with in the MTU size of the underlay port.</p></li>
+<li><p>For any udp/tcp packets from overlay network, if checksum issues are
+noticed on interfaces which are of type VIRTIO-NET, it is recommended to
+disable checksum using below command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ethtool<span class="w"> </span>--offload<span class="w"> </span>&lt;netdev-name&gt;<span class="w"> </span>rx<span class="w"> </span>off<span class="w"> </span>tx<span class="w"> </span>off
+</pre></div>
+</div>
+</li>
+<li><p>pna_tcp_connection_tracking demonstrates the PNA add_on_miss feature and
+flow aging for auto learn flows. It supports partial implementation of TCP
+state machine.</p></li>
+</ul>
+</section>
+<section id="coming-attractions">
+<h2>Coming Attractions<a class="headerlink" href="#coming-attractions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Update Stratum to a more recent version</p></li>
+<li><p>Integrate Kernel Monitor</p></li>
+<li><p>Overhaul DPDK port parameter handling</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development-update-22.50.html" class="btn btn-neutral float-left" title="Development Update 22.50" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
