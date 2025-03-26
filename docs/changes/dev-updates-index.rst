@@ -1,4 +1,4 @@
-.. Copyright 2023-2024 Intel Corporation
+.. Copyright 2023-2025 Intel Corporation
    SPDX-License-Identifier: Apache-2.0
 
 ===================
@@ -8,7 +8,7 @@ Development Updates
 .. toctree::
    :maxdepth: 1
 
-   development-update-25.11
+   development-update-25.13
    development-update-24.30
    development-update-24.04
    development-update-23.21
