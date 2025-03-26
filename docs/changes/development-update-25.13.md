@@ -1,4 +1,4 @@
-# Development Update 25.11
+# Development Update 25.13
 
 ## Overview
 
@@ -27,7 +27,10 @@ Latest release of stratum-deps is v1.3.5
 
 Partial support added to the [/virtual-ports OpenConfig model](https://github.com/ipdk-io/openconfig-public/blob/master/release/models/virtual-devices/openconfig-virtual-ports.yang). Only the VSI, oper-status and mac-address GET operations are supported as of now.
 
+Various bug fixes related to Policer/Meters feature.
+
 ## Security Fixes
 
+- Updates have been made to the `generate-certs.sh` script, which removes some errors noted in certificate generation and fixes the CA certificate chain. The generated RootCA is now installed as one of the trusted CA on the system when the script is exectued.
 - `c-ares` has been upgraded to v1.34.4 to address [CVE-2024-25629](https://nvd.nist.gov/vuln/detail/CVE-2024-25629)
 - The latest zlib still has the [CVE-2023-45853](https://nvd.nist.gov/vuln/detail/CVE-2023-45853) active and a fix is not available (Note that the CVE is is part of an experimental MiniZip utility that is unused/unsupported by zlib).
