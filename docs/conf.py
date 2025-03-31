@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'P4 Control Plane'
-copyright = '2022-2024 Intel Corporation'
+copyright = '2022-2025 Intel Corporation'
 author = 'Intel Corporation'
 
 # -- General configuration ---------------------------------------------------
