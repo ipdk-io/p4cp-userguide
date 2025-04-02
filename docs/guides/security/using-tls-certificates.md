@@ -5,10 +5,8 @@ certificates for running infrap4d in secure mode.
 
 ## Generating certificates
 
-Note: Here target name can be `dpdk` or `es2k`.
-
-Review the files `ca.conf` and `grpc-client.conf` available under
-`/usr/share/stratum/` to verify that the configuration settings are
+Review the files `ca.conf`, `grpc-server.conf` and `grpc-client.conf`
+available under `/usr/share/stratum/` to verify that the configuration settings are
 as desired.
 
 Run the `generate-certs.sh` available under `/usr/share/stratum/`.
@@ -26,7 +24,7 @@ The system relies on mTLS (mutual TLS) for authentication.
 
 ### OpenSSL version
 
-The `/usr/share/stratum/generate-certs.sh` script uses the installed OpenSSL version to generate the certificates. 
+The `/usr/share/stratum/generate-certs.sh` script uses the installed OpenSSL version to generate the certificates.
 
 OpenSSL 1.1.1x has reached EOL and usage should be discontinued. See the [OpenSSL security guide](openssl-guide.md) for details.
 
