@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Update 25.13 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development Update 24.30" href="development-update-24.30.html" />
+    <link rel="prev" title="Development Updates" href="dev-updates-index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Development Update 25.13</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#component-changes">Component Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-fixes">Security Fixes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-24.30.html">Development Update 24.30</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-24.04.html">Development Update 24.04</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.44.html">Development Update 22.44</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
+      <li class="breadcrumb-item active">Development Update 25.13</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/development-update-25.13.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-update-25-13">
+<h1>Development Update 25.13<a class="headerlink" href="#development-update-25-13" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This is an update (code drop) to incorporate changes made to support
+the Intel® IPU E2100.</p>
+<p>This update aligns with <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/releases/tag/v3.4.0">P4CP Release v3.4.0</a></p>
+<p>This includes <code class="docutils literal notranslate"><span class="pre">mev-ts-1.7</span></code> (partially), <code class="docutils literal notranslate"><span class="pre">mev-ts-1.8</span></code>, <code class="docutils literal notranslate"><span class="pre">mev-ts-1.9</span></code>, and <code class="docutils literal notranslate"><span class="pre">mev-ts-2.0</span></code>.</p>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">v3</span></code> references for Linux Networking have been dropped. <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">Networking</span> <span class="pre">v3</span></code> is hereby simply called <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">Networking</span></code>.</p></li>
+<li><p>Housekeeping work for build updates, bug fixes etc</p></li>
+<li><p>Addition of unit tests</p></li>
+</ul>
+</section>
+<section id="component-changes">
+<h2>Component Changes<a class="headerlink" href="#component-changes" title="Link to this heading"></a></h2>
+<section id="stratum-deps">
+<h3>Stratum-deps<a class="headerlink" href="#stratum-deps" title="Link to this heading"></a></h3>
+<p>The library <code class="docutils literal notranslate"><span class="pre">re2</span></code> has been made a discrete component in order to allow us to upgrade it at will, instead of using the pre-defined submodule version used in gRPC.</p>
+<p>Latest release of stratum-deps is v1.3.5</p>
+</section>
+<section id="stratum">
+<h3>Stratum<a class="headerlink" href="#stratum" title="Link to this heading"></a></h3>
+<p>Partial support added to the <a class="reference external" href="https://github.com/ipdk-io/openconfig-public/blob/master/release/models/virtual-devices/openconfig-virtual-ports.yang">/virtual-ports OpenConfig model</a>. Only the VSI, oper-status and mac-address GET operations are supported as of now.</p>
+<p>Various bug fixes related to Policer/Meters feature.</p>
+</section>
+</section>
+<section id="security-fixes">
+<h2>Security Fixes<a class="headerlink" href="#security-fixes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Updates have been made to the <code class="docutils literal notranslate"><span class="pre">generate-certs.sh</span></code> script, which removes some errors noted in certificate generation and fixes the CA certificate chain. The generated RootCA is now installed as one of the trusted CA on the system when the script is exectued.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c-ares</span></code> has been upgraded to v1.34.4 to address <a class="reference external" href="https://nvd.nist.gov/vuln/detail/CVE-2024-25629">CVE-2024-25629</a></p></li>
+<li><p>The latest zlib still has the <a class="reference external" href="https://nvd.nist.gov/vuln/detail/CVE-2023-45853">CVE-2023-45853</a> active and a fix is not available (Note that the CVE is is part of an experimental MiniZip utility that is unused/unsupported by zlib).</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dev-updates-index.html" class="btn btn-neutral float-left" title="Development Updates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development-update-24.30.html" class="btn btn-neutral float-right" title="Development Update 24.30" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
