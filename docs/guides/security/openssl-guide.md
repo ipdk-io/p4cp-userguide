@@ -7,7 +7,7 @@ OpenSSL is a package dependency, as infrap4d uses the library for gRPC.
 
 ## End of Life for OpenSSL 1.1.1
 
-OpenSSL 1.1.1 has reached End of Life (EOL) in September 2023. 
+OpenSSL 1.1.1 reached End of Life (EOL) in September 2023. 
 
 It is highly recommended that you upgrade OpenSSL from 1.1.1x to OpenSSL 3.x.
 See the [official migration guide](https://www.openssl.org/docs/man3.0/man7/migration_guide.html)

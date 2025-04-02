@@ -5,10 +5,8 @@ certificates for running infrap4d in secure mode.
 
 ## Generating certificates
 
-Note: Here target name can be `dpdk` or `es2k`.
-
-Review the files `ca.conf` and `grpc-client.conf` available under
-`/usr/share/stratum/` to verify that the configuration settings are
+Review the files `ca.conf`, `grpc-server.conf` and `grpc-client.conf`
+available under `/usr/share/stratum/` to verify that the configuration settings are
 as desired.
 
 Run the `generate-certs.sh` available under `/usr/share/stratum/`.
