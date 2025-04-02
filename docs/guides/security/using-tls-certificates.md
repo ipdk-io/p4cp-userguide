@@ -24,7 +24,7 @@ The system relies on mTLS (mutual TLS) for authentication.
 
 ### OpenSSL version
 
-The `/usr/share/stratum/generate-certs.sh` script uses the installed OpenSSL version to generate the certificates. 
+The `/usr/share/stratum/generate-certs.sh` script uses the installed OpenSSL version to generate the certificates.
 
 OpenSSL 1.1.1x has reached EOL and usage should be discontinued. See the [OpenSSL security guide](openssl-guide.md) for details.
 
