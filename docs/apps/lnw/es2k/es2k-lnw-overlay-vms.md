@@ -1,6 +1,6 @@
 <!--
 
- Copyright 2024 Intel Corporation.
+ Copyright 2024,2025 Intel Corporation.
 
  SPDX-License-Identifier: Apache-2.0
 
@@ -299,7 +299,7 @@ Example:
      "user_meta.cmeta.source_port=40,zero_padding=0,action=linux_networking_control.fwd_to_vsi(34)"
 
  p4rt-ctl add-entry br0 linux_networking_control.tx_acc_vsi \
-     "vmeta.common.vsi=17,zero_padding=0,action=linux_networking_control.l2_fwd_and_bypass_bridge(0)"
+     "vmeta.common.vsi=18,zero_padding=0,action=linux_networking_control.l2_fwd_and_bypass_bridge(40)"
 
 # Create a mapping for traffic to flow between VSIs (VSI-24/source port-40) and (VSI-18)
  p4rt-ctl add-entry br0 linux_networking_control.vsi_to_vsi_loopback \
