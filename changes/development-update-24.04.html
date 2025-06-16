@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Update 24.04 &mdash; P4 Control Plane  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=eb612f83" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development Update 23.21" href="development-update-23.21.html" />
+    <link rel="prev" title="Development Update 24.30" href="development-update-24.30.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            P4 Control Plane
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general.html">General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../building.html">Building P4 Control Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p4_programs.html">Working with P4 Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../executables/executables.html">Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maintainers/maintainers.html">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="changes.html">Changes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changes-from-p4-ovs.html">Changes from P4-OVS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dev-updates-index.html">Development Updates</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="development-update-25.13.html">Development Update 25.13</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-24.30.html">Development Update 24.30</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Development Update 24.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#breaking-changes">Breaking Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-changed">What’s Changed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#component-changes">Component Changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#security-fixes">Security Fixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#p4runtime-fork">P4Runtime Fork</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-23.21.html">Development Update 23.21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.50.html">Development Update 22.50</a></li>
+<li class="toctree-l3"><a class="reference internal" href="development-update-22.44.html">Development Update 22.44</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">P4 Control Plane</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="changes.html">Changes</a></li>
+          <li class="breadcrumb-item"><a href="dev-updates-index.html">Development Updates</a></li>
+      <li class="breadcrumb-item active">Development Update 24.04</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/changes/development-update-24.04.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-update-24-04">
+<h1>Development Update 24.04<a class="headerlink" href="#development-update-24-04" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This is an update (code drop) to incorporate changes made to support
+the Intel® IPU E2100.</p>
+<p>This update aligns with <a class="reference external" href="https://github.com/ipdk-io/networking-recipe/releases/tag/v24.01">IPDK v24.01 release</a></p>
+</section>
+<section id="breaking-changes">
+<h2>Breaking Changes<a class="headerlink" href="#breaking-changes" title="Link to this heading"></a></h2>
+<section id="client-flags">
+<h3>Client Flags<a class="headerlink" href="#client-flags" title="Link to this heading"></a></h3>
+<ul>
+<li><p>The Stratum <code class="docutils literal notranslate"><span class="pre">CredentialsManager</span></code> class and <code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code> tool have been aligned
+with the current upstream versions, and IPDK modifications have been
+revised to be more consistent with Stratum as a whole.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-grpc_client_cert_req_type</span></code> flag is now <code class="docutils literal notranslate"><span class="pre">-client_cert_req_type</span></code>, and
+its values have been shortened. They are also now case-insensitive.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Old Name</p></th>
+<th class="head"><p>New Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>NO_REQUEST_CLIENT_CERT</p></td>
+<td><p>no_request</p></td>
+</tr>
+<tr class="row-odd"><td><p>REQUEST_CLIENT_CERT_NO_VERIFY</p></td>
+<td><p>request_no_verify</p></td>
+</tr>
+<tr class="row-even"><td><p>REQUEST_CLIENT_CERT_AND_VERIFY</p></td>
+<td><p>request_and_verify</p></td>
+</tr>
+<tr class="row-odd"><td><p>REQUIRE_CLIENT_CERT_NO_VERIFY</p></td>
+<td><p>require_no_verify</p></td>
+</tr>
+<tr class="row-even"><td><p>REQUIRE_CLIENT_CERT_AND_VERIFY</p></td>
+<td><p>require_and_verify</p></td>
+</tr>
+</tbody>
+</table>
+<p>This change affects all clients that use CredentialsManager, including
+<code class="docutils literal notranslate"><span class="pre">gnmi_cli</span></code>, <code class="docutils literal notranslate"><span class="pre">sgnmi_cli</span></code>, and <code class="docutils literal notranslate"><span class="pre">gnmi-ctl</span></code>.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="what-s-changed">
+<h2>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The Linux Networking program has been upgraded from v1 to v2, now called <code class="docutils literal notranslate"><span class="pre">Linux</span> <span class="pre">Networking</span> <span class="pre">v2</span></code></p></li>
+<li><p>Exception packet handling - Enhanced Linux Networking with multiple VNI support, port to bridge association and VLAN traffic offload (Intel IPU® E2100 target only).</p></li>
+<li><p>Link Aggregation Group (LAG) - Supports active-backup use case of LAG on IDPF interfaces done via bonding driver. This LAG interface is used only for underlay connectivity in Exception packet handling feature. (Intel IPU® E2100 target only).</p></li>
+<li><p>Packet IO - Facilitates the exchange of packets between control plane applications and P4 dataplane (Intel IPU® E2100 target only).</p></li>
+<li><p>Indexed and direct meters in policer mode - Metering along with policer allows the users to determine the amount of data used and then control the usage. (Intel IPU® E2100 target only).</p></li>
+</ul>
+</section>
+<section id="component-changes">
+<h2>Component Changes<a class="headerlink" href="#component-changes" title="Link to this heading"></a></h2>
+<section id="stratum-deps">
+<h3>Stratum-deps<a class="headerlink" href="#stratum-deps" title="Link to this heading"></a></h3>
+<p>Introduction of the <a class="reference external" href="https://github.com/ipdk-io/stratum-deps">IPDK stratum-deps</a> repository.</p>
+<p>In order to avoid frequent re-building of dependent libraries such as gRPC, protobuf etc, which do not change on a regular basis, a stratum-deps repository has been created. You can build these dependencies once and pass the install path to build <code class="docutils literal notranslate"><span class="pre">infrap4d</span></code>, making for a much quicker build process.</p>
+<p>Latest release of stratum-deps is v1.3.0</p>
+</section>
+<section id="stratum">
+<h3>Stratum<a class="headerlink" href="#stratum" title="Link to this heading"></a></h3>
+<p>Stratum has been updated to the latest version. All changes made between
+3-Jun-2021 and 7-Dec-2023 have been downstreamed and integrated into
+P4 Control Plane.</p>
+<p>The majority of the changes were either global housekeeping (such as
+formatting files with clang-format and buildifier) or do not affect
+P4 Control Plane (such as updates to the <code class="docutils literal notranslate"><span class="pre">barefoot</span></code> platform, of which
+there were many).</p>
+<p>Changes include:</p>
+<ul class="simple">
+<li><p>Defaulting to <code class="docutils literal notranslate"><span class="pre">--test_output=errors</span></code> when running <code class="docutils literal notranslate"><span class="pre">bazel</span> <span class="pre">test</span></code>, so the
+the test log becomes part of the console output if there are errors.</p></li>
+<li><p>Adding support for the OpenConfig <code class="docutils literal notranslate"><span class="pre">/interfaces/interface[name=*]/state/id</span></code>
+path.</p></li>
+<li><p>Replacing the raw text proto string terminal <code class="docutils literal notranslate"><span class="pre">PROTO</span></code> with <code class="docutils literal notranslate"><span class="pre">pb</span></code>. This
+fixes compiler errors in newer versions of gcc and clang.</p></li>
+<li><p>Replacing P4Runtime controller management with controller code from the
+PINS project.</p></li>
+<li><p>Adding support for P4Runtime role configuration.</p></li>
+<li><p>Adding new unit tests and updating existing tests.</p></li>
+<li><p>Overhauling <code class="docutils literal notranslate"><span class="pre">lib/security</span></code> (credentials management).</p></li>
+<li><p>Improvements to log output.</p></li>
+</ul>
+<p>For more information, see the commit comments in the upstream repository.</p>
+<p>We have also made minimal updates to the <code class="docutils literal notranslate"><span class="pre">barefoot</span></code> platform so we can
+build it with version 9.11.0 of the Barefoot SDE (the version used to
+build the TDI <code class="docutils literal notranslate"><span class="pre">tofino</span></code> target).</p>
+<p>Note that we have <em>not</em> attempted to migrate changes made in the Barefoot
+platform to the TDI platform (which is based on Barefoot).
+This can be done later, if the need arises.</p>
+</section>
+</section>
+<section id="security-fixes">
+<h2>Security Fixes<a class="headerlink" href="#security-fixes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Upgrade from OpenSSL 1.1.1x to 3.x</p></li>
+<li><p>Library upgrades</p>
+<ul>
+<li><p>Upgraded gRPC to 1.59.2 to address <a class="reference external" href="https://nvd.nist.gov/vuln/detail/cve-2023-33953">CVE-2023-33953</a>, <a class="reference external" href="https://nvd.nist.gov/vuln/detail/cve-2023-4785">CVE-2023-4785</a></p></li>
+<li><p>Upgraded protobuf to version 25.0</p></li>
+<li><p>Upgraded abseil-cpp to version 20230802.0</p></li>
+<li><p>Upgraded zlib to version 1.3 to address <a class="reference external" href="https://nvd.nist.gov/vuln/detail/CVE-2023-45853">CVE-2023-45853</a>.</p>
+<ul>
+<li><p>Note that the CVE is still present in zlib 1.3 and part of an experimental MiniZip utility that is unused/unsupported by zlib.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="p4runtime-fork">
+<h2>P4Runtime Fork<a class="headerlink" href="#p4runtime-fork" title="Link to this heading"></a></h2>
+<p>P4 Control Plane uses a fork of the <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code> repository to add provisional
+support for the PacketModMeter and DirectPacketModMeter externs.</p>
+<p>We plan to revert to using the standard <code class="docutils literal notranslate"><span class="pre">p4runtime</span></code> repository when the
+additions become standard.</p>
+<p>Build artifacts for Python, Go, and C++ can be downloaded from the
+<a class="reference external" href="https://github.com/ipdk-io/p4runtime-dev/releases">Releases page</a>
+of the repository. The current version is 2023.11.0.</p>
+<p>If you wish to build the protobuf artifacts yourself, see the
+<a class="reference external" href="https://github.com/ipdk-io/networking-recipe/blob/main/protobufs/README.md">README file</a>
+for instructions.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development-update-24.30.html" class="btn btn-neutral float-left" title="Development Update 24.30" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development-update-23.21.html" class="btn btn-neutral float-right" title="Development Update 23.21" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025 Intel Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
