@@ -10,4 +10,3 @@ outside the context of the finished document.
 We recommend that you access the User Guide through the link above.
 
 There's also a link in the **About** section of the current page.
-Test sync - Tue Jan 20 09:00:31 AM PST 2026
